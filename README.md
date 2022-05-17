@@ -10,13 +10,10 @@
 ## How to set up in your local
 
 
-- [copy .env example and setup your data base and run php artisan key:generate]
-- [Run Composer Install or Composer Update].
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- set up env by copy .env example and setup your data base and run php artisan key:generate.
+- Run Composer Install or Composer Update.
+- run php artisan migrate.
+- run php artisan db seed.
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
