@@ -139,6 +139,8 @@ body {
         {!! $errors->first('password', '<p class="help-block">:message</p>') !!}
 
 
+
+        
      
         <div class="checkbox icheck">
           <label>
