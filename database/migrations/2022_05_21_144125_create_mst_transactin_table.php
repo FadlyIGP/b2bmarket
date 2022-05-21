@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class CreateMstTransactinTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('mst_transaction', function (Blueprint $table) {
+            $table->id();
+            $table->string('invoice_number');
+            $table->integer('user_id');
+            $table->integer('company_id');
+            $table->integer('status');
+            $table->integer('address_id');
+            $table->integer('expected_ammount');
+            $table->softDeletes();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('mst_transaction');
+    }
+}
