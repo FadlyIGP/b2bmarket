@@ -70,6 +70,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        // prod_name: "Ikan",
+        // prod_desc: "Ikan",
+        // prod_size: "12 up",
+        // prod_price: "600000",
+        // prod_item: "kg",
+        // prod_qty: "5000",
+        // prod_img: { }
+        return $request->all();
     }
 
     /**

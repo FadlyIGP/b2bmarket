@@ -70,7 +70,7 @@ body {
 .login-form .btn, .login-form .btn:active {
     font-size: 16px;
     font-weight: bold;
-    background: #50b8b3 !important;
+    background: orange !important;
     border: none;
     margin-bottom: 20px;
 }

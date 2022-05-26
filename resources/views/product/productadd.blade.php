@@ -28,7 +28,7 @@ Add Product
                                                 {!! Form::label('Product Name:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="username" name="username" required>
+                                                    <input type="text" class="form-control  has-feedback  " value="" id="prod_name" name="prod_name" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -40,7 +40,7 @@ Add Product
                                                 {!! Form::label('Product Descriptions:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    {!! Form::textarea('alamat', null, ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:50px' ]) !!}
+                                                    {!! Form::textarea('prod_desc', null, ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:50px' ]) !!}
                                                     </span>
                                                 </div>
                                             </div>
@@ -53,7 +53,7 @@ Add Product
                                                 {!! Form::label('Product Size:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="nama_pelanggan" name="nama_pelanggan" required>
+                                                    <input type="text" class="form-control has-feedback" value="" id="prod_size" name="prod_size" required>
 
                                                 </div>
                                             </div>
@@ -66,7 +66,7 @@ Add Product
                                                 {!! Form::label('Product Price:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="nomor_kwh" name="nomor_kwh" required>
+                                                    <input type="text" class="form-control has-feedback" value="" id="prod_price" name="prod_price" required>
                                                     </span>
                                                 </div>
                                             </div>
@@ -85,7 +85,7 @@ Add Product
                                                 {!! Form::label('Product Item:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="nomor_kwh" name="nomor_kwh" required>
+                                                    <input type="text" class="form-control has-feedback" value="" id="prod_item" name="prod_item" required>
                                                     </span>
                                                 </div>
                                             </div>
@@ -98,7 +98,7 @@ Add Product
                                                 {!! Form::label('Product Qty:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="nomor_kwh" name="nomor_kwh" required>
+                                                    <input type="text" class="form-control has-feedback" value="" id="prod_qty" name="prod_qty" required>
                                                     </span>
                                                 </div>
                                             </div>
@@ -111,7 +111,7 @@ Add Product
                                                 {!! Form::label('Product Image:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="file" class="form-control has-feedback" value="" id="nomor_kwh" name="nomor_kwh" required>
+                                                    <input type="file" class="form-control has-feedback" value="" id="prod_img" name="prod_img" required>
                                                     </span>
                                                 </div>
                                             </div>
