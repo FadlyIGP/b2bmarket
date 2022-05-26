@@ -70,7 +70,7 @@ body {
 .login-form .btn, .login-form .btn:active {
     font-size: 16px;
     font-weight: bold;
-    background: #3371FF !important;
+    background: #50b8b3 !important;
     border: none;
     margin-bottom: 20px;
 }
@@ -115,8 +115,7 @@ body {
 <div class="login-form" >
     <br>
     <div class="login-logo">
-        <h1 style="font-family: forte !important;color:black;text-align: center;"><b><img src="https://i.ibb.co/k2xJY9L/Logo-B2-B-copia.jpg" alt="Logo-B2-B-copia" border="0" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width:70%;height: 10%"/></b></h1>
-
+        <h1 style="font-family: forte !important;color:black;text-align: center;"><b><img src="https://i.ibb.co/jTCvPSN/B2-Borangelogo.png" alt="Logo-B2-B-copia" border="0" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width:100%;height: 20%"/></b></h1>
     </div>
 
         {!! Form::open(['url'=>route('login'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
@@ -157,15 +156,15 @@ body {
           &nbsp;
           <label style="margin-right: ">
             <a href="#" value="" title="Show Data"> 
-                <span style="color:blue"><b>Forgot Password?</b></span>
+                <span style="color:orange"><b>Forgot Password?</b></span>
            </a>
           </label>
         </div>
-          <button type="submit" class="btn btn-block btn-flat" style="border-radius: 10px;color: white">
+          <button type="submit" class="btn btn-block" style="border-radius: 10px;color: white;">
               <i class="fa fa-btn fa-sign-in"></i> Login
           </button>
     {!! Form::close() !!}
-    <p class="text-center small" style="color:green">
+    <p class="text-center small" style="color:orange">
        
     </p>
 </div>
