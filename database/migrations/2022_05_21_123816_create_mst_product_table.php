@@ -18,10 +18,10 @@ class CreateMstProductTable extends Migration
             $table->string('product_name');
             $table->string('product_descriptions');
             $table->string('product_size');
-            $table->timestamps('product_price');
+            $table->integer('product_price');
             $table->string('product_item');
-            $table->boolean('wishlist_status')->nullable(false);
-            $table->timestamps('company_id');
+            $table->boolean('wishlist_status');
+            $table->integer('company_id');
             $table->softDeletes();
             $table->timestamps();
         });
