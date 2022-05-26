@@ -15,7 +15,7 @@
             </li>
 
             <li class="{{request()->is('products') ? 'active' : ''}}">
-                <a href="#">
+                <a href="{{ url('/products') }}">
                     <i class="fa fa-file-text"></i> <span>Products</span>
                 </a>
             </li>
