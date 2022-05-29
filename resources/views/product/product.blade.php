@@ -55,13 +55,11 @@ List Products
 							<td>{{ date("d-M-Y",strtotime($list['created_at']))}}</td>
 							<td>
 								{!! Form::open() !!}
-
-								<a href="#" value="" title="Hapus Data" class="btn btn-xs btn-info btn-info"><i class="fa fa-pencil"></i>
+								<a href="{{ url('/products/edit',$list['id']) }}" value="" title="Edit Data" class="btn btn-xs btn-info btn-info"><i class="fa fa-pencil"></i>
 								</a>
 								<button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')">
 									<i class="fa fa-trash"></i>
 								</button>
-
 								{!! Form::close()!!}
 							</td>
 						</tr>
