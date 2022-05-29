@@ -15,6 +15,7 @@ class CreateMstProductTable extends Migration
     {
         Schema::create('mst_product', function (Blueprint $table) {
             $table->id();
+            $table->integer('product_category_id');
             $table->string('product_name');
             $table->string('product_descriptions');
             $table->string('product_size');

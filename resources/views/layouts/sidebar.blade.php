@@ -16,15 +16,40 @@
 
             <li class="{{request()->is('products') ? 'active' : ''}}">
                 <a href="{{ url('/products') }}">
-                    <i class="fa fa-file-text"></i> <span>Products</span>
+                    <i class="fa fa-dropbox"></i> <span>Products</span>
+                </a>
+            </li>
+            
+             <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+                <a href="{{ url('/productcategories') }}">
+                    <i class="fa fa-gg-circle"></i> <span>Product Categories</span>
                 </a>
             </li>
 
-             <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
                 <a href="#">
-                    <i class="fa fa-file-text"></i> <span>Product Categories</span>
+                    <i class="fa fa-cart-arrow-down"></i> <span>Transactions</span>
                 </a>
             </li>
+
+            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+                <a href="#">
+                    <i class="fa fa-stumbleupon-circle"></i> <span>Contract</span>
+                </a>
+            </li>
+
+            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+                <a href="#">
+                    <i class="fa fa-users"></i> <span>Customers</span>
+                </a>
+            </li>
+
+            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+                <a href="#">
+                    <i class="fa fa-money"></i> <span>Payment List</span>
+                </a>
+            </li>
+            
             
         </ul>
     </section>

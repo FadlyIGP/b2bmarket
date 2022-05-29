@@ -25,7 +25,7 @@ Add Product
     <div class="col-lg-12">
         <div class="box" style="border-radius: 5px">
 
-            {!! Form::open(['url'=>url('/products'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+            {!! Form::open(['url'=>url('/products',base64_encode($productlisting['id'])),'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
@@ -39,7 +39,7 @@ Add Product
                                                 {!! Form::label('Product Name:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="prod_name" name="prod_name" required>
+                                                    <input type="text" class="form-control  has-feedback  " value="{{$productlisting['product_name']}}" id="prod_name" name="prod_name" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -51,7 +51,7 @@ Add Product
                                                 {!! Form::label('Product Descriptions:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    {!! Form::textarea('prod_desc', null, ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:50px' ]) !!}
+                                                    {!! Form::textarea('prod_desc', ($productlisting['product_descriptions']), ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:50px' ]) !!}
                                                     </span>
                                                 </div>
                                             </div>
@@ -64,7 +64,7 @@ Add Product
                                                 {!! Form::label('Product Size:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="prod_size" name="prod_size" required>
+                                                    <input type="text" class="form-control has-feedback" value="{{$productlisting['product_size']}}" id="prod_size" name="prod_size" required>
 
                                                 </div>
                                             </div>
@@ -77,7 +77,7 @@ Add Product
                                                 {!! Form::label('Product Price:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="prod_price" name="prod_price" required>
+                                                    <input type="text" class="form-control has-feedback" value="{{$productlisting['product_price']}}" id="prod_price" name="prod_price" required>
                                                     </span>
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@ Add Product
                                                 {!! Form::label('Product Item:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="prod_item" name="prod_item" required>
+                                                    <input type="text" class="form-control has-feedback" value="{{$productlisting['product_item']}}" id="prod_item" name="prod_item" required>
                                                     </span>
                                                 </div>
                                             </div>
@@ -109,27 +109,27 @@ Add Product
                                                 {!! Form::label('Product Qty:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control has-feedback" value="" id="prod_qty" name="prod_qty" required>
+                                                    <input type="text" class="form-control has-feedback" value="{{$productlisting['stock']}}" id="prod_qty" name="prod_qty" required>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="form-group" id="frm-add-data">
+                                    <!-- <div class="form-group" id="frm-add-data">
                                         <div class="col-md-12" >
                                             <div class="col-md-12 field_wrapper" >
                                                 {!! Form::label('Product Image:', '') !!}
                                                 <div class="input-group ">
                                                     <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
-                                                    <input type="file" class="form-control has-feedback" value="" id="prod_img[]" name="prod_img[]" required>
+                                                    <input type="file" class="form-control has-feedback" value="{{$productlisting['product_name']}}" id="prod_img[]" name="prod_img[]" required>
                                                     <span class="input-group-addon" style="background-color: green;">
                                                         <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" style="color:white;"></i></a>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                 </div>
                             </div>
