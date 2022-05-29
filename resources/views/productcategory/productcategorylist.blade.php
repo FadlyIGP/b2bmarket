@@ -27,27 +27,20 @@ List Category
 						<tr>
 							<th width="4%">No</th>
 							<th scope="col">Name</th>
-							<th scope="col">Descriptions</th>
-							<th scope="col">Size</th>
-							<th scope="col">Item</th>
-							<th scope="col">Qty</th> 
+							<th scope="col">Company Name</th>
 							<th scope="col">Created_at</th>
 							<th scope="col">Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{{-- @foreach($plgn as $staff) --}}
+						@foreach($categorylist as $list)
 						<tr>
 							<td width="4%"></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<td>{{$list['name']}}</td>
+							<td>{{$list['company_name']}}</td>
+							<td>{{date("d-M-Y",strtotime($list['created_at']))}}</td>
 							<td>
 								{!! Form::open() !!}
-
 								<a href="#" value="" title="Hapus Data" class="btn btn-xs btn-info btn-info"><i class="fa fa-pencil"></i>
 								</a>
 								<button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')">
@@ -57,7 +50,7 @@ List Category
 								{!! Form::close()!!}
 							</td>
 						</tr>
-						{{-- @endforeach() --}}
+					@endforeach()
 					</tbody>
 				</table>
 			</div>
