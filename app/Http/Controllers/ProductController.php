@@ -99,13 +99,13 @@ class ProductController extends Controller
         $productstock->qty = $request->prod_qty;
         $productstock->save();
 
-        if ($request->hasFile('prod_img')) {
-            $prod_img = $request->file('prod_img');
-            $namefile = rand(1000, 9999) . $prod_img->getClientOriginalName();
-            $prod_img->move('storage/image', $namefile);
-        } else {
+        // if ($request->hasFile('prod_img')) {
+        //     $prod_img = $request->file('prod_img');
+        //     $namefile = rand(1000, 9999) . $prod_img->getClientOriginalName();
+        //     $prod_img->move('storage/image', $namefile);
+        // } else {
             $namefile = '';
-        }
+        // }
 
         $producimage = new ImgProduct;
         $producimage->product_id = $mstprodcuct->id;
