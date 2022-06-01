@@ -24,8 +24,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::middleware(['auth'])->group(function () {
     // product
-    Route::resource('/products', App\Http\Controllers\ProductController::class);
-    Route::get('products/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit']);
+    Route::resource('/products', App\Http\Controllers\CmsController\ProductController::class);
+    Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
     // product Category
     Route::resource('/productcategories', App\Http\Controllers\ProductCategoryController::class);
 });
