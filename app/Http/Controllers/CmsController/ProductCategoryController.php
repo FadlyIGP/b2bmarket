@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CmsController;
 
 use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
@@ -59,7 +59,8 @@ class ProductCategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('productcategory.addcategory');
+
     }
 
     /**
@@ -70,7 +71,15 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $productcategory = new ProdCategory;
+        $productcategory->name = $request->category_name;
+        $productcategory->company_id = $profile->company_id;
+        $productcategory->save();
+
+        return redirect()->route('productcategories.index');
+
+
     }
 
     /**
