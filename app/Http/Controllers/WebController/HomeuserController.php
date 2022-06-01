@@ -19,6 +19,28 @@ class HomeuserController extends Controller
      */
     public function index()
     {
+        $random = MstProduct::with('stock', 'image')
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        $productrandom = [];
+        foreach ($random as $key => $value) {
+            $productrandom[] = [
+                "id" => $value->id,
+                "product_name" => $value->product_name,
+                "product_descriptions" => $value->product_descriptions,
+                "product_size" => $value->product_size,
+                "product_price" => $value->product_price,
+                "product_item" => $value->product_item,
+                "wishlist_status" => $value->wishlist_status,
+                "company_id" => $value->company_id,
+                "created_at" => $value->created_at,
+                "stock" => $value->stock->qty,
+                "image" => $this->urlimg . $value->image[0]->img_file,
+            ];
+        }
+
         $productlist = MstProduct::with('stock', 'image')
             ->inRandomOrder()
             ->limit(3)
@@ -40,9 +62,8 @@ class HomeuserController extends Controller
                 "image" => $this->urlimg . $value->image[0]->img_file,
             ];
         }
-        // dd($productlist);
 
-        return view('frontEnd.product.indexProduct', ['productlisting' => $productlisting]);
+        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom]);
     }
 
     /**
