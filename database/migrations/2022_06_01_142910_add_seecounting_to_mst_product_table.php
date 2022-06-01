@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionHistoryTable extends Migration
+class AddSeecountingToMstProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateTransactionHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_history', function (Blueprint $table) {
-            $table->id();
-            $table->integer('transaction_id');
-            $table->datetime('transaction_date');
-            $table->timestamps();
+        Schema::table('mst_product', function (Blueprint $table) {
+            //
+            $table->integer('see_counting')->nullable();
+            $table->integer('pay_counting')->nullable();
         });
     }
 
@@ -28,6 +27,8 @@ class CreateTransactionHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_history');
+        Schema::table('mst_product', function (Blueprint $table) {
+            //
+        });
     }
 }
