@@ -19,7 +19,7 @@ List Category
 		<div class="box">
 			<div class="box-header with-border">
 
-				<a href="" class="btn btn-info btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Add Category</a>
+				<a href="{{ url('/productcategories/create') }}" class="btn btn-info btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Add Category</a>
 			</div>
 			<div class="box-body table-responsive">
 				<table class="table table-bordered" id="table_id">
