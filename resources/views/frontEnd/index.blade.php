@@ -2,6 +2,17 @@
 
 @section('content')
 
+<style type="text/css">
+    .imglabel{
+        size: 50px;
+        height: 220px;
+        width: 300px;
+        left: 56px;
+        top: 150px;
+        border-radius: 2.56000018119812px;
+      }
+</style>
+
 <!-- SECTION -->
 <div class="section">
     <!-- container -->
@@ -9,14 +20,14 @@
         <!-- row -->
         <div class="row">
             <!-- shop -->
-            @foreach($productlist as $key => $value)
+            @foreach($productlisting as $list)
             <div class="col-md-4 col-xs-6">
                 <div class="shop" style="border-radius: 20px;">
                     <div class="shop-img">
-                        <img src="{{ $value->img_file }}" alt="">
+                        <img class="imglabel" src="{{$list['image']}}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
                     </div>
                     <div class="shop-body">
-                        <h3>{{ $value->product_name }}</h3>
+                        <h3>{{ $list['product_name'] }}</h3>
                         <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

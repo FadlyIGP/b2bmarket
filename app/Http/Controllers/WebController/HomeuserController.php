@@ -19,7 +19,10 @@ class HomeuserController extends Controller
      */
     public function index()
     {
-        $productlist = MstProduct::with('stock', 'image')->get();
+        $productlist = MstProduct::with('stock', 'image')
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
 
         $productlisting = [];
         foreach ($productlist as $key => $value) {
@@ -37,9 +40,9 @@ class HomeuserController extends Controller
                 "image" => $this->urlimg . $value->image[0]->img_file,
             ];
         }
-        dd($productlist);
+        // dd($productlist);
 
-        return view('frontEnd.index');
+        return view('frontEnd.index', ['productlisting' => $productlisting]);
     }
 
     /**
