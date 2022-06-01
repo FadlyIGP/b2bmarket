@@ -24,7 +24,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
+        $this->urlimg = env('APP_URL').'/'.'public'.'/'.'files';
     }
 
     /**
@@ -50,9 +50,11 @@ class ProductController extends Controller
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $this->urlimg .'/'. $value->image[0]->img_file,
             ];
         }
+
+        // return $productlisting;
         return view('product.product', ['productlisting' => $productlisting]);
     }
 
@@ -99,19 +101,21 @@ class ProductController extends Controller
         $productstock->qty = $request->prod_qty;
         $productstock->save();
 
-        // if ($request->hasFile('prod_img')) {
-        //     $prod_img = $request->file('prod_img');
-        //     $namefile = rand(1000, 9999) . $prod_img->getClientOriginalName();
-        //     $prod_img->move('storage/image', $namefile);
-        // } else {
-            $namefile = '';
-        // }
+        if ($request->hasfile('prod_img')) {
 
-        $producimage = new ImgProduct;
-        $producimage->product_id = $mstprodcuct->id;
-        $producimage->img_file = $namefile;
-        $producimage->save();
+            foreach ($request->file('prod_img') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/files/', $name);
+                $data[] = $name;
+            }
+        }
 
+        foreach ($data as $key => $value) {
+            $producimage = new ImgProduct;
+            $producimage->product_id = $mstprodcuct->id;
+            $producimage->img_file = $value;
+            $producimage->save();
+        }
 
         return redirect()->route('products.index');
     }
@@ -171,7 +175,7 @@ class ProductController extends Controller
             // "image" => $this->urlimg.$value->image[0]->img_file,
         ];
 
-        return view('product.productedit',['productlisting' => $productlisting]);
+        return view('product.productedit', ['productlisting' => $productlisting]);
     }
 
     /**
@@ -184,7 +188,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $id=base64_decode($id);
+        $id = base64_decode($id);
         $mstprodcuct = MstProduct::find($id);
         $mstprodcuct->product_name = $request->prod_name;
         $mstprodcuct->product_descriptions = $request->prod_desc;
