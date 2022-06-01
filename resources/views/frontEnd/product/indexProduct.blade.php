@@ -139,7 +139,10 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                        <input type="hidden" class="form-control  has-feedback  " value="12" id="product_id" name="product_id" required>
+                                        <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    {!! Form::close() !!}
                                     </div>
                                 </div>
                                 <!-- /product -->
