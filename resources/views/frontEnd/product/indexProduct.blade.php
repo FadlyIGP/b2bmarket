@@ -20,7 +20,7 @@
         <!-- row -->
         <div class="row">
             <!-- shop -->
-            @foreach($productlisting as $list)
+            @foreach($productrandom as $list)
             <div class="col-md-4 col-xs-6">
                 <div class="shop" style="border-radius: 20px;">
                     <div class="shop-img">
