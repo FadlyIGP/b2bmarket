@@ -50,11 +50,10 @@ class ProductController extends Controller
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg .'/'. $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
             ];
         }
 
-        // return $productlisting;
         return view('product.product', ['productlisting' => $productlisting]);
     }
 
@@ -77,12 +76,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return count($request->file('prod_img'));
-
-        // foreach ($request->file('prod_img') as $key => $value) {
-        //     $img[]=$value;
-        // }
-        // return $img;
         // *findcompany_id *//
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 

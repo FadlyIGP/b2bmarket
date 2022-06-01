@@ -49,7 +49,7 @@ List Products
 							<td>{{$list['stock']}}</td>
 							<td>
 								<center>
-									<img src="{{$list['image']}}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
+									<img src="{{ url('/files/'.$list['image']) }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
 								</center>
 							</td>
 							<td>{{ date("d-M-Y",strtotime($list['created_at']))}}</td>
