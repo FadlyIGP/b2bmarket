@@ -15,6 +15,13 @@ class CreateTransactionItemTable extends Migration
     {
         Schema::create('transaction_item', function (Blueprint $table) {
             $table->id();
+            $table->integer('transaction_id');
+            $table->string('product_name');
+            $table->string('product_descriptions')->nullable();
+            $table->string('product_size');
+            $table->integer('product_price');
+            $table->string('product_item');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
