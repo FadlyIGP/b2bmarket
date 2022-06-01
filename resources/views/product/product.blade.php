@@ -27,9 +27,10 @@ List Products
 						<tr>
 							<th width="1%">No</th>
 							<th width="4%">Name</th>
+							<th width="4%">Category</th>
 							<th width="10%">Descriptions</th>
 							<th width="5%">Size</th>
-							<th width="5%">Price</th>
+							<th width="9%">Price</th>
 							<th width="5%">Item</th>
 							<th width="5%">Qty</th>
 							<th width="10%">Image</th>
@@ -42,6 +43,7 @@ List Products
 						<tr>
 							<td width="1%"></td>
 							<td>{{$list['product_name']}}</td>
+							<td>{{$list['category']}}</td>
 							<td>{{$list['product_descriptions']}}</td>
 							<td>{{$list['product_size']}}</td>
 							<td>{{$list['product_price']}}</td>
@@ -50,6 +52,8 @@ List Products
 							<td>
 								<center>
 									<img src="{{ url('/files/'.$list['image']) }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
+									<a href="" value="" title="Edit Image" class="btn btn-xs btn-info btn-info"><i class="fa fa-pencil"></i>
+								</a>
 								</center>
 							</td>
 							<td>{{ date("d-M-Y",strtotime($list['created_at']))}}</td>

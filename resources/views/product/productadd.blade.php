@@ -116,6 +116,21 @@ Add Product
                                         </div>
                                     </div>
 
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Product Category:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <!-- <input type="text" class="form-control has-feedback" value="" id="prod_category" name="prod_category" required> -->
+                                                    {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!}    
+                                                
+                                                </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group" id="frm-add-data">
                                         <div class="col-md-12" >
                                             <div class="col-md-12 field_wrapper" >
