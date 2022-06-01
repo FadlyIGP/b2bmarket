@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CmsController;
 use App\Http\Controllers\Controller;
 
 use App\Models\MstProduct;
+use App\Models\ProdCategory;
 use App\Models\ImgProduct;
 use App\Models\User;
 use App\Models\StockProduct;
@@ -35,7 +36,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $productlist = MstProduct::with('stock', 'image')->get();
+        $productlist = MstProduct::with('stock', 'image','category')->get();
+
 
         $productlisting = [];
         foreach ($productlist as $key => $value) {
@@ -44,13 +46,14 @@ class ProductController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" => $value->product_price,
+                "product_price" => 'Rp '.''.$value->product_price,
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
                 "image" => $value->image[0]->img_file,
+                "category"=>$value->category->name
             ];
         }
 
@@ -85,6 +88,7 @@ class ProductController extends Controller
         $mstprodcuct->product_size = $request->prod_size;
         $mstprodcuct->product_price = $request->prod_price;
         $mstprodcuct->product_item = $request->prod_item;
+        $mstprodcuct->product_category_id = $request->prod_category;
         $mstprodcuct->wishlist_status = 0;
         $mstprodcuct->company_id = $profile->company_id;
         $mstprodcuct->save();
