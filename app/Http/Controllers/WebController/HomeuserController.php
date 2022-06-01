@@ -42,7 +42,7 @@ class HomeuserController extends Controller
         }
         // dd($productlist);
 
-        return view('frontEnd.index', ['productlisting' => $productlisting]);
+        return view('frontEnd.product.indexProduct', ['productlisting' => $productlisting]);
     }
 
     /**
