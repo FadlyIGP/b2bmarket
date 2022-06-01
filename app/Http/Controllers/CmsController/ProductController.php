@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CmsController;
 use App\Http\Controllers\Controller;
 
 use App\Models\MstProduct;
+use App\Models\ProdCategory;
 use App\Models\ImgProduct;
 use App\Models\User;
 use App\Models\StockProduct;
@@ -24,7 +25,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
+        $this->urlimg = env('APP_URL').'/'.'public'.'/'.'files';
     }
 
     /**
@@ -35,7 +36,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $productlist = MstProduct::with('stock', 'image')->get();
+        $productlist = MstProduct::with('stock', 'image','category')->get();
+
 
         $productlisting = [];
         foreach ($productlist as $key => $value) {
@@ -44,15 +46,17 @@ class ProductController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" => $value->product_price,
+                "product_price" => 'Rp '.''.$value->product_price,
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
+                "category"=>$value->category->name
             ];
         }
+
         return view('product.product', ['productlisting' => $productlisting]);
     }
 
@@ -75,12 +79,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // return count($request->file('prod_img'));
-
-        // foreach ($request->file('prod_img') as $key => $value) {
-        //     $img[]=$value;
-        // }
-        // return $img;
         // *findcompany_id *//
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
@@ -90,6 +88,7 @@ class ProductController extends Controller
         $mstprodcuct->product_size = $request->prod_size;
         $mstprodcuct->product_price = $request->prod_price;
         $mstprodcuct->product_item = $request->prod_item;
+        $mstprodcuct->product_category_id = $request->prod_category;
         $mstprodcuct->wishlist_status = 0;
         $mstprodcuct->company_id = $profile->company_id;
         $mstprodcuct->save();
@@ -99,19 +98,21 @@ class ProductController extends Controller
         $productstock->qty = $request->prod_qty;
         $productstock->save();
 
-        // if ($request->hasFile('prod_img')) {
-        //     $prod_img = $request->file('prod_img');
-        //     $namefile = rand(1000, 9999) . $prod_img->getClientOriginalName();
-        //     $prod_img->move('storage/image', $namefile);
-        // } else {
-            $namefile = '';
-        // }
+        if ($request->hasfile('prod_img')) {
 
-        $producimage = new ImgProduct;
-        $producimage->product_id = $mstprodcuct->id;
-        $producimage->img_file = $namefile;
-        $producimage->save();
+            foreach ($request->file('prod_img') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/files/', $name);
+                $data[] = $name;
+            }
+        }
 
+        foreach ($data as $key => $value) {
+            $producimage = new ImgProduct;
+            $producimage->product_id = $mstprodcuct->id;
+            $producimage->img_file = $value;
+            $producimage->save();
+        }
 
         return redirect()->route('products.index');
     }
@@ -171,7 +172,7 @@ class ProductController extends Controller
             // "image" => $this->urlimg.$value->image[0]->img_file,
         ];
 
-        return view('product.productedit',['productlisting' => $productlisting]);
+        return view('product.productedit', ['productlisting' => $productlisting]);
     }
 
     /**
@@ -184,7 +185,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $id=base64_decode($id);
+        $id = base64_decode($id);
         $mstprodcuct = MstProduct::find($id);
         $mstprodcuct->product_name = $request->prod_name;
         $mstprodcuct->product_descriptions = $request->prod_desc;
