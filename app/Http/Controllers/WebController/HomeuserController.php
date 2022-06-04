@@ -4,7 +4,13 @@ namespace App\Http\Controllers\WebController;
 
 use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
+use App\Models\Cart;
+use App\Models\UserMitra;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
+
 
 class HomeuserController extends Controller
 {
@@ -29,6 +35,11 @@ class HomeuserController extends Controller
      */
     public function index()
     {
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
+        \Session::put('countingcart', count($cartlistbyuserid));
+
         $random = MstProduct::with('stock', 'image')
             ->inRandomOrder()
             ->limit(3)
