@@ -112,7 +112,7 @@
                                                     </td>
                                                     <td width="20%">
                                                         
-                                                        <form id='myform' method='POST'>
+                                                        <form id='myform' method='PUT'>
                                                             <input type='hidden' name='id' id="idCart" value="{{ $list['id'] }}"class='id' />
                                                             <input type='button' value='-' class='qtyminus' field='quantity' />                                                            
                                                             <input type='text' name='quantity' value="{{ $list['product_qty'] }}"class='qty' />
@@ -263,19 +263,19 @@
                qty = 0;
             }
 
-            var id = document.getElementById('idCart').value;       
+            // var id = document.getElementById('idCart').value;       
 
-            $.ajax({         
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },       
-                type:'PUT',
-                url:"{{ url('/carts/' +id) }}",
-                data:{id:id, quantity:qty},
-                success:function(data){
-                    alert(data.success);
-               }
-            });
+            // $.ajax({         
+            //     headers: {
+            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            //     },       
+            //     type:'PUT',
+            //     url:'carts/' +id,
+            //     data:{id:id, quantity:qty},
+            //     success:function(data){
+            //         alert(data.success);
+            //    }
+            // });
         });
         // This button will decrement the value till 0
         $(".qtyminus").click(function(e) {
