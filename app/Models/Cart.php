@@ -25,4 +25,11 @@ class Cart extends Model
     {
         return $this->hasMany(ImgProduct::class, 'product_id','product_id');
     }
+
+    public function product() 
+    {
+        return $this->hasOne(MstProduct::class, 'id','product_id');
+    }
+
+    
 }
