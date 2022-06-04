@@ -45,6 +45,7 @@
 
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
 @section('content')
@@ -100,7 +101,25 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="2%">
-                                                        <input type="radio" name="payment" id="payment-1">
+
+                                                        @if($list['status']==1)
+                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                        <input type='hidden' name='status' value='0' />
+                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                            <i class="fa fa-circle"></i>
+                                                        </button>
+                                                        {!! Form::close() !!}
+                                                        @else()
+                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                        <input type='hidden' name='status' value='1' />
+
+                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                            <i class="fa fa-circle-thin"></i>
+                                                        </button>
+                                                        {!! Form::close() !!}
+
+                                                        @endif()
+
                                                     </td>
                                                     <td width="20%">
                                                         <center>
@@ -112,10 +131,15 @@
                                                     </td>
                                                     <td width="20%">
                                                         
-                                                        <form id='myform' method='POST' action='#'>
-                                                            <input type='button' value='-' class='qtyminus' field='quantity' />
-                                                            <input type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' />
-                                                            <input type='button' value='+' class='qtyplus' field='quantity' />
+                                                        <form id='myform' method='GET' action=''>
+                                                            {{-- <input id="submitBtn" type='submit' value='-' class='qtyminus' field='quantity' /> --}}
+                                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus' field='quantity'>-</button>
+
+                                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' />
+                                                            {{-- <input id="submitBtn" type='submit' value='+' class='qtyplus' field='quantity' /> --}}
+                                                            
+                                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus' field='quantity'>+</button>
+
                                                         </form>
                                                     
                                                     </td>
@@ -241,7 +265,7 @@
 @endsection
 
 <script type="text/javascript">
-    jQuery(document).ready(function(){
+   jQuery(document).ready(function(){
     // This button will increment the value
     $('.qtyplus').click(function(e){
         // Stop acting like a button
@@ -258,7 +282,21 @@
             // Otherwise put a 0 there
            $(this).siblings('input[name='+fieldName+']').val(0);
         }
+
+        // alert("Update Qty ?"); 
+        const id = $(this).attr('data-id');
+        $.ajax({
+              url: 'updateqty/' + id,
+              type: 'GET',
+              data: { 
+                  param0: $('#textbox0').val(), 
+              }
+        }); 
+
+        // location.reload();    
+
     });
+
     // This button will decrement the value till 0
     $(".qtyminus").click(function(e) {
         // Stop acting like a button
@@ -275,7 +313,18 @@
             // Otherwise put a 0 there
             $(this).siblings('input[name='+fieldName+']').val(0);
         }
-    });
-});
+
+        // alert("Update Qty ?"); 
+        const id = $(this).attr('data-id');
+        $.ajax({
+              url: 'updateqty/' + id,
+              type: 'GET',
+              data: { 
+                  param0: $('#textbox0').val(), 
+              }
+        });  
+        });
+
+   });
 
 </script>
