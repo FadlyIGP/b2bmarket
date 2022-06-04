@@ -8,7 +8,9 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="csrf-token" content="{{ csrf_token() }}" />
 
-    <title>Electro - HTML Ecommerce Template</title>
+    <title>JualinAja</title>
+    <link rel="icon" href="https://i.ibb.co/PWDXyMq/JAminilogo.png" type="image/png">
+
 
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
