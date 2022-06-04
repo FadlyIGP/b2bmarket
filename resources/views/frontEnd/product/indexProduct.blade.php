@@ -24,7 +24,7 @@
             <div class="col-md-4 col-xs-6">
                 <div class="shop" style="border-radius: 20px;">
                     <div class="shop-img">
-                        <img class="imglabel" src="{{$list['image']}}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
+                        <img class="imglabel" src="{{ url('/files/'.$list['image']) }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main">
                     </div>
                     <div class="shop-body">
                         <h3>{{ $list['product_name'] }}</h3>
@@ -33,48 +33,7 @@
                 </div>
             </div>
             @endforeach
-            <!-- /shop -->
-            {{--  <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop" style="border-radius: 20px;">
-                    <div class="shop-img">
-                        <img src="./asset/img/shop01.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                        <h3>Laptop<br>Collection</h3>
-                        <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->
-
             <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop" style="border-radius: 20px;">
-                    <div class="shop-img">
-                        <img src="./asset/img/shop03.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                        <h3>Accessories<br>Collection</h3>
-                        <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->
-
-            <!-- shop -->
-            <div class="col-md-4 col-xs-6">
-                <div class="shop" style="border-radius: 20px;">
-                    <div class="shop-img">
-                        <img src="./asset/img/shop02.png" alt="">
-                    </div>
-                    <div class="shop-body">
-                        <h3>Cameras<br>Collection</h3>
-                        <a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
-            </div>
-            <!-- /shop -->  --}}
         </div>
         <!-- /row -->
     </div>
@@ -113,18 +72,25 @@
                         <div id="tab1" class="tab-pane active">
                             <div class="products-slick" data-nav="#slick-nav-1">
                                 <!-- product -->
+                                @foreach($productlisting as $list)
                                 <div class="product" style="border-radius: 10px;">
                                     <div class="product-img">
-                                        <img src="./asset/img/product01.png" alt="">
+                                        <img src="{{ url('/files/'.$list['image']) }}" alt="">
                                         <div class="product-label">
                                             <span class="sale">-30%</span>
                                             <span class="new">NEW</span>
                                         </div>
                                     </div>
                                     <div class="product-body" >
-                                        <p class="product-category">Category</p>
-                                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                                        <p class="product-category">{{ $list['product_category'] }}</p>
+                                        <h3 class="product-name"><a href="#">{{ $list['product_name'] }}</a></h3>
+                                        <h4 class="product-price">
+                                            {{ $list['product_price'] }} 
+                                            <del class="product-old-price">
+                                                {{ $list['product_price'] }}
+                                            </del>
+                                        </h4>
+                                        
                                         <div class="product-rating">
                                             <i class="fa fa-star"></i>
                                             <i class="fa fa-star"></i>
@@ -133,9 +99,28 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                            
+                                            @if($list['wishlist_status'] == true)
+                                                <button class="add-to-wishlist">
+                                                    <i class="fa fa-heart-o" style="color: red"></i>
+                                                    <span class="tooltipp">add to wishlist</span>
+                                                </button>
+                                            @else()
+                                                 <button class="add-to-wishlist">
+                                                    <i class="fa fa-heart-o" style=""></i>
+                                                    <span class="tooltipp">add to wishlist</span>
+                                                </button>
+
+                                            @endif()
+
+                                            <button class="add-to-compare">
+                                                <i class="fa fa-exchange"></i>
+                                                <span class=""></span>
+                                            </button>
+                                            <button class="quick-view">
+                                                <i class="fa fa-eye"></i>
+                                                <span class="tooltipp">quick view</span>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
@@ -145,9 +130,13 @@
                                     {!! Form::close() !!}
                                     </div>
                                 </div>
+                                @endforeach
+
+
+
                                 <!-- /product -->
 
-                                <!-- product -->
+                               {{--  <!-- product -->
                                 <div class="product" style="border-radius: 10px;">
                                     <div class="product-img">
                                         <img src="./asset/img/product02.png" alt="">
@@ -258,7 +247,7 @@
                                         <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                     </div>
                                 </div>
-                                <!-- /product -->
+                                <!-- /product --> --}}
                             </div>
                             <div id="slick-nav-1" class="products-slick-nav"></div>
                         </div>

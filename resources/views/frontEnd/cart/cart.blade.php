@@ -91,8 +91,6 @@
                                         {{ $list['company_name'] }}
                                         </h4>
 
-                                    {{-- </div> --}}
-
                                     <div class="line">
                                     </div>
 
