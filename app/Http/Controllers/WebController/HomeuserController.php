@@ -37,13 +37,11 @@ class HomeuserController extends Controller
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
             ];
         }
 
-        $productlist = MstProduct::with('stock', 'image')
-            ->inRandomOrder()
-            ->limit(3)
+        $productlist = MstProduct::with('stock', 'image','category')
             ->get();
 
         $productlisting = [];
@@ -59,11 +57,15 @@ class HomeuserController extends Controller
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
+                "product_category" => $value->category->name,
+
             ];
         }
 
-        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom]);
+        // return $productlisting;
+
+        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom,'productlisting'=>$productlisting]);
     }
 
     /**
