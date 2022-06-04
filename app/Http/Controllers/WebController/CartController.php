@@ -4,9 +4,34 @@ namespace App\Http\Controllers\WebController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\MstProduct;
+use App\Models\Cart;
+use App\Models\ProdCategory;
+use App\Models\ImgProduct;
+use App\Models\User;
+use App\Models\StockProduct;
+use App\Models\Wishlist;
+use App\Models\MstCompany;
+use App\Models\UserMitra;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Exception;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+
 
 class CartController extends Controller
 {
+
+    public function __construct()
+    {
+        function gencompany($id){
+            $company=MstCompany::find($id);
+            return $company->company_name;
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +39,52 @@ class CartController extends Controller
      */
     public function index()
     {
-        //
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
+        $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
+
+        $totalcheked=[];
+        foreach ($chekedcart as $key => $value) {
+            $totalcheked[]=$value->total_price;
+             $listchecked[]=[
+                'id'=> $value->id,
+                'product_id'=> $value->product_id,
+                'product_qty'=> $value->product_qty,
+                'product_price'=> $value->product_price,
+                'total_price'=>number_format((float)$value->total_price, 0, ',', '.'),
+                'status'=> $value->status,
+                'user_id'=> $value->user_id,
+                'product_name'=> $value->product->product_name,
+                'product_descriptions'=> $value->product->product_descriptions,
+                'product_size'=> $value->product->product_size,
+                'product_price'=> $value->product->product_price,
+            ];
+        }
+        
+        $total_price=number_format((float)array_sum($totalcheked), 0, ',', '.');
+
+        foreach ($cartlistbyuserid as $key => $value) {
+            $listcart[]=[
+                'id'=> $value->id,
+                'product_id'=> $value->product_id,
+                'product_qty'=> $value->product_qty,
+                'product_price'=> $value->product_price,
+                'total_price'=> $value->total_price,
+                'status'=> $value->status,
+                'user_id'=> $value->user_id,
+                'company_name'=> gencompany($value->company_id),
+                'product_image'=> $value->image[0]->img_file,
+                'product_name'=> $value->product->product_name,
+                'product_descriptions'=> $value->product->product_descriptions,
+                'product_size'=> $value->product->product_size,
+                'product_price'=> $value->product->product_price,
+            ];
+        }
+
+        // return $listcart;
+        return view('frontEnd.cart.cart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
+
+
     }
 
     /**
@@ -35,7 +105,21 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
+        // return $getprodiuctdata;
+        $cart = new Cart;
+        $cart->product_id = $getprodiuctdata->id;
+        $cart->product_qty = 1;
+        $cart->product_price = $getprodiuctdata->product_price;
+        $cart->total_price = $getprodiuctdata->product_price;
+        $cart->status = 0;
+        $cart->user_id = $profile->id;
+        $cart->company_id = $getprodiuctdata->company_id;
+        $cart->save();
+
+        return redirect()->route('home.buyer');
+
     }
 
     /**

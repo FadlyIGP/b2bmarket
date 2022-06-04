@@ -11,6 +11,16 @@ class HomeuserController extends Controller
     public function __construct()
     {
         $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
+
+        function pay_counting($data){
+
+                if ($data==null) {
+                    $seelcounting=0;
+                } else {
+                    $seelcounting=$data;
+                }
+                return $seelcounting;
+        }
     }
     /**
      * Display a listing of the resource.
@@ -31,19 +41,18 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" => $value->product_price,
+                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
+
             ];
         }
 
-        $productlist = MstProduct::with('stock', 'image')
-            ->inRandomOrder()
-            ->limit(3)
+        $productlist = MstProduct::with('stock', 'image','category')
             ->get();
 
         $productlisting = [];
@@ -53,17 +62,45 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" => $value->product_price,
+                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
-                "image" => $this->urlimg . $value->image[0]->img_file,
+                "image" => $value->image[0]->img_file,
+                "product_category" => $value->category->name,
+                "pay_counting" => pay_counting($value->pay_counting),
+
             ];
         }
 
-        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom]);
+        $productmaxpay = MstProduct::with('stock', 'image','category')
+            ->orderBy('pay_counting', 'DESC')
+            ->get();
+
+        $product_max_pay = [];
+        foreach ($productmaxpay as $key => $value) {
+            $product_max_pay[] = [
+                "id" => $value->id,
+                "product_name" => $value->product_name,
+                "product_descriptions" => $value->product_descriptions,
+                "product_size" => $value->product_size,
+                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_item" => $value->product_item,
+                "wishlist_status" => $value->wishlist_status,
+                "company_id" => $value->company_id,
+                "created_at" => $value->created_at,
+                "stock" => $value->stock->qty,
+                "image" => $value->image[0]->img_file,
+                "product_category" => $value->category->name,
+                "pay_counting" => pay_counting($value->pay_counting),
+
+            ];
+        }
+
+
+        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom,'productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
     }
 
     /**
