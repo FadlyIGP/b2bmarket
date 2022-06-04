@@ -10,7 +10,14 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 17124 Universitas Nusa Mandiri</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <li><a href="{{ url('/login') }}"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li><a href="{{ url('/login') }}"><i class="fa fa-user-o" style="color: white"></i> My Account</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <li>
+                    <a href="{{ url('/login') }}">
+                        <i class="fa fa-wechat" style="font-size: 1.73em;color: white"></i> &nbsp;&nbsp;
+                    </a>
+                </li>
             </ul>
         </div>
     </div>
@@ -42,7 +49,9 @@
                                 <option value="1">Category 02</option>
                             </select>
                             <input class="input" placeholder="Search here">
-                            <button class="search-btn">Search</button>
+                            <button class="search-btn">
+                                <i class="fa fa-search" style="color: black"></i>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -97,7 +106,7 @@
                                     <h5>SUBTOTAL: $2940.00</h5>
                                 </div>
                                 <div class="cart-btns">
-				<a href="{{ url('/carts') }}" class="btn btn-info btn-xs btn-flat" style="border-radius: 5px">View Cart</a>
+				                    <a href="{{ url('/carts') }}" class="btn btn-info btn-xs btn-flat" style="border-radius: 5px">View Cart</a>
 
                                     <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
