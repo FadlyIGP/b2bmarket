@@ -413,7 +413,7 @@ textarea.input {
 #top-header {
   padding-top: 10px;
   padding-bottom: 10px;
-  background-color: #1864EB;
+  background-color: orange;
 }
 
 .header-links li {
@@ -446,7 +446,7 @@ textarea.input {
 #header {
   padding-top: 15px;
   padding-bottom: 15px;
-  background-color: #15161D;
+  background-color: #FF4500 !important;
 }
 
 .header-logo {
@@ -463,6 +463,8 @@ textarea.input {
 
 .header-search {
   padding: 15px 0px;
+  padding-top: 9px;
+
 }
 
 .header-search form {
@@ -482,7 +484,7 @@ textarea.input {
 .header-search form .search-btn {
   height: 40px;
   width: 100px;
-  background: #D10024;
+  background: white;
   color: #FFF;
   font-weight: 700;
   border: none;
