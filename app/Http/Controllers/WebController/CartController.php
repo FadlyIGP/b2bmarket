@@ -45,7 +45,7 @@ class CartController extends Controller
 
         $totalcheked=[];
         foreach ($chekedcart as $key => $value) {
-            $totalcheked[]=$value->total_price;
+             $totalcheked[]=$value->total_price;
              $listchecked[]=[
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
@@ -128,9 +128,29 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
+        return $request->all();
+
+    }
+
+    public function updateqty(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        $updatetotalprice=$cart->product_price * $request->param0;
+        $cart->product_qty = $request->param0;
+        $cart->total_price = $updatetotalprice;
+        $cart->save();
+        return redirect()->route('carts.index');
+    }
+
+    public function chekedcart(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        $cart->status = $request->status;
+        $cart->save();
+        return redirect()->route('carts.index');
     }
 
     /**
