@@ -45,6 +45,7 @@
 
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
 @section('content')
@@ -100,7 +101,25 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="2%">
-                                                        <input type="radio" name="payment" id="payment-1">
+
+                                                        @if($list['status']==1)
+                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                        <input type='hidden' name='status' value='0' />
+                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                            <i class="fa fa-circle"></i>
+                                                        </button>
+                                                        {!! Form::close() !!}
+                                                        @else()
+                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                        <input type='hidden' name='status' value='1' />
+
+                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                            <i class="fa fa-circle-thin"></i>
+                                                        </button>
+                                                        {!! Form::close() !!}
+
+                                                        @endif()
+
                                                     </td>
                                                     <td width="20%">
                                                         <center>
@@ -112,11 +131,15 @@
                                                     </td>
                                                     <td width="20%">
                                                         
-                                                        <form id='myform' method='POST'>
-                                                            <input type='hidden' name='id' id="idCart" value="{{ $list['id'] }}"class='id' />
-                                                            <input type='button' value='-' class='qtyminus' field='quantity' />                                                            
-                                                            <input type='text' name='quantity' value="{{ $list['product_qty'] }}"class='qty' />
-                                                            <input type='button' value='+' class='qtyplus' field='quantity' />
+                                                        <form id='myform' method='GET' action=''>
+                                                            {{-- <input id="submitBtn" type='submit' value='-' class='qtyminus' field='quantity' /> --}}
+                                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus' field='quantity'>-</button>
+
+                                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' />
+                                                            {{-- <input id="submitBtn" type='submit' value='+' class='qtyplus' field='quantity' /> --}}
+                                                            
+                                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus' field='quantity'>+</button>
+
                                                         </form>
                                                     
                                                     </td>
@@ -242,58 +265,66 @@
 @endsection
 
 <script type="text/javascript">
-    jQuery(document).ready(function(){
-        // This button will increment the value
-        $('.qtyplus').click(function(e){
-            // Stop acting like a button
-            e.preventDefault();
-            // Get the field name
-            fieldName = $(this).attr('field');
-            // Get its current value
-            var qty;
-            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
-            // If is not undefined
-            if (!isNaN(currentVal)) {
-                // Increment
-                $(this).siblings('input[name='+fieldName+']').val(currentVal + 1);
-                qty = currentVal + 1;
-            } else {
-                // Otherwise put a 0 there
-               $(this).siblings('input[name='+fieldName+']').val(0);
-               qty = 0;
-            }
+   jQuery(document).ready(function(){
+    // This button will increment the value
+    $('.qtyplus').click(function(e){
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        fieldName = $(this).attr('field');
+        // Get its current value
+        var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+        // If is not undefined
+        if (!isNaN(currentVal)) {
+            // Increment
+            $(this).siblings('input[name='+fieldName+']').val(currentVal + 1);
+        } else {
+            // Otherwise put a 0 there
+           $(this).siblings('input[name='+fieldName+']').val(0);
+        }
 
-            var id = document.getElementById('idCart').value;       
+        // alert("Update Qty ?"); 
+        const id = $(this).attr('data-id');
+        $.ajax({
+              url: 'updateqty/' + id,
+              type: 'GET',
+              data: { 
+                  param0: $('#textbox0').val(), 
+              }
+        }); 
 
-            $.ajax({         
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },       
-                type:'PUT',
-                url:"{{ url('/carts/' +id) }}",
-                data:{id:id, quantity:qty},
-                success:function(data){
-                    alert(data.success);
-               }
-            });
-        });
-        // This button will decrement the value till 0
-        $(".qtyminus").click(function(e) {
-            // Stop acting like a button
-            e.preventDefault();
-            // Get the field name
-            fieldName = $(this).attr('field');
-            // Get its current value
-            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
-            // If it isn't undefined or its greater than 0
-            if (!isNaN(currentVal) && currentVal > 0) {
-                // Decrement one
-                $(this).siblings('input[name='+fieldName+']').val(currentVal - 1);
-            } else {
-                // Otherwise put a 0 there
-                $(this).siblings('input[name='+fieldName+']').val(0);
-            }
-        });
+        // location.reload();    
+
     });
+
+    // This button will decrement the value till 0
+    $(".qtyminus").click(function(e) {
+        // Stop acting like a button
+        e.preventDefault();
+        // Get the field name
+        fieldName = $(this).attr('field');
+        // Get its current value
+        var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+        // If it isn't undefined or its greater than 0
+        if (!isNaN(currentVal) && currentVal > 0) {
+            // Decrement one
+            $(this).siblings('input[name='+fieldName+']').val(currentVal - 1);
+        } else {
+            // Otherwise put a 0 there
+            $(this).siblings('input[name='+fieldName+']').val(0);
+        }
+
+        // alert("Update Qty ?"); 
+        const id = $(this).attr('data-id');
+        $.ajax({
+              url: 'updateqty/' + id,
+              type: 'GET',
+              data: { 
+                  param0: $('#textbox0').val(), 
+              }
+        });  
+        });
+
+   });
 
 </script>
