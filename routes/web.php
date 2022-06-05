@@ -25,7 +25,17 @@ Auth::routes();
 Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
 Route::middleware(['auth'])->group(function () {
     // router for buyer here
-    Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);    
+    Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
+    Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
+    Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
+    
+
+    
+
+
+    
+
+    
 });
 
 
