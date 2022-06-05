@@ -186,4 +186,18 @@ class CartController extends Controller
     {
         //
     }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateQty(Request $request, $id)
+    {
+        
+   
+        return  $id;
+        return response()->json(['success'=>'Got Simple Ajax Request.']);
+    }
 }
