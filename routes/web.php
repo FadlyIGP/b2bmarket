@@ -13,18 +13,38 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['auth'])->group( function () {
-    // product
-    Route::resource('/products', App\Http\Controllers\ProductController::class);
-    Route::get('products/edit/{id}', [App\Http\Controllers\ProductController::class, 'edit']);
-    // product Category
-    Route::resource('/productcategories', App\Http\Controllers\ProductCategoryController::class);
+// route web
+Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
+Route::middleware(['auth'])->group(function () {
+    // router for buyer here
+    Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
+    Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
+    Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
+    
 
+    
+
+
+    
+
+    
+});
+
+
+// route cms
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::middleware(['auth'])->group(function () {
+    // product
+    Route::resource('/products', App\Http\Controllers\CmsController\ProductController::class);
+    Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
+    // product Category
+    Route::resource('/productcategories', App\Http\Controllers\CmsController\ProductCategoryController::class);
 });
