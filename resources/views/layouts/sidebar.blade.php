@@ -26,8 +26,8 @@
                 </a>
             </li>
 
-            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
-                <a href="#">
+            <li class="{{request()->is('transaction') ? 'active' : ''}}">
+                <a href="{{ url('/transaction') }}">
                     <i class="fa fa-cart-arrow-down"></i> <span>Transactions</span>
                 </a>
             </li>

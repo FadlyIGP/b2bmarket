@@ -47,4 +47,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
     // product Category
     Route::resource('/productcategories', App\Http\Controllers\CmsController\ProductCategoryController::class);
+    // Transaction
+    Route::resource('/transaction', App\Http\Controllers\CmsController\TransactionController::class);
 });

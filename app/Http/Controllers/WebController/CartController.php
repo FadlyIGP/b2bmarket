@@ -46,6 +46,7 @@ class CartController extends Controller
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
         $totalcheked=[];
+        $listchecked=[];
         foreach ($chekedcart as $key => $value) {
              $totalcheked[]=$value->total_price;
              $listchecked[]=[
@@ -195,11 +196,4 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function updateQty(Request $request, $id)
-    {
-        
-   
-        return  $id;
-        return response()->json(['success'=>'Got Simple Ajax Request.']);
-    }
 }
