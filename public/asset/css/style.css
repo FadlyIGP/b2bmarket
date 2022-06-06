@@ -674,7 +674,7 @@ textarea.input {
     position: fixed;
     left: 0;
     top: 0;
-    background: #15161D;
+    background: white;
     height: 100vh;
     max-width: 250px;
     width: 0%;
@@ -706,7 +706,7 @@ textarea.input {
   }
   .main-nav>li>a {
     padding: 15px;
-    color: #FFF;
+    color: black;
   }
 }
 
