@@ -49,6 +49,12 @@
                     <i class="fa fa-money"></i> <span>Payment List</span>
                 </a>
             </li>
+
+            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+                <a href="{{ url('/showview') }}">
+                    <i class="fa fa-money"></i> <span>Ajax List</span>
+                </a>
+            </li>
             
             
         </ul>
