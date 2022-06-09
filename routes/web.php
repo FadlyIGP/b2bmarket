@@ -47,6 +47,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
     // product Category
     Route::resource('/productcategories', App\Http\Controllers\CmsController\ProductCategoryController::class);
+    Route::get('showview', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'showview']);
+    Route::get('sendtoajax', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'sendtoajax']);
     // Transaction
     Route::resource('/transaction', App\Http\Controllers\CmsController\TransactionController::class);
+
+    
+
+
+
 });

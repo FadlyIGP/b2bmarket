@@ -126,4 +126,27 @@ class ProductCategoryController extends Controller
     {
         //
     }
+
+    public function showview(Request $request)
+    {
+        //
+        return view('productcategory.listajax');
+    }
+
+    public function sendtoajax()
+    {
+        //
+        $category = ProdCategory::all();
+        foreach ($category as $key => $value) {
+            $categorylist[]=[
+                'id'=>$value->id,
+                'name'=>$value->name,
+                'company_name'=>gencompany($value->company_id),
+                'created_at'=>$value->created_at,
+            ];
+        }
+        return $categorylist;
+
+
+    }
 }
