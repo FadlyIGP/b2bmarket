@@ -44,7 +44,7 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="#" class="logo">
+                            <a href="{{ url('/index2') }}" class="logo">
                                 <img src="https://i.ibb.co/jTCvPSN/B2-Borangelogo.png" alt="" style="width:100%;height: 50px">
                             </a>
                         </div>

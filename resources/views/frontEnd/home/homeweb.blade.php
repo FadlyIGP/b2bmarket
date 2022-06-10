@@ -98,6 +98,26 @@
       position: relative;
       color: #808080
   }
+
+  #test {
+    width: 200px;
+    height: 20px;
+    margin: 0;
+    background-color: transparent;
+    display: absolute;
+    text-align: left;
+  }
+
+  .heading1 {
+    border-bottom: 1px solid #aaa;
+  }
+
+  img {
+    opacity: 1;
+    height: 150px;
+    width: 40px;
+  }
+
 </style>
 
   <head>
@@ -161,10 +181,7 @@
                 </button>
                 </form>
               </li>
-             {{--  <li class="scroll-to-section"><a href="#about">About</a></li>
-              <li class="scroll-to-section"><a href="#pricing">Pricing</a></li>
-              <li class="scroll-to-section"><a href="#newsletter">Newsletter</a></li> --}}
-              {{-- <li ><div class="gradient-button"><a id="modal_trigger" href="#modal"><i class="fa fa-user"></i> My Account</a></div></li>  --}}
+          
             </ul>        
             <a class='menu-trigger'>
                 <span>Menu</span>
@@ -261,6 +278,381 @@
             </form>
         </div>
     </section>
+
+    <!-- ***** Body ***** -->
+</div>
+<div id="services" class="services section">
+
+  <div class="container">
+   <div class="" style="padding-bottom: 15px">
+    <h4>Top Seeling</h4>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="service-item" >
+        {{-- <div class="icon"></div> --}}
+        <h4>Product Name</h4>
+        <img class="" data-wow-duration="1s" data-wow-delay="0.5s" src="assets/images/DRYER FILTER GENIO R12.JPG" alt="" style="background-color: transparent;opacity: 4;">
+        <center>
+         <div class="product-rating">
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+        </div>
+      </center>
+      <div class="heading1"></div>
+
+      <div class="" id="test">
+        <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+      </div>
+      <div class="" id="test">
+        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+      </div>
+      <div class="" id="test" style="padding-bottom: 25px">
+        <span style="font-size: 12px;"><b>Terjual 100</b></span>
+      </div>
+
+      <div class="heading1"></div>
+
+      <div class="" style="padding-top: 25px">
+        <center>
+          <a href="#">
+            <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+          </a>
+          <a href="#">
+            <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+          </a>
+          <a href="#">
+            <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+          </a>
+        </center>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="service-item ">
+      {{-- <div class="icon"></div> --}}
+      <h4>Product Name</h4>
+      <img src="assets/images/toyotamob.png" alt="">
+      <center>
+       <div class="product-rating">
+        <i class="fa fa-star" style="color: red"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+      </div>
+    </center>
+    <div class="heading1"></div>
+
+    <div class="" id="test">
+      <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+    </div>
+    <div class="" id="test">
+      <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+    </div>
+    <div class="" id="test" style="padding-bottom: 25px">
+      <span style="font-size: 12px;"><b>Terjual 100</b></span>
+    </div>
+
+    <div class="heading1"></div>
+
+    <div class="" style="padding-top: 25px">
+      <center>
+        <a href="#">
+          <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+        </a>
+      </center>
+
+    </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="service-item ">
+    {{-- <div class="icon"></div> --}}
+    <h4>Product Name</h4>
+    <img src="assets/images/toyotamob.png" alt="">
+    <center>
+     <div class="product-rating">
+      <i class="fa fa-star" style="color: red"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    </div>
+  </center>
+  <div class="heading1"></div>
+
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+  </div>
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+  </div>
+  <div class="" id="test" style="padding-bottom: 25px">
+    <span style="font-size: 12px;"><b>Terjual 100</b></span>
+  </div>
+
+  <div class="heading1"></div>
+
+  <div class="" style="padding-top: 25px">
+    <center>
+      <a href="#">
+        <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+      </a>
+    </center>
+
+  </div>
+</div>
+</div>
+<div class="col-lg-3">
+  <div class="service-item ">
+    {{-- <div class="icon"></div> --}}
+    <h4>Product Name</h4>
+    <img src="assets/images/toyotamob.png" alt="">
+    <center>
+     <div class="product-rating">
+      <i class="fa fa-star" style="color: red"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    </div>
+  </center>
+  <div class="heading1"></div>
+
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+  </div>
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+  </div>
+  <div class="" id="test" style="padding-bottom: 25px">
+    <span style="font-size: 12px;"><b>Terjual 100</b></span>
+  </div>
+
+  <div class="heading1"></div>
+
+  <div class="" style="padding-top: 25px">
+    <center>
+      <a href="#">
+        <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+      </a>
+    </center>
+
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="services" class="services section" style="padding-top: 25px">
+  
+  <div class="container">
+   <div class="" style="padding-bottom: 15px">
+    <h4>New Product</h4>
+  </div>
+  <div class="row">
+    <div class="col-lg-3">
+      <div class="service-item" >
+        {{-- <div class="icon"></div> --}}
+        <h4>Product Name</h4>
+        <img class="" data-wow-duration="1s" data-wow-delay="0.5s" src="assets/images/DRYER FILTER GENIO R12.JPG" alt="" style="background-color: transparent;opacity: 4;">
+        <center>
+         <div class="product-rating">
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+          <i class="fa fa-star"></i>
+        </div>
+      </center>
+      <div class="heading1"></div>
+
+      <div class="" id="test">
+        <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+      </div>
+      <div class="" id="test">
+        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+      </div>
+      <div class="" id="test" style="padding-bottom: 25px">
+        <span style="font-size: 12px;"><b>Terjual 100</b></span>
+      </div>
+
+      <div class="heading1"></div>
+
+      <div class="" style="padding-top: 25px">
+        <center>
+          <a href="#">
+            <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+          </a>
+          <a href="#">
+            <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+          </a>
+          <a href="#">
+            <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+          </a>
+        </center>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-3">
+    <div class="service-item ">
+      {{-- <div class="icon"></div> --}}
+      <h4>Product Name</h4>
+      <img src="assets/images/toyotamob.png" alt="">
+      <center>
+       <div class="product-rating">
+        <i class="fa fa-star" style="color: red"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+        <i class="fa fa-star"></i>
+      </div>
+    </center>
+    <div class="heading1"></div>
+
+    <div class="" id="test">
+      <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+    </div>
+    <div class="" id="test">
+      <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+    </div>
+    <div class="" id="test" style="padding-bottom: 25px">
+      <span style="font-size: 12px;"><b>Terjual 100</b></span>
+    </div>
+
+    <div class="heading1"></div>
+
+    <div class="" style="padding-top: 25px">
+      <center>
+        <a href="#">
+          <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+        </a>
+        <a href="#">
+          <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+        </a>
+      </center>
+
+    </div>
+  </div>
+</div>
+<div class="col-lg-3">
+  <div class="service-item ">
+    {{-- <div class="icon"></div> --}}
+    <h4>Product Name</h4>
+    <img src="assets/images/toyotamob.png" alt="">
+    <center>
+     <div class="product-rating">
+      <i class="fa fa-star" style="color: red"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    </div>
+  </center>
+  <div class="heading1"></div>
+
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+  </div>
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+  </div>
+  <div class="" id="test" style="padding-bottom: 25px">
+    <span style="font-size: 12px;"><b>Terjual 100</b></span>
+  </div>
+
+  <div class="heading1"></div>
+
+  <div class="" style="padding-top: 25px">
+    <center>
+      <a href="#">
+        <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+      </a>
+    </center>
+
+  </div>
+</div>
+</div>
+<div class="col-lg-3">
+  <div class="service-item ">
+    {{-- <div class="icon"></div> --}}
+    <h4>Product Name</h4>
+    <img src="assets/images/toyotamob.png" alt="">
+    <center>
+     <div class="product-rating">
+      <i class="fa fa-star" style="color: red"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+    </div>
+  </center>
+  <div class="heading1"></div>
+
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>IDR Rp 5.00.000</b></span>
+  </div>
+  <div class="" id="test">
+    <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+  </div>
+  <div class="" id="test" style="padding-bottom: 25px">
+    <span style="font-size: 12px;"><b>Terjual 100</b></span>
+  </div>
+
+  <div class="heading1"></div>
+
+  <div class="" style="padding-top: 25px">
+    <center>
+      <a href="#">
+        <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+      </a>
+      <a href="#">
+        <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+      </a>
+    </center>
+
+  </div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
   <div class="main-banner wow fadeIn" id="top" data-wow-duration="1s" data-wow-delay="0.5s">
