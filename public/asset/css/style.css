@@ -446,7 +446,9 @@ textarea.input {
 #header {
   padding-top: 15px;
   padding-bottom: 15px;
-  background-color: #FF4500 !important;
+  background-color: white !important;
+  border-color: black;
+  border: 1px;
 }
 
 .header-logo {

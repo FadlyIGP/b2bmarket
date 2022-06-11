@@ -241,4 +241,33 @@ class ProductController extends Controller
         
         return view('product.productimage', ['image_list' => $image_list]);
     }
+
+    public function imagelist()
+    {
+        //
+        $productlist = MstProduct::with('stock', 'image','category')->get();
+
+
+        $productlisting = [];
+        foreach ($productlist as $key => $value) {
+            $productlisting[] = [
+                "id" => $value->id,
+                "product_name" => $value->product_name,
+                "product_descriptions" => $value->product_descriptions,
+                "product_size" => $value->product_size,
+                "product_price" => 'Rp '.''.$value->product_price,
+                "product_item" => $value->product_item,
+                "wishlist_status" => $value->wishlist_status,
+                "company_id" => $value->company_id,
+                "created_at" => $value->created_at,
+                "stock" => $value->stock->qty,
+                "image" => $value->image[0]->img_file,
+                "category"=>$value->category->name
+            ];
+        }
+
+        return $productlisting;
+
+        // return view('product.product', ['productlisting' => $productlisting]);
+    }
 }

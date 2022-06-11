@@ -4,6 +4,14 @@
             position: fixed;
             top: 0;
             width: 100%;
+            border-bottom: 2px solid #DCDCDC;
+            
+        }
+        .line{
+            width: 100%;
+            /*height: 47px;*/
+            border-bottom: 2px solid #DCDCDC;
+            position: absolute;
         }
     </style>
     <!-- HEADER -->
@@ -22,14 +30,7 @@
                         </a>
                     </li>
                 </ul>
-                <ul class="header-links pull-right">
-                    <li>
-                        <a href="{{ url('/login') }}">
-                            3
-                            <i class="fa fa-wechat" style="font-size: 1.73em;color: white"></i> &nbsp;&nbsp;
-                        </a>
-                    </li>
-                </ul>
+                
             </div>
         </div>
         <!-- /TOP HEADER -->
@@ -43,71 +44,17 @@
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo">
-                            <a href="#" class="logo">
-                                <img src="https://i.ibb.co/XzLHKBX/logoputihorange.png" alt="" style="width:100%;height: 50px">
+                            <a href="{{ url('/index2') }}" class="logo">
+                                <img src="https://i.ibb.co/jTCvPSN/B2-Borangelogo.png" alt="" style="width:100%;height: 50px">
                             </a>
                         </div>
                     </div>
-                    <!-- /LOGO -->
-
-                    <!-- SEARCH BAR -->
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form>
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Category 01</option>
-                                    <option value="1">Category 02</option>
-                                </select>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">
-                                    <i class="fa fa-search" style="color: black"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /SEARCH BAR -->
-
-                    <!-- ACCOUNT -->
-                    <div class="col-md-3 clearfix">
-                        <div class="header-ctn">
-                            <!-- Wishlist -->
-                            <div>
-                                <a href="#">
-                                    <i class="fa fa-heart-o"></i>
-                                    <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
-                                </a>
-                            </div>
-                            <!-- /Wishlist -->
-
-                            <!-- Cart -->
-                            <div class="dropdown">
-                                <a href="{{ url('/carts') }}">
-                                    <i class="fa fa-shopping-cart"></i>
-                                    <span>Your Cart</span>
-                                    <div class="qty">{{\Session::get('countingcart')}}</div>
-                                </a>
-                               
-                            </div>
-                            <!-- /Cart -->
-
-                            <!-- Menu Toogle -->
-                            <div class="menu-toggle">
-                                <a href="#">
-                                    <i class="fa fa-bars"></i>
-                                    <span>Menu</span>
-                                </a>
-                            </div>
-                            <!-- /Menu Toogle -->
-                        </div>
-                    </div>
-                    <!-- /ACCOUNT -->
                 </div>
                 <!-- row -->
             </div>
             <!-- container -->
         </div>
+        <div class="line"></div>
         <!-- /MAIN HEADER -->
     </header>
     <!-- /HEADER -->
