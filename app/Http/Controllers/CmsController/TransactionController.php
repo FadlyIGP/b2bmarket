@@ -51,7 +51,7 @@ class TransactionController extends Controller
                 "username"  => $value->name,
                 "company"   => $value->company_name,
                 "status"    => $status,                
-                "amount"    => 'Rp '.''.$value->expected_ammount,               
+                "amount"    => 'Rp '.''.number_format($value->expected_ammount),               
                 "created"   => $value->created_at                
             ];
         }
@@ -66,7 +66,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -124,4 +124,22 @@ class TransactionController extends Controller
     {
         //
     }
+
+
+    /******************** For New Public Function At Here ********************/
+    public function viewitem(Request $request, $id)
+    {
+        $transaction_item = TransactionItem::where('transaction_id', $id)->get();
+
+        return view('transaction.showitem', ['transaction_item' => $transaction_item]);       
+    }
+
+    public function updatestatus(Request $request)
+    {
+        $msttransaction = MstTransaction::find($request->idtrans);
+        $msttransaction->status = $request->radiostat;
+        $msttransaction->save();        
+
+        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status.');
+    }    
 }
