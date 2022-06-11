@@ -48,14 +48,18 @@ Route::middleware(['auth'])->group(function () {
     // product
     Route::resource('/products', App\Http\Controllers\CmsController\ProductController::class);
     Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
+    Route::get('products/delete/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'destroy']);
+    Route::get('products/edit/image/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'editImage']);
     // product Category
     Route::resource('/productcategories', App\Http\Controllers\CmsController\ProductCategoryController::class);
+    Route::get('productcategories/edit/{id}', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'edit']);
+    Route::get('productcategories/delete/{id}', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'destroy']);
     Route::get('showview', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'showview']);
     Route::get('sendtoajax', [App\Http\Controllers\CmsController\ProductCategoryController::class, 'sendtoajax']);
     // Transaction
     Route::resource('/transaction', App\Http\Controllers\CmsController\TransactionController::class);
-
-    
+    Route::get('viewitem/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewitem']);    
+    Route::post('/transaction/updatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'updatestatus']);
 
 
 

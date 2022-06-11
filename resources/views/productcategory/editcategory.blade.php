@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('title')
-Add Product
+Modify Product
 @endsection
 
 @section('breadcrumb')
 @parent
 <li><a href="{{ url('/productcategories') }}">List Category</a></li>
-<li class="active">Add Category</li>
+<li class="active">Modify Category</li>
 @endsection
 @section('content')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,7 +26,7 @@ Add Product
     <div class="col-lg-12">
         <div class="box" style="border-radius: 5px">
 
-            {!! Form::open(['url'=>url('/productcategories'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+            {!! Form::open(['url'=>url('/productcategories', $temp_category['id']),'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
@@ -39,7 +39,7 @@ Add Product
                                                 {!! Form::label('Category Name:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
+                                                    <input type="text" class="form-control  has-feedback  " value="{{ $temp_category['name'] }}" id="category_name" name="category_name" required>
                                                 </div>
                                             </div>
                                         </div>

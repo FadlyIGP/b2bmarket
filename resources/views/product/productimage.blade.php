@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('title')
-Add Product
+Modify Image Product
 @endsection
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/productcategories') }}">List Category</a></li>
-<li class="active">Add Category</li>
+<li><a href="{{ url('/products') }}">List Product</a></li>
+<li class="active">Modify Image Product</li>
 @endsection
 @section('content')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -26,21 +26,29 @@ Add Product
     <div class="col-lg-12">
         <div class="box" style="border-radius: 5px">
 
-            {!! Form::open(['url'=>url('/productcategories'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+            {!! Form::open(['url'=>url('/products'),'method'=>'', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="box-body">
                             <div class="col-md-12">
-                                <div class="box-body col-md-6">{{-- kiri --}}
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="col-md-12">
-                                                {!! Form::label('Category Name:', '') !!}
-                                                <div class="input-group">
-                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
-                                                </div>
+                                <div class="box-body col-md-6">{{-- kiri --}}                                    
+                                    <div class="form-group" id="frm-add-data">
+                                        <div class="col-md-12" >
+                                            <div class="col-md-12 field_wrapper" >
+                                                @foreach($image_list as $image_list)
+                                                    {!! Form::label('Product Image:', '') !!}
+                                                    <div class="input-group ">
+                                                        <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
+                                                        <input type="file" class="form-control has-feedback" value="" id="prod_img[]" name="prod_img[]" required>
+                                                        <span class="input-group-addon" style="background-color: green;">
+                                                            <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" style="color:white;"></i></a>
+                                                        </span>                                                        
+                                                    </div>     
+                                                    <div class="input-group">
+                                                        <img src="{{ url('/files/'.$image_list['image_name']) }}" width="100">
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
@@ -50,10 +58,10 @@ Add Product
                     </div>
 
                     <div class="box-footer">
-                        {!! Form::submit('Send', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
+                        {!! Form::submit('Send', ['class'=>'btn btn-primary','style'=>'background-color:#32CD32;border-radius:10px;border-radius: 10px;width:80px']) !!}
                         &nbsp;&nbsp;
                         &nbsp;&nbsp;
-                        <a class="btn" href="{{ url('/productcategories') }}" title="Back Category List" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                        <a class="btn" href="{{ url('/products') }}" title="Back Product List" style="border-radius: 10px;width:80px;background-color:#FF0000;color: white">
                             Back
                         </a>
                     </div>

@@ -102,7 +102,7 @@
             padding: 0px 20px;
         }
 </style>
-<body class="hold-transition skin-purple-light sidebar-mini">
+<body class="hold-transition skin-purple-light sidebar-mini fixed">
     <div class="wrapper" style="overflow:visible visible;">
 
         @includeIf('layouts.header')
@@ -118,7 +118,7 @@
                 </h1>
                 <ol class="breadcrumb">
                     @section('breadcrumb')
-                        <li><a href="{{ url('/') }}"><i class="fa fa-dashboard"></i> Home</a></li>
+                        <li><a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
                     @show
                 </ol>
             </section>

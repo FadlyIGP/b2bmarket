@@ -19,6 +19,7 @@ class TransactionItem extends Model
         'product_price',
         'product_item',
         'product_qty',
-        'total_amount'
+        'price_total',
+        'product_id'
     ];    
 }

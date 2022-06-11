@@ -14,12 +14,23 @@ Transactions
         width:50%;height: 10%
     }
 </style>
-
+@if (session('success'))
+	<div class="alert alert-info">
+	  {{ session('success') }}
+	  <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: #fff;">&times;</a>  
+	</div>        
+@endif 
+@if (session('warning'))
+	<div class="alert alert-warning">
+	  {{ session('warning') }}
+	  <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: #fff;">&times;</a>  
+	</div>        
+@endif 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="box">			
 			<div class="box-body table-responsive">
-				<table class="table table-bordered" id="table_id" width="100%">
+				<table class="table table-bordered table-hover" id="table_id" width="100%">
 					<thead class=" text-primary">
 						<tr>
 							<th width="1%">No</th>
@@ -36,14 +47,29 @@ Transactions
 						@foreach($transactionlist as $list)
 						<tr>
 							<td width="1%"></td>
-							<td>{{$list['invoice']}}</td>
-							<td>{{$list['username']}}</td>
-							<td>{{$list['company']}}</td>
-							<td>{{$list['status']}}</td>
-							<td>{{$list['amount']}}</td>							
-							<td>{{ date("d-M-Y",strtotime($list['created']))}}</td>
+							<td>{{ $list['invoice'] }}</td>
+							<td>{{ $list['username'] }}</td>
+							<td>{{ $list['company'] }}</td>
+							@if ($list['status'] == 'New Order')
+								<td style="background-color: #2196f3;color: white;">{{ $list['status'] }}</td>
+							@elseif ($list['status'] == 'Processing')
+								<td style="background-color: #605ca8;color: white;">{{ $list['status'] }}</td>
+							@elseif ($list['status'] == 'Delivering')
+								<td style="background-color: #D81B60;color: white;">{{ $list['status'] }}</td>
+							@elseif ($list['status'] == 'Done')
+								<td style="background-color: #00a65a;color: white;">{{ $list['status'] }}</td>
+							@endif	
+							<td>{{ $list['amount'] }}</td>							
+							<td>{{ date("d-M-Y",strtotime($list['created'])) }}</td>
 							<td>
-
+								{!! Form::open() !!}								
+								<a href="{{ url('/viewitem', $list['id']) }}" id="modal1" class="btn btn-xs btn-info" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Detail">
+									<i class="fa fa-list"></i>
+								</a>																
+								<a href="#" id="modalupdatestat" data-target="#updatestat" class="btn btn-xs bg-maroon" data-toggle="modal" data-id="{{ $list['id'] }}" title="Upadte Status">
+									<i class="fa fa-truck"></i>
+								</a>                              
+								{!! Form::close()!!}
 							</td>
 						</tr>
 						@endforeach()
@@ -54,9 +80,127 @@ Transactions
 	</div>
 </div>
 
+<!-- Modal Transaction Item -->
+<div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header" style="background-color: #00c0ef">   
+	            <h4 class="modal-title" style="color: white;">
+	              <i class="fa fa-list"></i> Transaction Item
+	              	<!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              		<div class="pull-right" style="color: white;">x</div>
+	        	  	</button> -->
+	            </h4>                                
+	        </div>
+	        <div class="modal-body" id="body-item">
+	            
+	        </div>              
+	        <div class="modal-footer">        		
+                <a class="btn btn-default" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Back
+                </a>
+	        </div> 
+	    </div>
+ 	</div>
+</div>
+
+<!-- Modal Update Status Transaction -->
+<div class="modal fade" id="updatestat" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header" style="background-color: #D81B60;">   
+	            <h4 class="modal-title" style="color: white;">
+	              <i class="fa fa-truck"></i> Transaction Update Status
+	              	<!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              		<div class="pull-right" style="color: white;">x</div>
+	        	  	</button> -->
+	            </h4>                                
+	        </div>
+	        {!! Form::open(['url'=>url('/transaction/updatestatus'),'method'=>'POST', 'autocomplete'=>'off']) !!}
+	        <div class="modal-body" id="body-updatestat">
+    			<div class="row">
+    				<div class="col-sm-12">
+    					<input type="hidden" name="idtrans" id="recid">
+    					<div class="form-group">    						
+    						<div class="col-sm-3">
+		    					<div class="radio">
+			                    	<label>
+		                      			<input type="radio" name="radiostat" id="idradio0" value="0" disabled>
+		                      			New Order
+		                      		</label>
+			                  	</div>
+		                    </div>
+		                    <div class="col-sm-3">
+		    					<div class="radio">
+			                    	<label>
+		                      			<input type="radio" name="radiostat" id="idradio1" value="1" disabled>
+	                      				Processing
+		                      		</label>
+			                  	</div>
+		                    </div>
+		                    <div class="col-sm-3">
+		    					<div class="radio">
+			                    	<label>
+		                      			<input type="radio" name="radiostat" id="idradio2" value="2" checked>
+	                      				Delivering
+		                      		</label>
+			                  	</div>
+		                    </div>
+		                    <div class="col-sm-3">
+		    					<div class="radio">
+			                    	<label>		                      			
+	                      				<input type="radio" name="radiostat" id="idradio3" value="3" disabled>
+	                      				Done
+		                      		</label>
+			                  	</div>
+		                    </div>
+	                  	</div>
+    				</div>    				     				
+    			</div>
+	        </div>
+	        <div class="modal-footer">
+        		{!! Form::submit('Update', ['class'=>'btn btn-default','id' => 'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
+                &nbsp;&nbsp;
+                &nbsp;&nbsp;
+                <a class="btn btn-default" id="clearradio" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Cancel
+                </a>
+	        </div> 
+	        {!! Form::close() !!}             
+	    </div>
+ 	</div>
+</div>
+
 @endsection
 
 @push('scripts')
+<script>
+	/* Show Modal Detail Item Transaction */
+	$('tbody').on('click','#modal1', function(e){
+	    e.preventDefault();
+
+	    const id = $(this).attr('data-id');
+      	$.ajax({
+	        url: 'viewitem/' + id,	
+	               
+	        dataTtype: 'html',
+	        success: function(response){
+    			$('#body-item').html(response);
+        	}
+	    });
+
+	    $('#detailItem').modal('show');
+	});
+
+	/* Show Id Transaction */
+	$('tbody').on('click','#modalupdatestat', function(e){
+	    e.preventDefault();
+
+	    const id = $(this).attr('data-id');
+      	document.getElementById('recid').value = id;
+	});	
+</script>
+
 <script>
 	//**datatable**//
 	$(document).ready(function() {
