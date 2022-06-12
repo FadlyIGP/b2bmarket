@@ -27,8 +27,8 @@
               {{-- <li class="" style="text-align: center;left: 100px"><a href="" class="">Home</a></li> --}}
               <li class="scroll-to-section" style="text-align: center;padding-right: 350px;">
                 <form>
-                <input class="scroll-to-section" type="" name="" style="border: 1px solid #808080;border-top-left-radius:10px;border-bottom-left-radius:10px">
-                <button class="" style="height: 28px;position: absolute;width: 15%;border: 1px solid #808080;border-top-right-radius:10px;border-bottom-right-radius:10px ">
+                <input class="scroll-to-section" type="" name="" style="border: 1px solid #808080;border-top-left-radius:20px;border-bottom-left-radius:20px;height: 40px;">
+                <button class="" style="position: absolute;width: 10%;border: 1px solid #808080;border-top-right-radius:20px;border-bottom-right-radius:20px;height: 40px ">
                   <i class="fa-solid fa-magnifying-glass"></i>
                   
                 </button>
@@ -36,7 +36,7 @@
 
               </li>
               <li style="background-color: transparent;right: 20px;border-radius: 20px">
-                <a id="modal_trigger" href="#modal">
+                <a href="{{ route('logout') }}">
                     <i class="fa-solid fa-user-gear" style="color: #808080;font-size: 20px"></i>
                   <span style="color: #808080">Account</span>  
                 </a>
@@ -53,3 +53,13 @@
     </div>
   </header>
   <!-- ***** Header Area End ***** -->
+    <div id="modal" class="popupContainer" style="display:none;border-radius: 20px">
+    <div class="popupHeader" style="margin-top: 5px;margin-right: 20px;margin-left: 20px;border-top-left-radius:20px;border-bottom-right-radius:20px">
+         <div class="social_login">
+            <div class="action_btns">
+                <div class="one_half"><a href="#" id="login_form" class="btn">Profile</a></div>
+                <div class="one_half last"><a href="{{ url('/logout') }}" id="register_form" class="btn">Sign Out</a></div>
+            </div>
+        </div>
+    </div>
+</div>
