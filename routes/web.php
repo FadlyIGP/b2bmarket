@@ -27,7 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
 
     // router for buyer here
-    Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2']);
+    Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2'])->name('firstpage');
     
     Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
     Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
