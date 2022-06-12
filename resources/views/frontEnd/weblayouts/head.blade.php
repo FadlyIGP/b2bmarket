@@ -103,13 +103,32 @@
     text-align: left;
   }
 
+  #descriptions {
+    width: 100%;
+    height: 120px;
+    margin: 0;
+    background-color: transparent;
+    display: absolute;
+    text-align: left;
+  }
+
   .heading1 {
     border-bottom: 1px solid #aaa;
   }
 
   #imgfile {
     opacity: 1;
-    height: 120px;
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 180px;
+  }
+
+  #imgfiledetail {
+    opacity: 1;
+    height: 300px;
     width: 100%;
     text-align: center;
     display: block;
