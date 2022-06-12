@@ -62,7 +62,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/transaction', App\Http\Controllers\CmsController\TransactionController::class);
     Route::get('viewitem/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewitem']);    
     Route::post('/transaction/updatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'updatestatus']);
-
+    Route::get('viewpayment/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewpayment']);
+    Route::post('/payment/payupdatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'payupdatestatus']);
 
 
 });
