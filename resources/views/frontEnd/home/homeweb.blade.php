@@ -82,7 +82,7 @@
                         <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
                     </div>
                     <div class="" id="test">
-                        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+                        <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }}  Pcs</b></span>
                     </div>
                     <div class="" id="test" style="padding-bottom: 25px">
                         <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
@@ -143,7 +143,7 @@
                         <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
                     </div>
                     <div class="" id="test">
-                        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+                        <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }} Pcs</b></span>
                     </div>
                     <div class="" id="test" style="padding-bottom: 25px">
                         <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>

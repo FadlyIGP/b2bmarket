@@ -8,7 +8,7 @@
 
         <a href="{{ url('/carts') }}" id="GFG" class="menu icon-style"> 
           <i class="fa-solid fa-cart-plus"></i>
-          <span class='badge badge-warning' id='lblCartCount'>1 </span>    
+          <span class='badge badge-warning' id='lblCartCount'>{{\Session::get('countingcart')}} </span>    
         </a>
 
         <a href="#" id="GFG" class="menu icon-style">
