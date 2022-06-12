@@ -28,6 +28,6 @@ class HomeController extends Controller
         if (Auth::user()->role_id==1) {
            return view('home');
         }
-        return redirect()->route('index2');
+        return redirect()->route('firstpage');
     }
 }

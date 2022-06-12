@@ -53,14 +53,13 @@ class CartController extends Controller
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
+                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
                 'total_price'=>number_format((float)$value->total_price, 0, ',', '.'),
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
         
@@ -71,7 +70,7 @@ class CartController extends Controller
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
+                'product_price'=>'Rp'." ".number_format((float)$value->product_price, 0, ',', '.'),
                 'total_price'=> $value->total_price,
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
@@ -80,12 +79,10 @@ class CartController extends Controller
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
 
-        // return $listcart;
-        return view('frontEnd.cart.cart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
+        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
 
 
     }
