@@ -172,9 +172,13 @@ input.qtyminus { width:25px; height:25px;}
                                 </td>
 
                                 <td width="10%">
+                                  {!! Form::open(['url'=>url('/carts/'.$list['id']),'method'=>'DELETE', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
                                     <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')" style="background-color: transparent;border-color: transparent;">
                                         <i class="fa fa-trash" style="color: red;font-size: 20px"></i>
                                     </button>
+                                </button>
+                                {!! Form::close() !!}
+                                   
                                 </td>
 
                                 </tr>
