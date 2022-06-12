@@ -185,6 +185,9 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+       $cart = Cart::find($id);
+       $cart->delete();
+       return redirect()->route('carts.index');
     }
 
      /**
