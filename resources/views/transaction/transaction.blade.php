@@ -36,11 +36,12 @@ Transactions
 							<th width="1%">No</th>
 							<th width="8%">Invoice</th>
 							<th width="8%">Name</th>
-							<th width="13%">Company</th>
-							<th width="5%">Status</th>
+							<th width="12%">Company</th>
+							<th width="2%">Status</th>
 							<th width="8%">Amount</th>												
-							<th width="5%">Created</th>
-							<th width="3%">Action</th>
+							<th width="5%">Date</th>
+							<th width="1%">Time</th>
+							<th width="10%">Action</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -54,20 +55,33 @@ Transactions
 								<td style="background-color: #2196f3;color: white;">{{ $list['status'] }}</td>
 							@elseif ($list['status'] == 'Processing')
 								<td style="background-color: #605ca8;color: white;">{{ $list['status'] }}</td>
-							@elseif ($list['status'] == 'Delivering')
+							@elseif ($list['status'] == 'On Delivery')
 								<td style="background-color: #D81B60;color: white;">{{ $list['status'] }}</td>
-							@elseif ($list['status'] == 'Done')
+							@elseif ($list['status'] == 'Finished')
 								<td style="background-color: #00a65a;color: white;">{{ $list['status'] }}</td>
 							@endif	
 							<td>{{ $list['amount'] }}</td>							
 							<td>{{ date("d-M-Y",strtotime($list['created'])) }}</td>
+							<td>{{ $list['time'] }}</td>
 							<td>
 								{!! Form::open() !!}								
 								<a href="{{ url('/viewitem', $list['id']) }}" id="modal1" class="btn btn-xs btn-info" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Detail">
 									<i class="fa fa-list"></i>
-								</a>																
-								<a href="#" id="modalupdatestat" data-target="#updatestat" class="btn btn-xs bg-maroon" data-toggle="modal" data-id="{{ $list['id'] }}" title="Upadte Status">
-									<i class="fa fa-truck"></i>
+								</a>									
+								@if ($list['status'] == 'Processing')							
+									<a href="#" id="modalupdatestat" data-target="#updatestat" class="btn btn-xs bg-maroon" data-toggle="modal" data-id="{{ $list['id'] }}" title="Upadte Status">
+										<i class="fa fa-truck"></i>
+									</a>
+								@else
+									<a href="#" id="modalupdatestat" data-target="#updatestat" class="btn btn-xs bg-maroon" data-toggle="modal" data-id="{{ $list['id'] }}" title="Upadte Status" disabled>
+										<i class="fa fa-truck"></i>
+									</a>
+								@endif
+								<a href="#" id="" data-target="#" class="btn btn-xs btn-primary" data-toggle="modal" data-id="{{ $list['id'] }}" title="Print Invoice">
+									<i class="fa fa-print"></i>
+								</a> 
+								<a href="#" id="modalpayment" class="btn btn-xs bg-orange" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Payment">
+									<i class="fa fa-money"></i>
 								</a>                              
 								{!! Form::close()!!}
 							</td>
@@ -93,7 +107,7 @@ Transactions
 	            </h4>                                
 	        </div>
 	        <div class="modal-body" id="body-item">
-	            
+	            <!--Include showitem.blade.php here -->
 	        </div>              
 	        <div class="modal-footer">        		
                 <a class="btn btn-default" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
@@ -171,6 +185,26 @@ Transactions
  	</div>
 </div>
 
+<!-- Modal Payment -->
+<div class="modal fade" id="idviewpayment" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  	<div class="modal-dialog" role="document">
+    	<div class="modal-content">
+	        <div class="modal-header" style="background-color: #FF851B">   
+	            <h4 class="modal-title" style="color: white;">
+	              <i class="fa fa-money"></i> Payment Detail
+	              	<!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+	              		<div class="pull-right" style="color: white;">x</div>
+	        	  	</button> -->
+	            </h4>                                
+	        </div>
+
+	        <div class="modal-body" id="body-payment">
+	            <!--Include viewpayment.blade.php here -->
+	        </div>              
+	        
+	    </div>
+ 	</div>
+</div>
 @endsection
 
 @push('scripts')
@@ -181,8 +215,7 @@ Transactions
 
 	    const id = $(this).attr('data-id');
       	$.ajax({
-	        url: 'viewitem/' + id,	
-	               
+	        url: 'viewitem/' + id,		               
 	        dataTtype: 'html',
 	        success: function(response){
     			$('#body-item').html(response);
@@ -199,6 +232,22 @@ Transactions
 	    const id = $(this).attr('data-id');
       	document.getElementById('recid').value = id;
 	});	
+
+	/* Show Modal Payment Detail */
+	$('tbody').on('click','#modalpayment', function(e){
+	    e.preventDefault();
+
+	    const id = $(this).attr('data-id');
+      	$.ajax({
+	        url: 'viewpayment/' + id,		               
+	        dataTtype: 'html',
+	        success: function(response){
+    			$('#body-payment').html(response);
+        	}
+	    });
+
+	    $('#idviewpayment').modal('show');
+	});
 </script>
 
 <script>
@@ -222,5 +271,15 @@ Transactions
 		});
 
 	});
+</script>
+
+<script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 2500);
+    });    
 </script>
 @endpush
