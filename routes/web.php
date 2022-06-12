@@ -32,12 +32,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
 
     Route::resource('/infoproducts', App\Http\Controllers\WebController\InfoProductController::class);
-
-    
-
-    
-
-
     
 
     
