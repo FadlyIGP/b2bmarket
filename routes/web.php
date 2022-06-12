@@ -24,6 +24,8 @@ Auth::routes();
 // route web
 Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
 Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
+
     // router for buyer here
     Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2']);
     

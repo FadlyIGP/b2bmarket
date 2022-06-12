@@ -98,7 +98,7 @@
                             <a href="#">
                                 <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
                             </a>
-                            <a href="#">
+                            <a href="{{ url('/infoproducts',$list['id']) }}">
                                 <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
                             </a>
                         </center>

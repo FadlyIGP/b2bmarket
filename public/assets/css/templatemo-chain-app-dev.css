@@ -204,7 +204,7 @@ body {
   z-index: 2;
 }
 
-.white-button a {
+.white-button {
   display: inline-block !important;
   padding: 10px 20px !important;
   /*color: transparent !important;*/
@@ -257,12 +257,12 @@ body {
 
 
 
-.white-button a i {
+.white-button i {
   margin-left: 5px;
   font-size: 18px;
 }
 
-.white-button a:hover {
+.white-button :hover {
   background-color: transparent;
   color: #fff !important;
 }
