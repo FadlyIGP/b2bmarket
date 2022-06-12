@@ -86,7 +86,6 @@ class InfoProductController extends Controller
 
         ];
 
-        // return $productdetail;
         return view('frontEnd.home.productdetail', ['productdetail' => $productdetail]);
     }
 

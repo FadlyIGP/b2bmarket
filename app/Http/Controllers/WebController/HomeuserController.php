@@ -120,7 +120,8 @@ class HomeuserController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         \Session::put('countingcart', count($cartlistbyuserid));
-
+         
+         // *PRODUCT RANDOM* 
         $random = MstProduct::with('stock', 'image')
             ->inRandomOrder()
             ->limit(3)
@@ -144,7 +145,9 @@ class HomeuserController extends Controller
             ];
         }
 
+        // **NEW PRODUCT**
         $productlist = MstProduct::with('stock', 'image','category')
+            ->orderBy('created_at', 'DESC')
             ->get();
 
         $productlisting = [];
@@ -167,6 +170,7 @@ class HomeuserController extends Controller
             ];
         }
 
+        // **PRODUCT TERLARIS
         $productmaxpay = MstProduct::with('stock', 'image','category')
             ->orderBy('pay_counting', 'DESC')
             ->get();
@@ -199,7 +203,7 @@ class HomeuserController extends Controller
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */
+     
     public function create()
     {
         //
