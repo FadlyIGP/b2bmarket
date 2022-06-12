@@ -33,11 +33,59 @@ img {
     border: 1px dotted #ccc;
     margin: 2%;
 }
+
+#address {
+    text-align: center;
+    padding: 5px;
+    border: 1px dotted #ccc;
+    margin: 2%;
+    border-radius: 10px
+}
+
 .qty {
     width: 40px;
     height: 25px;
     text-align: center;
 }
+
+.buttonaddress {
+  display: block;
+  width: 50%;
+  height: 30px;
+  border: none;
+  background-color: #1E90FF;
+  color: white;
+  /*padding: 14px 28px;*/
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.buttonaddress:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.block {
+  display: block;
+  width: 50%;
+  height: 30px;
+  border: none;
+  background-color: #04AA6D;
+  color: white;
+  /*padding: 14px 28px;*/
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.block:hover {
+  background-color: #ddd;
+  color: black;
+}
+
 input.qtyplus { width:25px; height:25px;}
 input.qtyminus { width:25px; height:25px;}
 
@@ -46,7 +94,7 @@ input.qtyminus { width:25px; height:25px;}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-<div id="services about-us" class="services section ">
+<div id="" class="services section ">
   <div class="container">
      <div class="about-us show-up header-text" style="padding-bottom: 15px;margin-top: -150px;">
 
@@ -143,13 +191,50 @@ input.qtyminus { width:25px; height:25px;}
         </div>
 
         <div class="col-lg-4">
-          <div class="" >
-            <span> Lokasi</span>
-            {{-- <div class="line"></div> --}}
-            <div class="col-md-10">
+          <div class="" style="padding-top: 46px">
+
+            <h4 style="font-family: 'Helvetica Neue';">
+            <i class="fa-solid fa-location-dot"></i>
+            Alamat
+            </h4>
+            <div class="heading1"></div>
+            <div class="" id="descriptions">
+                <span style="font-size: 12px;">
+                    Alamat Belum ditambahkan
+                </span>
+                <form id="" method='GET' action='#' style="border-color: transparent;">
+                    <button type="submit" class='buttonaddress' field=''>Tambah Alamat</button>
+                </form>
+
+            </div>
+          
+            <div class="heading1"></div>
+            <div>
+            <table width="100%" class="table" border="1" style="margin-top: 1px">
+                <tr style="height:2px">
+                    <td width="10%" style="font-size: 12px">Qty</td>
+                    <td width="60%" style="font-size: 12px">Product</td>
+                    <td width="30%" style="font-size: 12px">Total</td>
+                </tr>
+
+                @foreach($listchecked as $list)
+                <tr style="height:2px">
+                    <td width="10%" style="font-size: 12px">{{ $list['product_qty'] }}</td>
+                    <td width="60%" style="font-size: 10px">{{ $list['product_name'] }}</td>
+                    <td width="30%" style="font-size: 12px">{{ $list['total_price'] }}</td>
+                </tr>
+                @endforeach
+            </table>
+            </div>
+            <div class="col-md-12">
                 <div class="">
                     <span> TOTAL</span>
                     <span> Rp {{$total_price}}</span>
+                </div>
+                <div style="margin-top: 10px">
+                 <form id="" method='GET' action='#' style="border-color: transparent;">
+                    <button type="submit" class='block'>Bayar</button>
+                </form>
                 </div>
             </div>
         </div>
@@ -160,24 +245,89 @@ input.qtyminus { width:25px; height:25px;}
 </div>
 
 <!-- Scripts -->
-<script>
-    var slideIndex = 1;
-    showDivs(slideIndex);
-
-    function plusDivs(n) {
-      showDivs(slideIndex += n);
-  }
-
-  function showDivs(n) {
-      var i;
-      var x = document.getElementsByClassName("mySlides");
-      if (n > x.length) {slideIndex = 1}
-          if (n < 1) {slideIndex = x.length}
-              for (i = 0; i < x.length; i++) {
-                x[i].style.display = "none";  
+<script type="text/javascript">
+    jQuery(document).ready(function(){
+        // This button will increment the value
+        $('.qtyplus').click(function(e){
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+            // If is not undefined
+            if (!isNaN(currentVal)) {
+                // Increment
+                $(this).siblings('input[name='+fieldName+']').val(currentVal + 1);
+            } else {
+                // Otherwise put a 0 there
+               $(this).siblings('input[name='+fieldName+']').val(1);
             }
-            x[slideIndex-1].style.display = "block";  
-        }
-    </script>
+
+            var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
+
+            // alert("Update Qty ?"); 
+            const id = $(this).attr('data-id');
+            $.ajax({
+                  url: 'updateqty/' + id,
+                  type: 'GET',
+                  data: { 
+                    /* PAPUL => this value just get qty from the first record in the cart */
+                    // param0: $('#textbox0').val(), 
+                    param0: currqty,
+                  }
+            }); 
+        });
+
+        // This button will decrement the value till 1
+        $(".qtyminus").click(function(e) {
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+            // If it isn't undefined or its greater than 0
+            if (!isNaN(currentVal) && currentVal > 0) {
+                // Decrement one
+                $(this).siblings('input[name='+fieldName+']').val(currentVal - 1);
+
+                /* PAPUL => if qty 1 then can not to be 0, minum = 1 */               
+                var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
+                if (currqty < 1){
+                    $(this).siblings('input[name='+fieldName+']').val(1);
+                }
+            } else {
+                // Otherwise put a 0 there
+                $(this).siblings('input[name='+fieldName+']').val(1);
+            }            
+
+            var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
+
+            // alert("Update Qty ?"); 
+            const id = $(this).attr('data-id');
+            $.ajax({
+                  url: 'updateqty/' + id,
+                  type: 'GET',
+                  data: { 
+                    /* PAPUL => this value just get qty from the first record in the cart */
+                    // param0: $('#textbox0').val(), 
+                    param0: currqty, 
+                  }
+            });  
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    /* PAPUL => function for numeric input only whne keyboard pressed */
+    function onlyNumeric(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)){
+            return false;
+        }       
+        return true;
+    }
+</script>
 
     @endsection  

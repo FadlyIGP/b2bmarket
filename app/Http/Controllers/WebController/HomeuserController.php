@@ -141,6 +141,8 @@ class HomeuserController extends Controller
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
                 "image" => $value->image[0]->img_file,
+                "min_order" => $value->minimum_order,
+                
 
             ];
         }
@@ -166,6 +168,8 @@ class HomeuserController extends Controller
                 "image" => $value->image[0]->img_file,
                 "product_category" => $value->category->name,
                 "pay_counting" => pay_counting($value->pay_counting),
+                "min_order" => $value->minimum_order,
+
 
             ];
         }
@@ -191,6 +195,8 @@ class HomeuserController extends Controller
                 "image" => $value->image[0]->img_file,
                 "product_category" => $value->category->name,
                 "pay_counting" => pay_counting($value->pay_counting),
+                "min_order" => $value->minimum_order,
+
 
             ];
         }

@@ -1464,7 +1464,7 @@ The Clients
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url(../images/pro-table-top.png);
+  /*background-image: url(../images/pro-table-top.png);*/
   z-index: 0;
   content: '';
   width: 281px;
@@ -1477,7 +1477,7 @@ The Clients
   right: 0;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url(../images/pro-table-bottom.png);
+  /*background-image: url(../images/pro-table-bottom.png);*/
   z-index: 0;
   content: '';
   width: 100%;
@@ -1611,7 +1611,7 @@ Footer Style
 */
 
 footer {
-  background-image: url(../images/footer-bg.png);
+  /*background-image: url(../images/footer-bg.png);*/
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
