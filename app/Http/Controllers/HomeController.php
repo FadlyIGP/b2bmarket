@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Models\MstTransaction;
+use App\Models\MstProduct;
 
 class HomeController extends Controller
 {
@@ -26,7 +28,13 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::user()->role_id==1) {
-           return view('home');
+            $transactions = MstTransaction::all();
+            $summ_transaction = $transactions->count();
+
+            $products = MstProduct::whereNull('deleted_at')->get();
+            $summ_product = $products->count();
+
+            return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product]);
         }
         return redirect()->route('home.buyer');
     }

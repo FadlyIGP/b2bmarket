@@ -22,7 +22,7 @@
         <!-- small box -->
         <div class="small-box bg-aqua" style="border-radius: 5px;">
             <div class="inner">
-                <h3>150</h3>
+                <h3>{{ $summ_product }}</h3>
                 <p>Products</p>
             </div>
             <div class="icon">
@@ -36,7 +36,7 @@
         <!-- small box -->
         <div class="small-box bg-green" style="border-radius: 5px;">
             <div class="inner">
-                <h3>1203</h3>
+                <h3>{{ $summ_transaction }}</h3>
                 <p>Transaction</p>
             </div>
             <div class="icon">
