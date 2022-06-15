@@ -4,6 +4,7 @@ namespace App\Http\Controllers\WebController;
 
 use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
+use App\Models\ProdCategory;
 use Illuminate\Http\Request;
 
 class HomeuserController extends Controller
@@ -12,14 +13,15 @@ class HomeuserController extends Controller
     {
         $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
 
-        function pay_counting($data){
+        function pay_counting($data)
+        {
 
-                if ($data==null) {
-                    $seelcounting=0;
-                } else {
-                    $seelcounting=$data;
-                }
-                return $seelcounting;
+            if ($data == null) {
+                $seelcounting = 0;
+            } else {
+                $seelcounting = $data;
+            }
+            return $seelcounting;
         }
     }
     /**
@@ -29,6 +31,9 @@ class HomeuserController extends Controller
      */
     public function index()
     {
+        $menu = ProdCategory::all('name');
+        // return $menu;
+
         $random = MstProduct::with('stock', 'image')
             ->inRandomOrder()
             ->limit(3)
@@ -41,7 +46,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -52,7 +57,7 @@ class HomeuserController extends Controller
             ];
         }
 
-        $productlist = MstProduct::with('stock', 'image','category')
+        $productlist = MstProduct::with('stock', 'image', 'category')
             ->get();
 
         $productlisting = [];
@@ -62,7 +67,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -75,7 +80,7 @@ class HomeuserController extends Controller
             ];
         }
 
-        $productmaxpay = MstProduct::with('stock', 'image','category')
+        $productmaxpay = MstProduct::with('stock', 'image', 'category')
             ->orderBy('pay_counting', 'DESC')
             ->get();
 
@@ -86,7 +91,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -100,7 +105,7 @@ class HomeuserController extends Controller
         }
 
 
-        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom,'productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
+        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom, 'productlisting' => $productlisting, 'product_max_pay' => $product_max_pay, 'menu' => $menu]);
     }
 
     /**
