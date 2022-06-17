@@ -156,6 +156,21 @@
 
   .mySlides {display:none;}
 
+  .zoom {
+    padding: 50px;
+    background-color: green;
+    transition: transform .2s;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+  }
+
+  .zoom:hover {
+    -ms-transform: scale(1.5); /* IE 9 */
+    -webkit-transform: scale(1.5); /* Safari 3-8 */
+    transform: scale(1.5); 
+  }
+
 
 </style>
 
@@ -185,6 +200,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
      <link href='https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,500;0,700;1,400&family=Poppins:wght@400;500;700&family=Raleway:ital,wght@0,300;0,400;0,500;1,500&display=swap' rel='stylesheet'>
+
+
 
 </head>
 
@@ -252,72 +269,63 @@
         </div>
     </div>
 </div>
-
 <div id="" class="about-us" style="margin-bottom: -250px">
     <div class="container ">
         <div class="col-lg-12 align-self-center show-up header-text">
             <div class="row">
-                <div class="col-lg-3">
-                  <div class="box-item topdiv">
-                    <h4>
-                        <a href="#">
-                            <i class="fa-brands fa-shopify"></i>
-                            Semua Kategori
-                        </a>
-                    </h4>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="box-item topdiv">
-                    <h4>
-                        <a href="#">
-                            <i class="fa-solid fa-store"></i>
-                            Toko
-                        </a>
-                    </h4>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="box-item topdiv">
-                    <h4>
-                        <a href="#">
-                            <i class="fa-solid fa-chart-line"></i>
-                            Banyak Dicari
-                        </a>
-                    </h4>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="box-item topdiv">
-                    <h4>
-                        <a href="#">
-                            <i class="fa-solid fa-fire-flame-curved"></i>
-                            Terpopuler
-                        </a>
-                    </h4>
-                  </div>
-                </div>
+              <div style="overflow-x:auto;">
+                <table class="table" width="100%">
+                  <tr>
+                    <td width="25%" style="font-size: 12px">
+                      <a href="#"  style="color: black">
+                        Semua Kategori
+                      </a>
+
+                    </td>
+                    <td width="25%" style="font-size: 12px">
+                      <a href="#"  style="color: black">
+                        Semua Kategori
+                      </a>
+
+                    </td>
+                    <td width="25%" style="font-size: 12px">
+                      <a href="#"  style="color: black">
+                        Semua Kategori
+                      </a>
+
+                    </td>
+                    <td width="25%" style="font-size: 12px;color: black">
+                      <a href="#" style="color: black">
+                        Semua Kategori
+                      </a>
+
+                    </td>
+                  </tr>
+                </table>
+              </div>
             </div>
         </div>
     </div>
 </div>
 
+
 <div id="services" class="services section ">
     <div class="container">
         <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
-           <div class="col-lg-3">
+           <div class="col-lg-6">
               <div class="div">
                 <h4><a style="color: #424242;" href="#">Terlaris</a></h4>
             </div>
+            <div class="heading1"></div>
         </div>
     </div>
-    <div class="col-lg-12">
+    <div class="col-lg-12" style="padding-left: -10;padding-right: -10">
         <div class="row">
             @foreach($product_max_pay as $list)
             <div class="col-lg-3" style="margin-top: 12px">
                <div class="service-item" >
-                    <h4 style="font-family: 'Helvetica Neue';font-size: 15px">{{ $list['product_name'] }}</h4>
-                    <img id="imgfile" data-wow-duration="1s" data-wow-delay="0.5s" src="{{ url('/files/'.$list['image']) }}" alt="" style="background-color: transparent;opacity: 4;">
+                    <h4 style="text-transform: uppercase; font-family: 'Roboto'; font-weight: 400; font-size: 15px">{{ $list['product_name'] }}</h4>
+                    <img class="zoom" id="imgfile" data-wow-duration="1s" data-wow-delay="0.5s" src="{{ url('/files/'.$list['image']) }}" alt="" style="background-color: transparent;opacity: 4;">
                     <center>
                            <div class="product-rating">
                               <i class="fa fa-star" style="color: red"></i>
@@ -328,15 +336,21 @@
                           </div>
                     </center>
                     <div class="heading1"></div>
-
-                    <div class="" id="test">
-                        <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                    <div style="display: flex;">
+                      <div class="" id="test">
+                        <span style="color: #ed2114; font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                      </div>
+                      <div class="" id="test">
+                        <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
+                      </div>
                     </div>
-                    <div class="" id="test">
+                    <div style="display: flex;">
+                      <div class="" id="test">
                         <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }}  Pcs</b></span>
-                    </div>
-                    <div class="" id="test" style="padding-bottom: 25px">
-                        <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
+                      </div>
+                      <div class="" id="test" style="padding-bottom: 25px">
+                        <span style="float: right; color: #636363; font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
+                      </div>
                     </div>
 
                     <div class="heading1"></div>

@@ -1122,12 +1122,12 @@ Services Style
 }
 
 .service-item:hover {
-  background-image: url(../images/service-bg.jpg);
+  /*background-image: url(../images/service-bg.jpg);*/
+  background-color: #f9f9f9;
   background-position: right top;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 
 
 /*

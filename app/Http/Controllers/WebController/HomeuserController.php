@@ -4,8 +4,12 @@ namespace App\Http\Controllers\WebController;
 
 use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
+<<<<<<< HEAD
+use App\Models\ProdCategory;
+=======
 use App\Models\Cart;
 use App\Models\UserMitra;
+>>>>>>> 0067ef3fa19a55ece2aea4d9450efe7217d9d6ab
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -18,14 +22,15 @@ class HomeuserController extends Controller
     {
         $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
 
-        function pay_counting($data){
+        function pay_counting($data)
+        {
 
-                if ($data==null) {
-                    $seelcounting=0;
-                } else {
-                    $seelcounting=$data;
-                }
-                return $seelcounting;
+            if ($data == null) {
+                $seelcounting = 0;
+            } else {
+                $seelcounting = $data;
+            }
+            return $seelcounting;
         }
     }
     /**
@@ -35,10 +40,15 @@ class HomeuserController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
+        $menu = ProdCategory::all('name');
+        // return $menu;
+=======
 
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         \Session::put('countingcart', count($cartlistbyuserid));
+>>>>>>> 0067ef3fa19a55ece2aea4d9450efe7217d9d6ab
 
         $random = MstProduct::with('stock', 'image')
             ->inRandomOrder()
@@ -52,7 +62,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -63,7 +73,7 @@ class HomeuserController extends Controller
             ];
         }
 
-        $productlist = MstProduct::with('stock', 'image','category')
+        $productlist = MstProduct::with('stock', 'image', 'category')
             ->get();
 
         $productlisting = [];
@@ -73,7 +83,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -86,7 +96,7 @@ class HomeuserController extends Controller
             ];
         }
 
-        $productmaxpay = MstProduct::with('stock', 'image','category')
+        $productmaxpay = MstProduct::with('stock', 'image', 'category')
             ->orderBy('pay_counting', 'DESC')
             ->get();
 
@@ -97,7 +107,7 @@ class HomeuserController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" => 'Rp' . number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -111,7 +121,7 @@ class HomeuserController extends Controller
         }
 
 
-        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom,'productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
+        return view('frontEnd.product.indexProduct', ['productrandom' => $productrandom, 'productlisting' => $productlisting, 'product_max_pay' => $product_max_pay, 'menu' => $menu]);
     }
 
     public function index2()
