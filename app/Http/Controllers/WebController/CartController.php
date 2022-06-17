@@ -107,7 +107,7 @@ class CartController extends Controller
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
-        return $getprodiuctdata;
+        // return $getprodiuctdata;
         $cart = new Cart;
         $cart->product_id = $getprodiuctdata->id;
         $cart->product_qty = 1;
@@ -118,7 +118,7 @@ class CartController extends Controller
         $cart->company_id = $getprodiuctdata->company_id;
         $cart->save();
 
-        return redirect()->route('home.buyer');
+        return redirect()->route('firstpage');
 
     }
 
