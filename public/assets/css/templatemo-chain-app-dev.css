@@ -1085,7 +1085,7 @@ Services Style
 .service-item:hover h4,
 .service-item:hover p,
 .service-item:hover .text-button a {
-  color: #fff;
+  color: #ff5757;
 }
 
 .first-service .icon {
