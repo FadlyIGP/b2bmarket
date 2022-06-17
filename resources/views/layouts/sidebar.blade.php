@@ -28,29 +28,27 @@
 
             <li class="{{request()->is('transaction') ? 'active' : ''}}">
                 <a href="{{ url('/transaction') }}">
-                    <i class="fa fa-cart-arrow-down"></i> <span>Transactions</span>
+                    <i class="fa fa-cart-arrow-down"></i> <span>Transactions & Payment</span>
                 </a>
             </li>
 
-            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+            <li class="{{request()->is('') ? 'active' : ''}}">
                 <a href="#">
                     <i class="fa fa-stumbleupon-circle"></i> <span>Contract</span>
                 </a>
-            </li>
-
-            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
+            </li> 
+            <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-users"></i> <span>Customers</span>
+                    <i class="fa fa-book"></i>
+                    <span> Report</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
                 </a>
-            </li>
-
-            <li class="{{request()->is('productcategories') ? 'active' : ''}}">
-                <a href="#">
-                    <i class="fa fa-money"></i> <span>Payment List</span>
-                </a>
-            </li>
-            
-            
+                <ul class="treeview-menu">
+                    <li><a href="#"><i class="fa fa-file-text"></i> Transaction Journal</a></li>                    
+                </ul>
+            </li>                                 
         </ul>
     </section>
     <!-- /.sidebar -->

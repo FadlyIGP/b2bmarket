@@ -47,28 +47,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-
 @section('content')
 <!-- BREADCRUMB -->
-		<div id="breadcrumb" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<h3 class="breadcrumb-header">Cart</h3>
-						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li class="active">Cart</li>
-						</ul>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /BREADCRUMB -->
-
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -86,7 +66,6 @@
                                 <div class="col-md-12 order-details" style="border-radius: 20px;">
 
                                     @foreach($listcart as $list)
-                                    {{-- <div class="box-header with-border" style="border-radius: 20px;"> --}}
                                         <h4 class="box">
                                         <img class="imglogo" src="https://i.ibb.co/DbJ1qWR/defaultlogo.png" alt="defaultlogo" border="0" />
                                         {{ $list['company_name'] }}
@@ -101,22 +80,21 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="2%">
-
                                                         @if($list['status']==1)
-                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-                                                        <input type='hidden' name='status' value='0' />
-                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                            <i class="fa fa-circle"></i>
-                                                        </button>
-                                                        {!! Form::close() !!}
+                                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                            <input type='hidden' name='status' value='0' />
+                                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                                <i class="fa-solid fa-stop" style="font-size: 30px"></i>
+                                                            </button>
+                                                            {!! Form::close() !!}
                                                         @else()
-                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-                                                        <input type='hidden' name='status' value='1' />
+                                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                            <input type='hidden' name='status' value='1' />
 
-                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                            <i class="fa fa-circle-thin"></i>
-                                                        </button>
-                                                        {!! Form::close() !!}
+                                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                                <i class="fa-solid fa-stop" style="color: #C0C0C0;font-size: 30px"></i>
+                                                            </button>
+                                                            {!! Form::close() !!}
 
                                                         @endif()
 

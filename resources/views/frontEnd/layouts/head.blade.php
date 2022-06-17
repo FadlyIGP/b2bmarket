@@ -69,11 +69,7 @@
             padding: inherit;
         }
 
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
+
 
 
         #header a.title {
@@ -91,23 +87,23 @@
             background: #eee;
             min-height: 1500px;
             /*tujuannya supaya konten terlihat berisi. Kalau sudah diisi teks, baris ini harus dihapus.*/
-        margin: 0px 20px;
+        /*margin: 0px 20px;*/
         }
 
-        */ #footer {
+ /*       */ #footer {
             position: relative;
             background: #FF0000;
             height: 40px;
-        }
+        }*/
 
-        #footer a.title {
+   /*     #footer a.title {
             color: #ffffff;
             text-decoration: none;
             font-size: 30px;
             line-height: 40px;
             float: right;
             padding: 0px 20px;
-        }
+        }*/
     </style>
 
 </head>

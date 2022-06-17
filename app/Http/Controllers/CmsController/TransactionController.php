@@ -9,6 +9,7 @@ use App\Models\MstCompany;
 use App\Models\MstTransaction;
 use App\Models\TransactionItem;
 use App\Models\UserMitra;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Exception;
@@ -27,8 +28,8 @@ class TransactionController extends Controller
     public function index()
     {
         $transaction = MstTransaction::join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
-            ->join('users', 'users.id', '=', 'mst_transaction.user_id')
-            ->get(['mst_transaction.id', 'mst_transaction.invoice_number', 'users.name', 'mst_company.company_name',
+            ->join('user_mitra', 'user_mitra.id', '=', 'mst_transaction.user_id')
+            ->get(['mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name',
                 'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at']);       
 
           
@@ -40,9 +41,9 @@ class TransactionController extends Controller
             }else if ($value->status == 1) {
                 $status = 'Processing';
             }else if ($value->status == 2) {
-                $status = 'Delivering';
+                $status = 'On Delivery';
             }else if ($value->status == 3) {
-                $status = 'Done';
+                $status = 'Finished';
             }
 
             $transactionlist[] = [
@@ -51,8 +52,9 @@ class TransactionController extends Controller
                 "username"  => $value->name,
                 "company"   => $value->company_name,
                 "status"    => $status,                
-                "amount"    => 'Rp '.''.$value->expected_ammount,               
-                "created"   => $value->created_at                
+                "amount"    => 'Rp '.''.number_format($value->expected_ammount),               
+                "created"   => $value->created_at,
+                'time'      => substr($value->created_at, 11)               
             ];
         }
 
@@ -66,7 +68,7 @@ class TransactionController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -124,4 +126,80 @@ class TransactionController extends Controller
     {
         //
     }
+
+
+    /******************** For New Public Function At Here ********************/
+    public function viewitem(Request $request, $id)
+    {
+        $transaction_item = TransactionItem::where('transaction_id', $id)->get();
+
+        return view('transaction.showitem', ['transaction_item' => $transaction_item]);       
+    }
+
+    public function updatestatus(Request $request)
+    {
+        $msttransaction = MstTransaction::find($request->idtrans);
+        $msttransaction->status = $request->radiostat;
+        $msttransaction->save();        
+
+        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status.');
+    }    
+
+    public function viewpayment(Request $request, $id)
+    {
+        $payment = Payment::where('payment.transaction_id', $id)
+            ->join('mst_transaction', 'mst_transaction.id', '=', 'payment.transaction_id')
+            ->join('user_mitra', 'user_mitra.id', '=', 'payment.user_id')
+            ->join('mst_company', 'mst_company.id', '=', 'user_mitra.company_id')
+            ->first(['payment.id', 'payment.transaction_id', 'mst_transaction.invoice_number',
+                'user_mitra.name', 'mst_company.company_name', 'user_mitra.phone', 
+                'user_mitra.tel_number', 'payment.payment_method', 'payment.payment_picture',
+                'payment.bank_code', 'payment.account_number', 'payment.expected_ammount', 
+                'payment.paid_at', 'payment.created_at', 'payment.currency',
+                'payment.status', 'payment.expiration_date', 'user_mitra.email']);
+
+        if ($payment['status'] == 0){
+            $status = 'Waiting Payment';
+        } else if ($payment['status'] == 1){
+            $status = 'Payment Check';
+        } else if ($payment['status'] == 2){
+            $status = 'Success Payment';
+        }
+
+        $payment_list = [
+            'id'                => $payment['id'],
+            'transaction_id'    => $payment['transaction_id'],
+            'invoice'           => $payment['invoice_number'],
+            'buyer_name'        => $payment['name'],
+            'company'           => $payment['company_name'],
+            'phone'             => $payment['phone'],
+            'tel_number'        => $payment['tel_number'],
+            'payment_method'    => $payment['payment_method'],
+            'payment_picture'   => $payment['payment_picture'],
+            'bank_code'         => $payment['bank_code'],
+            'account_number'    => $payment['account_number'],
+            'amount'            => number_format($payment['expected_ammount']),
+            'paid_at'           => $payment['paid_at'],
+            'created_at'        => $payment['created_at'],
+            'currency'          => $payment['currency'],
+            'status'            => $status,
+            'expiration_date'   => $payment['expiration_date'],
+            'buyer_email'       => $payment['email']
+        ];
+       
+        return view('transaction.viewpayment', ['payment_list' => $payment_list]);       
+    }
+
+    public function payupdatestatus(Request $request)
+    {        
+        $payment = Payment::find($request->recidpay);
+        $payment->status = 2; /*Success Payment*/
+        $payment->save();       
+
+        $msttransaction = MstTransaction::find($request->recidtrans);
+        $msttransaction->status = 1; /*Proccessing*/
+        $msttransaction->save();
+
+        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status.');
+    } 
 }
