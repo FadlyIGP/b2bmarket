@@ -19,6 +19,8 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
+
 
 
 class CartController extends Controller
@@ -44,20 +46,20 @@ class CartController extends Controller
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
         $totalcheked=[];
+        $listchecked=[];
         foreach ($chekedcart as $key => $value) {
-            $totalcheked[]=$value->total_price;
+             $totalcheked[]=$value->total_price;
              $listchecked[]=[
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
-                'total_price'=>number_format((float)$value->total_price, 0, ',', '.'),
+                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
         
@@ -68,8 +70,8 @@ class CartController extends Controller
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
-                'total_price'=> $value->total_price,
+                'product_price'=>'Rp'." ".number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
                 'company_name'=> gencompany($value->company_id),
@@ -77,12 +79,10 @@ class CartController extends Controller
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
 
-        // return $listcart;
-        return view('frontEnd.cart.cart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
+        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
 
 
     }
@@ -107,7 +107,7 @@ class CartController extends Controller
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
-        // return $getprodiuctdata;
+        return $getprodiuctdata;
         $cart = new Cart;
         $cart->product_id = $getprodiuctdata->id;
         $cart->product_qty = 1;
@@ -128,9 +128,29 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         //
+        return $request->all();
+
+    }
+
+    public function updateqty(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        $updatetotalprice=$cart->product_price * $request->param0;
+        $cart->product_qty = $request->param0;
+        $cart->total_price = $updatetotalprice;
+        $cart->save();
+        return redirect()->route('carts.index');
+    }
+
+    public function chekedcart(Request $request, $id)
+    {
+        $cart = Cart::find($id);
+        $cart->status = $request->status;
+        $cart->save();
+        return redirect()->route('carts.index');
     }
 
     /**
@@ -165,5 +185,15 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+       $cart = Cart::find($id);
+       $cart->delete();
+       return redirect()->route('carts.index');
     }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 }

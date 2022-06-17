@@ -122,11 +122,14 @@
                                                 <i class="fa fa-exchange"></i>
                                                 <span class=""></span>
                                             </button>
-                                            <button class="quick-view">
+                                             {{-- <a href="https://www.freecodecamp.org/"> --}}
+                                               <a href="{{ url('/infoproducts',$list['id']) }}" class="quick-view">
                                                 <i class="fa fa-eye"></i>
-                                                <span class="tooltipp">quick view</span>
-                                            </button>
+                                            </a>
+                                            
+                                        {{-- </a> --}}
                                         </div>
+                                        
                                     </div>
                                     <div class="add-to-cart">
                                     {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}

@@ -1,10 +1,8 @@
 <style type="text/css">
     .navbar { background-color: red !important; }
-
-   
-
 </style>
-<header class="main-header" style="background-color: red">
+
+<header class="main-header">
     <!-- Logo -->
     <a href="#" class="logo">
         <span class="logo-mini"><img  src="https://i.ibb.co/hfM4kvb/B2BLOGO.png" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width:120%;height: 70%"></span>

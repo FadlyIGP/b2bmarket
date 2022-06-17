@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
 
     <title>JualinAja</title>
     <link rel="icon" href="https://i.ibb.co/PWDXyMq/JAminilogo.png" type="image/png">
@@ -68,11 +69,7 @@
             padding: inherit;
         }
 
-        .sticky {
-            position: fixed;
-            top: 0;
-            width: 100%;
-        }
+
 
 
         #header a.title {
@@ -90,23 +87,23 @@
             background: #eee;
             min-height: 1500px;
             /*tujuannya supaya konten terlihat berisi. Kalau sudah diisi teks, baris ini harus dihapus.*/
-        margin: 0px 20px;
+        /*margin: 0px 20px;*/
         }
 
-        */ #footer {
+ /*       */ #footer {
             position: relative;
             background: #FF0000;
             height: 40px;
-        }
+        }*/
 
-        #footer a.title {
+   /*     #footer a.title {
             color: #ffffff;
             text-decoration: none;
             font-size: 30px;
             line-height: 40px;
             float: right;
             padding: 0px 20px;
-        }
+        }*/
     </style>
 
 </head>

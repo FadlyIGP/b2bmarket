@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!-- NAVIGATION -->
 <nav id="navigation">
 
@@ -25,3 +26,5 @@
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
+=======
+>>>>>>> 0067ef3fa19a55ece2aea4d9450efe7217d9d6ab
