@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\UserMitra;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
+use App\Models\Address;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
@@ -66,7 +67,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        //
+        return view('frontEnd.address.addressform');
     }
 
     /**
@@ -78,6 +79,27 @@ class AddressController extends Controller
     public function store(Request $request)
     {
         //
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        // $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
+        // return $getprodiuctdata;
+        // $cart = new Address;
+        // $cart->name = $request->name;
+        // $cart->user_id = $profile->id;
+        // $cart->company_id = $profile->company_id;
+        // $cart->contact = $request->contact;
+        // $cart->provinsi =$request->provinsi;
+        // $cart->kabupaten = $request->kabupaten;
+        // $cart->kecamatan = $request->kecamatan;
+        // $cart->kelurahan = $request->kelurahan;
+        // $cart->complete_address = $request->komplit;
+        // $cart->patokan = $request->patokan;
+        // $cart->postcode = $request->kodepost;
+        // $cart->primary_address = $request->prmary;
+        // $cart->save();
+        $message='Berhasil menambahkan alamat';
+
+        return \Redirect::back()->withErrors(['message' => $message]);
+      
     }
 
     /**
