@@ -11,7 +11,7 @@
           <span class='badge badge-warning' id='lblCartCount'>{{\Session::get('countingcart')}} </span>    
         </a>
 
-        <a href="#" id="GFG" class="menu icon-style">
+        <a href="{{ url('/wishlists') }}" id="GFG" class="menu icon-style">
           <i class="fa-solid fa-heart"></i>
           <span class='badge badge-warning' id='lblCartCount'> 5 </span>
         </a> 

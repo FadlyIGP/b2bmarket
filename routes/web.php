@@ -40,10 +40,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('/address', App\Http\Controllers\WebController\AddressController::class);
 
-
-
-    
-
+    Route::resource('/wishlists', App\Http\Controllers\WebController\WishlistController::class);
     
 });
 
