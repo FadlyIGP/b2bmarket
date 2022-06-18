@@ -2,25 +2,25 @@
     <div class="footer">
       <p class="footer-text-left">
 
-        <a href="#" id="GFG" class="menu icon-style">
+        <a href="#" id="GFG" class="menu icon-style" title="home">
           <i class="fa-solid fa-house-user"></i>
         </a>
 
-        <a href="{{ url('/carts') }}" id="GFG" class="menu icon-style"> 
+        <a href="{{ url('/carts') }}" id="GFG" class="menu icon-style" title="keranjang"> 
           <i class="fa-solid fa-cart-plus"></i>
           <span class='badge badge-warning' id='lblCartCount'>{{\Session::get('countingcart')}} </span>    
         </a>
 
-        <a href="{{ url('/wishlists') }}" id="GFG" class="menu icon-style">
+        <a href="{{ url('/wishlists') }}" id="GFG" class="menu icon-style" title="favorite">
           <i class="fa-solid fa-heart"></i>
           <span class='badge badge-warning' id='lblCartCount'> 5 </span>
         </a> 
 
-        <a href="#" id="GFG" class="menu icon-style">
+        <a href="{{url('/transactions')}}" id="GFG" class="menu icon-style" title="pesanan">
           <i class="fa-solid fa-money-bill-1-wave"></i>
         </a>
 
-        <a href="#" id="GFG" class="menu icon-style">
+        <a href="#" id="GFG" class="menu icon-style" title="message">
           <i class="fa-solid fa-comment-dots"></i>
           <span class='badge badge-warning' id='lblCartCount'> 5 </span>
         </a>
