@@ -2,10 +2,10 @@
 
 @section('content')
 <style type="text/css">
- .line {
-  border-bottom: 1px solid #aaa;
-  width: 100%
-}
+   .line {
+      border-bottom: 1px solid #aaa;
+      width: 100%
+  }
 
 table{
   width: 100%; /* Ganti menjadi 100% untuk tampilan responsif */
