@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
 use App\Models\User;
+use App\Models\Address;
 use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
@@ -42,6 +43,10 @@ class CartController extends Controller
     public function index()
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $address=Address::where('user_id', $profile->id)->where('primary_address',1)->first();
+        $completeaddress=$address->kelurahan." ".$address->kecamatan." ".$address->kabupaten." ".$address->provinsi." , ".$address->postcode;
+        // return $completeaddress;
+        
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
@@ -82,7 +87,7 @@ class CartController extends Controller
             ];
         }
 
-        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
+        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress]);
 
 
     }

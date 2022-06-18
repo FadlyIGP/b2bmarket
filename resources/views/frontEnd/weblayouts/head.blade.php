@@ -14,7 +14,7 @@
       background-color: white;
       border: 1px;
       z-index: 10;
-      border-top: 1px solid #808080;
+      border-top: 1px solid #A9A9A9;
 
     }
 
@@ -110,6 +110,18 @@
     background-color: transparent;
     display: absolute;
     text-align: left;
+
+  }
+
+  #address {
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    background-color: transparent;
+    display: absolute;
+    text-align: right;
+    /*padding-left: 3000px;*/
+
   }
 
   .heading1 {

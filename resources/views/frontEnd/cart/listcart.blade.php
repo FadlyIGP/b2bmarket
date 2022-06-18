@@ -46,7 +46,14 @@ img {
     width: 40px;
     height: 25px;
     text-align: center;
+    border: none;
+    text-align: center;
+    display: inline-block;
 }
+
+.qty:focus {
+    outline: none;
+ }
 
 .buttonaddress {
   display: block;
@@ -72,7 +79,7 @@ img {
   width: 50%;
   height: 30px;
   border: none;
-  background-color: #00FA9A;
+  background-color: #FFA500;
   color: white;
   /*padding: 14px 28px;*/
   border-radius: 10px;
@@ -85,9 +92,24 @@ img {
   background-color: #ddd;
   color: black;
 }
+.button{
+  border: none;
+  text-align: center;
+  display: inline-block;
+  width: 20%;
+  border-radius: 5px;
+
+}
+
+/*.input{
+
+}*/
+
 
 input.qtyplus { width:25px; height:25px;}
 input.qtyminus { width:25px; height:25px;}
+
+
 
 
 </style>
@@ -122,7 +144,8 @@ input.qtyminus { width:25px; height:25px;}
                                         {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
                                             <input type='hidden' name='status' value='0' />
                                             <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                <i class="fa-solid fa-stop" style="font-size: 30px"></i>
+                                                {{-- <i class="fa-solid fa-stop" ></i> --}}
+                                                <i class="fa-solid fa-square-check" style="font-size: 30px;color: #00FA9A"></i>
                                             </button>
                                         {!! Form::close() !!}
                                         @else()
@@ -161,11 +184,11 @@ input.qtyminus { width:25px; height:25px;}
                                 <td width="50%">
 
                                     <form id='myform' method='GET' action='' style="border-color: transparent;">
-                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus' field='quantity'>-</button>
+                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus button' field='quantity'>-</button>
 
-                                        <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' onkeypress="return onlyNumeric(event)" />
+                                        <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty input' onkeypress="return onlyNumeric(event)" />
 
-                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus' field='quantity'>+</button>
+                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus button' field='quantity'>+</button>
 
                                     </form>
 
@@ -176,7 +199,7 @@ input.qtyminus { width:25px; height:25px;}
                                     <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')" style="background-color: transparent;border-color: transparent;">
                                         <i class="fa fa-trash" style="color: red;font-size: 20px"></i>
                                     </button>
-                                {!! Form::close() !!}
+                                  {!! Form::close() !!}
                                    
                                 </td>
 
@@ -201,20 +224,28 @@ input.qtyminus { width:25px; height:25px;}
             Alamat
             </h4>
             <div class="heading1"></div>
-            <div class="" id="descriptions">
-                <span style="font-size: 12px;">
-                    Alamat Belum ditambahkan
-                </span>
+            <div class="" id="" style="height: 50px">
+                @if(empty($completeaddress))
+                 <span style="font-size: 12px;">
+                   Alamat Belum ditambahkan
+                 </span>
 
                 {!! Form::open(['url'=>url('/address/create/'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
                     <button type="submit" class='buttonaddress' field=''>Tambah Alamat</button>
                 {!! Form::close() !!}
+                @else()
+                 <span style="font-size: 12px;">
+                    {{$completeaddress}}
+                 </span>
+
+                @endif()
+               
 
             </div>
           
             <div class="heading1"></div>
             <div>
-            <table width="100%" class="table" border="1" style="margin-top: 1px">
+            <table width="100%" class="" style="margin-top: 10px">
                 <tr style="height:2px">
                     <td width="10%" style="font-size: 12px">Qty</td>
                     <td width="60%" style="font-size: 12px">Product</td>
