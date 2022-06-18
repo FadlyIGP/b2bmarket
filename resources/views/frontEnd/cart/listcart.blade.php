@@ -53,7 +53,7 @@ img {
   width: 50%;
   height: 30px;
   border: none;
-  background-color: #1E90FF;
+  background-color: #FF4500;
   color: white;
   /*padding: 14px 28px;*/
   border-radius: 10px;
@@ -72,7 +72,7 @@ img {
   width: 50%;
   height: 30px;
   border: none;
-  background-color: #04AA6D;
+  background-color: #00FA9A;
   color: white;
   /*padding: 14px 28px;*/
   border-radius: 10px;
@@ -176,7 +176,6 @@ input.qtyminus { width:25px; height:25px;}
                                     <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')" style="background-color: transparent;border-color: transparent;">
                                         <i class="fa fa-trash" style="color: red;font-size: 20px"></i>
                                     </button>
-                                </button>
                                 {!! Form::close() !!}
                                    
                                 </td>
@@ -206,9 +205,10 @@ input.qtyminus { width:25px; height:25px;}
                 <span style="font-size: 12px;">
                     Alamat Belum ditambahkan
                 </span>
-                <form id="" method='GET' action='#' style="border-color: transparent;">
+
+                {!! Form::open(['url'=>url('/address/create/'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
                     <button type="submit" class='buttonaddress' field=''>Tambah Alamat</button>
-                </form>
+                {!! Form::close() !!}
 
             </div>
           
