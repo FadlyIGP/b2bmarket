@@ -13,25 +13,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-// Route::get('/', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
 
 Auth::routes();
 
 // route web
 Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
 Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
+
     // router for buyer here
-    Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2']);
+    Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2'])->name('firstpage');
     
     Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
     Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
     Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
 
     Route::resource('/infoproducts', App\Http\Controllers\WebController\InfoProductController::class);
+    // profile
+    Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
+    // address
+
+    Route::resource('/address', App\Http\Controllers\WebController\AddressController::class);
+
+
+
     
 
     

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
 use App\Models\Cart;
 use App\Models\UserMitra;
+use App\Models\ImgProduct;
+use App\Models\MstCompany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,11 @@ class InfoProductController extends Controller
                     $seelcounting=$data;
                 }
                 return $seelcounting;
+        }
+
+        function getcompany($id){
+            $company=MstCompany::find($id);
+            return $company->company_name;
         }
     }
     /**
@@ -68,6 +75,7 @@ class InfoProductController extends Controller
 
         $product = MstProduct::with('stock', 'image','category')
             ->where('id',$id)->first();
+        $productimage=ImgProduct::where('product_id', $product->id)->get();
         $productdetail = [];
         $productdetail = [
             "id" => $product->id,
@@ -83,10 +91,11 @@ class InfoProductController extends Controller
             "image" => $product->image[0]->img_file,
             "product_category" => $product->category->name,
             "pay_counting" => pay_counting($product->pay_counting),
-
+            "minimum_order"=> $product->minimum_order,
+            "company_name"=> getcompany($product->company_id),
         ];
 
-        return view('frontEnd.home.productdetail', ['productdetail' => $productdetail]);
+        return view('frontEnd.home.productdetail', ['productdetail' => $productdetail,'productimage'=>$productimage]);
     }
 
     /**

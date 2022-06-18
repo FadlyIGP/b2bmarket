@@ -57,6 +57,6 @@ class HomeController extends Controller
 
             return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product]);
         }
-        return redirect()->route('home.buyer');
+        return redirect()->route('firstpage');
     }
 }

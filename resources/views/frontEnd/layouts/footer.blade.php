@@ -95,42 +95,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <!-- FOOTER -->
 
-<footer id="footer">
-    <div class="footer">
-      <p class="footer-text-left">
-
-        <a href="#" id="GFG" class="menu icon-style">
-          <i class="fa-solid fa-house-user"></i>
-          <!-- <span id="home">Home</span> -->
-      </a>
-
-      <a href="{{ url('/carts') }}" id="GFG" class="menu icon-style"> 
-          <i class="fa-solid fa-cart-plus"></i>
-          <span class='badge badge-warning' id='lblCartCount'> {{\Session::get('countingcart')}} </span>    
-          <!-- <span id="cart">Keranjang</span> -->
-      </a>
-
-      <a href="#" id="GFG" class="menu icon-style">
-          <i class="fa-solid fa-heart" style="color: red"></i>
-          <span class='badge badge-warning' id='lblCartCount'> 5 </span>
-          <!-- <span id="cart">Wishlist</span> -->
-      </a> 
-
-      <a href="#" id="GFG" class="menu icon-style">
-          <i class="fa-solid fa-money-bill-1-wave"></i>
-          <!-- <span id="cart">Transaction</span> -->
-      </a>
-
-      <a href="#" id="GFG" class="menu icon-style">
-          <i class="fa-solid fa-comment-dots"></i>
-          <span class='badge badge-warning' id='lblCartCount'> 5 </span>
-
-          <!-- <span id="cart">Transaction</span> -->
-      </a>
-
-  </p>
-</div>
-</footer>
     <!-- /FOOTER -->
 
     <!-- jQuery Plugins -->

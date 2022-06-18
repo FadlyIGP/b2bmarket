@@ -82,7 +82,7 @@
                         <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
                     </div>
                     <div class="" id="test">
-                        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+                        <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }}  Pcs</b></span>
                     </div>
                     <div class="" id="test" style="padding-bottom: 25px">
                         <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
@@ -92,15 +92,32 @@
 
                     <div class="" style="padding-top: 25px">
                         <center>
-                            <a href="#">
-                                <i class="fa-solid fa-cart-arrow-down menu" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
-                            </a>
-                            <a href="#">
-                                <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
-                            </a>
-                            <a href="#">
-                                <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
-                            </a>
+                            
+                            <table>
+                                <tr>
+                                    <td>
+                                       {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
+                                            <input type="hidden" class="form-control  has-feedback  " value="12" id="product_id" name="product_id" required>
+                                            <button type="submit" style="background-color: transparent;border-color: transparent;">
+                                                <i class="fa-solid fa-cart-arrow-down menu" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+                                            </button>
+                                        {!! Form::close() !!}
+                                    </td>
+
+                                     <td>
+                                       <a href="#">
+                                          <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+                                        </a>
+                                    </td>
+
+                                     <td>
+                                        <a href="{{ url('/infoproducts',$list['id']) }}">
+                                            <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            
                         </center>
                     </div>
                 </div>
@@ -143,7 +160,7 @@
                         <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
                     </div>
                     <div class="" id="test">
-                        <span style="font-size: 12px;"><b>Min Order 1 Pcs</b></span>
+                        <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }} Pcs</b></span>
                     </div>
                     <div class="" id="test" style="padding-bottom: 25px">
                         <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>

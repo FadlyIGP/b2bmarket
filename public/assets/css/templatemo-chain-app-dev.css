@@ -204,7 +204,7 @@ body {
   z-index: 2;
 }
 
-.white-button a {
+.white-button {
   display: inline-block !important;
   padding: 10px 20px !important;
   /*color: transparent !important;*/
@@ -257,12 +257,12 @@ body {
 
 
 
-.white-button a i {
+.white-button i {
   margin-left: 5px;
   font-size: 18px;
 }
 
-.white-button a:hover {
+.white-button :hover {
   background-color: transparent;
   color: #fff !important;
 }
@@ -1085,7 +1085,7 @@ Services Style
 .service-item:hover h4,
 .service-item:hover p,
 .service-item:hover .text-button a {
-  color: #fff;
+  color: #ff5757;
 }
 
 .first-service .icon {
@@ -1122,12 +1122,12 @@ Services Style
 }
 
 .service-item:hover {
-  background-image: url(../images/service-bg.jpg);
+  /*background-image: url(../images/service-bg.jpg);*/
+  background-color: #f9f9f9;
   background-position: right top;
   background-repeat: no-repeat;
   background-size: cover;
 }
-
 
 
 /*
@@ -1464,7 +1464,7 @@ The Clients
   position: absolute;
   top: 0;
   left: 0;
-  background-image: url(../images/pro-table-top.png);
+  /*background-image: url(../images/pro-table-top.png);*/
   z-index: 0;
   content: '';
   width: 281px;
@@ -1477,7 +1477,7 @@ The Clients
   right: 0;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url(../images/pro-table-bottom.png);
+  /*background-image: url(../images/pro-table-bottom.png);*/
   z-index: 0;
   content: '';
   width: 100%;
@@ -1611,7 +1611,7 @@ Footer Style
 */
 
 footer {
-  background-image: url(../images/footer-bg.png);
+  /*background-image: url(../images/footer-bg.png);*/
   background-position: center top;
   background-repeat: no-repeat;
   background-size: cover;
