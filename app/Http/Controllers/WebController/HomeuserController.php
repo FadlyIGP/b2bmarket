@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MstProduct;
 use App\Models\Cart;
 use App\Models\UserMitra;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,16 @@ class HomeuserController extends Controller
                     $seelcounting=$data;
                 }
                 return $seelcounting;
+        }
+
+         function getwishlist($prod_id){
+            $cekwislist=Wishlist::where('user_id',$prod_id[0])->where('product_id',$prod_id[1])->first();
+            if ($cekwislist) {
+                $status=true;
+            } else {
+                $status=false;
+            }
+            return $status;
         }
     }
     /**
@@ -136,7 +147,7 @@ class HomeuserController extends Controller
                 "product_size" => $value->product_size,
                 "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
-                "wishlist_status" => $value->wishlist_status,
+                "wishlist_status" =>getwishlist([$profile->id,$value->id]),
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
@@ -161,7 +172,7 @@ class HomeuserController extends Controller
                 "product_size" => $value->product_size,
                 "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
-                "wishlist_status" => $value->wishlist_status,
+                "wishlist_status" => getwishlist([$profile->id,$value->id]),
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
@@ -188,7 +199,7 @@ class HomeuserController extends Controller
                 "product_size" => $value->product_size,
                 "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
-                "wishlist_status" => $value->wishlist_status,
+                "wishlist_status" => getwishlist([$profile->id,$value->id]),
                 "company_id" => $value->company_id,
                 "created_at" => $value->created_at,
                 "stock" => $value->stock->qty,
@@ -268,6 +279,6 @@ class HomeuserController extends Controller
      */
     public function destroy($id)
     {
-        //
+
     }
 }
