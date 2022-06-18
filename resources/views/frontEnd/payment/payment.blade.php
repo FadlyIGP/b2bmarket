@@ -265,12 +265,12 @@ input.qtyminus { width:25px; height:25px;}
                 <span>
                 <h5 style="font-family: 'Helvetica Neue';">Rangkuman pesanan</h5>
                 </span>
-                 <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';">
+                 <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';color: #778899">
                     <span> Subtotal  ({{$countqty}} Items)</span>
                     <span> Rp {{$total_price}}</span>
                 </div>
 
-                <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';">
+                <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';color: #778899">
                     <span> Ongkos Kirim</span>
                     <span> Rp 0</span>
                 </div>
