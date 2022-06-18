@@ -32,7 +32,7 @@ Add Product
                     <div class="panel panel-default">
                         <div class="box-body">
                             <div class="col-md-12">
-                                <div class="box-body col-md-6">{{-- kiri --}}
+                                <div class="box-body col-md-4">     {{-- kiri --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -44,7 +44,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -57,7 +56,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -65,12 +63,10 @@ Add Product
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
                                                     <input type="text" class="form-control has-feedback" value="" id="prod_size" name="prod_size" required>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -83,13 +79,8 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="box-body col-md-6">{{-- kana --}}
-
-
-
+                                <div class="box-body col-md-4">     {{-- tengah --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -102,7 +93,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -115,7 +105,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -129,8 +118,21 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="form-group" id="frm-add-data">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Minimum Order:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control has-feedback" value="" id="min_order" name="min_order" required>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body col-md-4">     {{-- kanan --}}
+                                     <div class="form-group" id="frm-add-data">
                                         <div class="col-md-12" >
                                             <div class="col-md-12 field_wrapper" >
                                                 {!! Form::label('Product Image:', '') !!}

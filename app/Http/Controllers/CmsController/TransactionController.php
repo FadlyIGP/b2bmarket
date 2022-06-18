@@ -27,12 +27,32 @@ class TransactionController extends Controller
      */
     public function index()
     {
+        /* Automatic Cancel If H+1 From Order Date, Buyer No Payment */
+        $neworder_list = MstTransaction::where('mst_transaction.status', 0)
+            ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
+            ->get(['mst_transaction.id', 'payment.transaction_id as id_pay', 'mst_transaction.created_at']);
+
+        $curr_date = date('Y-m-d H:m:s');
+        
+        foreach ($neworder_list as $key => $value) {
+            $day_cancel = Carbon::create($value->created_at)->addDays(1);
+            $auto_cancel_date = substr($day_cancel, 0, 10).' '.substr($day_cancel, 11, 8);
+
+            if ($auto_cancel_date <= $curr_date AND $value->id_pay == null) {
+                $mstTransaction = MstTransaction::find($value->id);
+                $mstTransaction->status = 99;
+                $mstTransaction->cancel_reason = '**No Payment After Day +1 Confirm Order**';
+                $mstTransaction->save();
+            }
+        }
+        /*End*/
+
         $transaction = MstTransaction::join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
             ->join('user_mitra', 'user_mitra.id', '=', 'mst_transaction.user_id')
+            ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
             ->get(['mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name',
-                'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at']);       
+                'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 'payment.id as id_payment']);       
 
-          
         $transactionlist = [];
         foreach ($transaction as $key => $value) {
 
@@ -44,6 +64,14 @@ class TransactionController extends Controller
                 $status = 'On Delivery';
             }else if ($value->status == 3) {
                 $status = 'Finished';
+            }else if ($value->status == 99) {
+                $status = 'Cancel Order';
+            }
+
+            if ($value->id_payment == null){
+                $id_pay = -1;
+            }else {
+                $id_pay = $value->id_payment;
             }
 
             $transactionlist[] = [
@@ -54,9 +82,10 @@ class TransactionController extends Controller
                 "status"    => $status,                
                 "amount"    => 'Rp '.''.number_format($value->expected_ammount),               
                 "created"   => $value->created_at,
-                'time'      => substr($value->created_at, 11)               
+                'time'      => substr($value->created_at, 11) ,
+                'id_pay'    => $id_pay              
             ];
-        }
+        }        
 
         return view('transaction.transaction', ['transactionlist' => $transactionlist]);        
     }
@@ -160,10 +189,12 @@ class TransactionController extends Controller
 
         if ($payment['status'] == 0){
             $status = 'Waiting Payment';
-        } else if ($payment['status'] == 1){
+        }else if ($payment['status'] == 1){
             $status = 'Payment Check';
-        } else if ($payment['status'] == 2){
+        }else if ($payment['status'] == 2){
             $status = 'Success Payment';
+        }else if ($payment['status'] == 99){
+            $status = 'Cancelled Payment';
         }
 
         $payment_list = [
@@ -200,6 +231,20 @@ class TransactionController extends Controller
         $msttransaction->status = 1; /*Proccessing*/
         $msttransaction->save();
 
-        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status.');
+        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Success Payment.');
+    } 
+
+    public function statuscancel(Request $request)
+    {        
+        $payment = Payment::find($request->recidpay);
+        $payment->status = 99; /*Cancelled Payment*/       
+        $payment->save();
+
+        $msttransaction = MstTransaction::find($request->recidtrans);
+        $msttransaction->status = 99; /*Cancel Order*/
+        $msttransaction->cancel_reason = $request->cancelreason;
+        $msttransaction->save();
+
+        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Cancellation Payment & Order.');
     } 
 }

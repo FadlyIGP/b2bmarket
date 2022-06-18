@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CmsController;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 use App\Models\MstProduct;
 use App\Models\ProdCategory;
@@ -12,14 +13,15 @@ use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
 use App\Models\UserMitra;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+
+use Exception;
+use File;
+use Carbon\Carbon;
 
 
 class ProductController extends Controller
@@ -52,7 +54,8 @@ class ProductController extends Controller
                 "created_at"            => $value->created_at,
                 "stock"                 => $value->stock->qty,
                 "image"                 => $value->image[0]->img_file,
-                "category"              => $value->category->name
+                "category"              => $value->category->name,
+                'min_order'             => $value->minimum_order
             ];
         }
 
@@ -89,6 +92,7 @@ class ProductController extends Controller
         $mstprodcuct->product_category_id   = $request->prod_category;
         $mstprodcuct->wishlist_status       = 0;
         $mstprodcuct->company_id            = $profile->company_id;
+        $mstprodcuct->minimum_order         = $request->min_order;
         $mstprodcuct->save();
 
         $productstock = new StockProduct;
@@ -97,9 +101,8 @@ class ProductController extends Controller
         $productstock->save();
 
         if ($request->hasfile('prod_img')) {
-
             foreach ($request->file('prod_img') as $file) {
-                $name = $file->getClientOriginalName();
+                $name = time().'_'.$file->getClientOriginalName();
                 $file->move(public_path() . '/files/', $name);
                 $data[] = $name;
             }
@@ -171,6 +174,7 @@ class ProductController extends Controller
             "product_item"          => $productlist->product_item,
             "id_category"           => $productlist->product_category_id,
             "product_category"      => $category_name,
+            'min_order'             => $productlist->minimum_order,
             "wishlist_status"       => $productlist->wishlist_status,
             "company_id"            => $productlist->company_id,
             "created_at"            => $productlist->created_at,
@@ -199,6 +203,7 @@ class ProductController extends Controller
         $mstprodcuct->product_price         = $request->prod_price;
         $mstprodcuct->product_item          = $request->prod_item;
         $mstprodcuct->product_category_id   = $request->prod_category;
+        $mstprodcuct->minimum_order         = $request->min_order;
         $mstprodcuct->save();
 
         $productstock = StockProduct::where('product_id', $id)->first();
@@ -216,8 +221,22 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        $orig_id = Crypt::decryptString($id);
+        $orig_id = Crypt::decryptString($id);        
+
         $product = MstProduct::where('id', $orig_id)->first();
+        
+        $StockProduct = StockProduct::where('product_id', $orig_id)->first();
+        $StockProduct->delete();
+
+        $image_list = ImgProduct::where('product_id', $orig_id)->get();
+
+        foreach ($image_list as $key => $value) {
+            File::delete(public_path().'/files/'. $value->img_file);
+
+            $temp_img = ImgProduct::where('product_id', $value->product_id)->first();
+            $temp_img->delete();
+        }
+
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'Successfully Delete Data.');
@@ -225,6 +244,7 @@ class ProductController extends Controller
 
 
     /******************** For New Public Function At Here ********************/
+    /* Not Used
     public function editimage($id)
     {
         $orig_id = Crypt::decryptString($id);
@@ -239,8 +259,29 @@ class ProductController extends Controller
             ];
         }
         
-        return view('product.productimage', ['image_list' => $image_list]);
+        $count_img = $temp_image->count();
+
+        return view('product.productimage', ['image_list' => $image_list, 'count_img' => $count_img, 'product_id' => $orig_id]);
     }
+
+    public function updateImage(Request $request)
+    {                
+        if ($request->hasfile('prod_img')) {
+
+            foreach ($request->file('prod_img') as $file) {
+                $name = $file->getClientOriginalName();
+                $file->move(public_path() . '/files/', $name);
+                $data[] = $name;
+            }
+        }
+
+        foreach ($data as $key => $value) {    
+            $ImgProduct = ImgProduct::find($request->product_id);                    
+            $ImgProduct->img_file      = $value;
+            $ImgProduct->save();
+        }
+    }
+    */
 
     public function imagelist()
     {

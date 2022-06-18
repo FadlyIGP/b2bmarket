@@ -1,37 +1,3 @@
-<!-- <div class="table-responsive">
-	<table class="table table-bordered table-responsive table-hover" id="table_id" width="100%">
-		<thead class=" text-primary">
-			<tr>														
-				<th width="15%">Method</th>
-				<th width="10%">Account_No</th>
-				<th width="10%">Bank_name</th>
-				<th width="8%">Expected_Amount</th>			
-				<th width="5%">Status</th>
-				<th width="10%">Paid_At</th>
-				<th width="10%">Picture</th>
-				<th width="10%">Action</th>			
-			</tr>
-		</thead>
-		<tbody>
-				<tr>				
-					<td>{{ $payment_list['payment_method'] }}</td>
-					<td>{{ $payment_list['account_number'] }}</td>
-					<td>{{ $payment_list['bank_code'] }}</td>
-					<td>Rp {{ $payment_list['amount'] }}</td>
-					<td>{{ $payment_list['status'] }}</td>							
-					<td>{{ $payment_list['paid_at'] }}</td>	
-					<td>{{ $payment_list['payment_picture'] }}</td>	
-					<td>
-						<a href="{{ url('/payment/updatestatus', $payment_list['id']) }}" class="btn btn-xs btn-success" title="Update Status">
-							<i class="fa fa-check"> Update Status To Success</i>
-						</a>
-					</td>	
-				</tr>
-		</tbody>
-	</table>
-</div>
- -->
-
 {!! Form::open(['url'=>url('/payment/payupdatestatus'),'method'=>'POST', 'autocomplete'=>'off']) !!}
 <div class="row">	
 	<input type="hidden" class="form-control" name="recidpay" id="idpay" value="{{ $payment_list['id'] }}">
@@ -67,26 +33,68 @@
       			<input type="text" class="form-control" name="status" id="idstatus" value="{{ $payment_list['status'] }}" style="background: #fbc02d;color: white;" readonly>
   			@elseif ($payment_list['status'] == 'Success Payment')
       			<input type="text" class="form-control" name="status" id="idstatus" value="{{ $payment_list['status'] }}" style="background: #00a65a;color: white;" readonly>
+  			@elseif ($payment_list['status'] == 'Cancelled Payment')
+      			<input type="text" class="form-control" name="status" id="idstatus" value="{{ $payment_list['status'] }}" style="background: #dd4b39;color: white;" readonly>
   			@endif
-        </div>         
+        </div>
+        <div class="form-group">          
+          	<label>Phone/Telephone Number</label>          
+          	<input type="text" class="form-control" name="paid" id="idpaid" value="{{ $payment_list['phone'] }} / {{ $payment_list['tel_number'] }}" readonly>
+        </div>  
         <div class="form-group">                    	
-          	<img src="{{ url('/files/'.$payment_list['payment_picture']) }}" alt="image" style="width: 270px;height: 280px;">  
+          	<img src="{{ url('/files/'.$payment_list['payment_picture']) }}" alt="image" style="width: 270px;height: 250px;">  
         </div>             
 	</div>
 </div>
 <div class="modal-footer">    
-	@if ($payment_list['status'] == 'Waiting Payment' OR $payment_list['status'] == 'Success Payment')    		
+	@if ($payment_list['status'] == 'Waiting Payment' OR $payment_list['status'] == 'Success Payment' 
+		OR $payment_list['status'] == 'Cancelled Payment')
     	{!! Form::submit('Succes Payment', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white', 'disabled']) !!}
+    	{!! Form::submit('Cancel Payment & Order', ['class'=>'btn btn-default','id'=>'check-cancel', 'style'=>'background-color:#dd4b39;border-radius:5px;width:170px;color: white', 'disabled']) !!}
 	@else
 		{!! Form::submit('Succes Payment', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;']) !!}
+		<!-- <a href="{{ url('/payment/payupdatestatus/cancelled', $payment_list['id']) }}" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:170px;color: white;" onclick="return confirm('Are you sure want to Cancel Payment and Order with Invoice {{ $payment_list['invoice'] }} ?')">Cancel Payment & Order</a> -->
+    <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:170px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Payment & Order</a>
 	@endif
-
-    &nbsp;&nbsp;
-    &nbsp;&nbsp;
     <a class="btn btn-default" id="clearradio" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
         Cancel
     </a>
 </div> 	        
 {!! Form::close() !!}
 
+<!-- Modal Cancel Reason -->
+{!! Form::open(['url'=>url('/payment/payupdatestatus/cancelled'),'method'=>'POST', 'autocomplete'=>'off']) !!}
+<div class="modal fade" id="cancelreason" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header" style="background-color: #dd4b39">   
+              <h4 class="modal-title" style="color: white;">
+                <i class="fa fa-list"></i> Cancellation Payment & Order
+                  <!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <div class="pull-right" style="color: white;">x</div>
+                </button> -->
+              </h4>                                
+          </div>
+          <div class="modal-body">
+              <div class="row">
+                  <input type="hidden" class="form-control" name="recidpay" id="idpay" value="{{ $payment_list['id'] }}">
+                  <input type="hidden" class="form-control" name="recidtrans" id="idtrans" value="{{ $payment_list['transaction_id'] }}">
+                  <div class="col-md-12">    
+                      <div class="form-group">
+                          <label>Cancel Reason</label>          
+                          <input type="text" class="form-control" name="cancelreason" id="idcancelreason" required>
+                      </div>
+                  </div> 
+              </div>            
+          </div>              
+          <div class="modal-footer">  
+                {!! Form::submit('Submit', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white;']) !!}
 
+                <a class="btn btn-default" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Back
+                </a>
+          </div> 
+      </div>
+  </div>
+</div>
+{!! Form::close() !!}

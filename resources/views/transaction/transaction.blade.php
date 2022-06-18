@@ -37,8 +37,8 @@ Transactions
 							<th width="8%">Invoice</th>
 							<th width="8%">Name</th>
 							<th width="12%">Company</th>
-							<th width="2%">Status</th>
-							<th width="8%">Amount</th>												
+							<th width="4%">Status</th>
+							<th width="6%">Amount</th>												
 							<th width="5%">Date</th>
 							<th width="1%">Time</th>
 							<th width="10%">Action</th>
@@ -59,6 +59,8 @@ Transactions
 								<td style="background-color: #D81B60;color: white;">{{ $list['status'] }}</td>
 							@elseif ($list['status'] == 'Finished')
 								<td style="background-color: #00a65a;color: white;">{{ $list['status'] }}</td>
+							@elseif ($list['status'] == 'Cancel Order')
+								<td style="background-color: #dd4b39;color: white;">{{ $list['status'] }}</td>
 							@endif	
 							<td>{{ $list['amount'] }}</td>							
 							<td>{{ date("d-M-Y",strtotime($list['created'])) }}</td>
@@ -73,16 +75,22 @@ Transactions
 										<i class="fa fa-truck"></i>
 									</a>
 								@else
-									<a href="#" id="modalupdatestat" data-target="#updatestat" class="btn btn-xs bg-maroon" data-toggle="modal" data-id="{{ $list['id'] }}" title="Upadte Status" disabled>
+									<a href="#" class="btn btn-xs bg-maroon" title="Upadte Status" disabled>
 										<i class="fa fa-truck"></i>
 									</a>
-								@endif
+								@endif								
 								<a href="#" id="" data-target="#" class="btn btn-xs btn-primary" data-toggle="modal" data-id="{{ $list['id'] }}" title="Print Invoice">
 									<i class="fa fa-print"></i>
 								</a> 
-								<a href="#" id="modalpayment" class="btn btn-xs bg-orange" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Payment">
-									<i class="fa fa-money"></i>
-								</a>                              
+								@if ($list['id_pay'] != '-1')
+									<a href="#" id="modalpayment" class="btn btn-xs bg-orange" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Payment">
+										<i class="fa fa-money"></i>
+									</a>        
+								@else    
+									<a href="#" class="btn btn-xs bg-orange" title="View Payment" disabled>
+										<i class="fa fa-money"></i>
+									</a> 
+								@endif                  
 								{!! Form::close()!!}
 							</td>
 						</tr>
@@ -199,7 +207,7 @@ Transactions
 	        </div>
 
 	        <div class="modal-body" id="body-payment">
-	            <!--Include viewpayment.blade.php here -->
+	            <!--Include viewpayment.blade.php and Modal Footer here -->
 	        </div>              
 	        
 	    </div>
@@ -216,7 +224,7 @@ Transactions
 	    const id = $(this).attr('data-id');
       	$.ajax({
 	        url: 'viewitem/' + id,		               
-	        dataTtype: 'html',
+	        dataType: 'html',
 	        success: function(response){
     			$('#body-item').html(response);
         	}
@@ -240,7 +248,7 @@ Transactions
 	    const id = $(this).attr('data-id');
       	$.ajax({
 	        url: 'viewpayment/' + id,		               
-	        dataTtype: 'html',
+	        dataType: 'html',
 	        success: function(response){
     			$('#body-payment').html(response);
         	}
@@ -256,7 +264,7 @@ Transactions
 		$('#table_id').DataTable({
 			"columnDefs": [{
 				"searchable": false,
-				"orderable": false,
+				"ordering": true,
 				"targets": 0,
 				render: function(data, type, row, meta) {
 					return meta.row + meta.settings._iDisplayStart + 1;

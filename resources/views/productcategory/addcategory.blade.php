@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-Add Product
+Add Product Category
 @endsection
 
 @section('breadcrumb')

@@ -75,7 +75,7 @@ List Category
 		$('#table_id').DataTable({
 			"columnDefs": [{
 				"searchable": false,
-				"orderable": false,
+				"ordering": true,
 				"targets": 0,
 				render: function (data, type, row, meta) {
 					return meta.row + meta.settings._iDisplayStart + 1;
