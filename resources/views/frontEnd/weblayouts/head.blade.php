@@ -166,6 +166,11 @@
 
   .mySlides {display:none;}
 
+  input:focus {
+    outline: none;
+    padding-right: 300px
+ }
+
 
 </style>
 

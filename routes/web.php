@@ -28,11 +28,11 @@ Route::middleware(['auth'])->group(function () {
 
     // router for buyer here
     Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2'])->name('firstpage');
-    
+    // carts
     Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
     Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
     Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
-
+    // product
     Route::resource('/infoproducts', App\Http\Controllers\WebController\InfoProductController::class);
     // profile
     Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
@@ -43,6 +43,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/wishlists', App\Http\Controllers\WebController\WishlistController::class);
     // payment
     Route::resource('/payments', App\Http\Controllers\WebController\PaymentController::class);
+    // transactions
+    Route::resource('/transactions', App\Http\Controllers\WebController\TransactionController::class);
+
 
 
     
