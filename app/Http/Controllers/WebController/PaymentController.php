@@ -22,9 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 
-
-
-class CartController extends Controller
+class PaymentController extends Controller
 {
 
     public function __construct()
@@ -34,7 +32,6 @@ class CartController extends Controller
             return $company->company_name;
         }
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -46,13 +43,12 @@ class CartController extends Controller
         $address=Address::where('user_id', $profile->id)->where('primary_address',1)->first();
         if ($address) {
             $completeaddress=$address->kelurahan." ".$address->kecamatan." ".$address->kabupaten." ".$address->provinsi." , ".$address->postcode;
-           
-        } else {
-            $completeaddress=null;
             
+        } else {
+           $completeaddress=null;
         }
         
-        // return $completeaddress;
+        // return $address;
         
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
@@ -61,6 +57,8 @@ class CartController extends Controller
         $listchecked=[];
         foreach ($chekedcart as $key => $value) {
              $totalcheked[]=$value->total_price;
+             $qty_total[]=$value->product_qty;
+
              $listchecked[]=[
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
@@ -71,32 +69,16 @@ class CartController extends Controller
                 'user_id'=> $value->user_id,
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
+                 'product_image'=> $value->image[0]->img_file,
                 'product_size'=> $value->product->product_size,
             ];
         }
         
         $total_price=number_format((float)array_sum($totalcheked), 0, ',', '.');
-
-        foreach ($cartlistbyuserid as $key => $value) {
-            $listcart[]=[
-                'id'=> $value->id,
-                'product_id'=> $value->product_id,
-                'product_qty'=> $value->product_qty,
-                'product_price'=>'Rp'." ".number_format((float)$value->product_price, 0, ',', '.'),
-                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
-                'status'=> $value->status,
-                'user_id'=> $value->user_id,
-                'company_name'=> gencompany($value->company_id),
-                'product_image'=> $value->image[0]->img_file,
-                'product_name'=> $value->product->product_name,
-                'product_descriptions'=> $value->product->product_descriptions,
-                'product_size'=> $value->product->product_size,
-            ];
-        }
-
-        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress]);
+        $countqty=array_sum($qty_total);
 
 
+        return view('frontEnd.payment.payment',['total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress,'address'=>$address,'countqty'=>$countqty]);
     }
 
     /**
@@ -117,21 +99,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $profile = UserMitra::where('email', Auth::user()->email)->first();
-        $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
-        // return $getprodiuctdata;
-        $cart = new Cart;
-        $cart->product_id = $getprodiuctdata->id;
-        $cart->product_qty = 1;
-        $cart->product_price = $getprodiuctdata->product_price;
-        $cart->total_price = $getprodiuctdata->product_price;
-        $cart->status = 0;
-        $cart->user_id = $profile->id;
-        $cart->company_id = $getprodiuctdata->company_id;
-        $cart->save();
-
-        return redirect()->route('firstpage');
-
+        //
     }
 
     /**
@@ -140,29 +108,9 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show($id)
     {
         //
-        return $request->all();
-
-    }
-
-    public function updateqty(Request $request, $id)
-    {
-        $cart = Cart::find($id);
-        $updatetotalprice=$cart->product_price * $request->param0;
-        $cart->product_qty = $request->param0;
-        $cart->total_price = $updatetotalprice;
-        $cart->save();
-        return redirect()->route('carts.index');
-    }
-
-    public function chekedcart(Request $request, $id)
-    {
-        $cart = Cart::find($id);
-        $cart->status = $request->status;
-        $cart->save();
-        return redirect()->route('carts.index');
     }
 
     /**
@@ -197,15 +145,5 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
-       $cart = Cart::find($id);
-       $cart->delete();
-       return redirect()->route('carts.index');
     }
-
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
 }

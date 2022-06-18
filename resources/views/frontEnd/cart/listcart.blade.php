@@ -110,11 +110,10 @@ input.qtyplus { width:25px; height:25px;}
 input.qtyminus { width:25px; height:25px;}
 
 
-
-
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 
 <div id="" class="services section ">
   <div class="container">
@@ -122,115 +121,114 @@ input.qtyminus { width:25px; height:25px;}
 
      </div>
      <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" >
           <div class="row">
-            <div class="col-lg-8">
-              <div class="col-md-12" style="border-radius: 20px;">
+            <div class="col-lg-8" style="padding-bottom: 20px;">
+              <div class="col-md-12" style="border-radius: 10px;border: 1px solid #969696;padding-bottom: 20px;">
                 @foreach($listcart as $list)
-                <div style="padding-bottom: 20px">
-                    <span style="">
-                        <img class="imglogo" src="https://i.ibb.co/DbJ1qWR/defaultlogo.png" alt="defaultlogo" border="0" />
-                        {{ $list['company_name'] }}
-                    </span>
-                <div class="line"></div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6" style="margin-top: -50px">
-                        <table class="" width="100%">
-                            <tbody>
-                                <tr>
-                                    <td width="10%">
-                                        @if($list['status']==1)
-                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
-                                            <input type='hidden' name='status' value='0' />
-                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                {{-- <i class="fa-solid fa-stop" ></i> --}}
-                                                <i class="fa-solid fa-square-check" style="font-size: 30px;color: #00FA9A"></i>
-                                            </button>
-                                        {!! Form::close() !!}
-                                        @else()
-                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
-                                            <input type='hidden' name='status' value='1' />
+                    <div style="padding-bottom: 20px">
+                        <div class="col-md-12" style="height: 40px;margin-left: 10px;margin-top: 10px">
+                        <span style="padding-top:30px">
+                            <img src="https://i.ibb.co/6NNbp7K/store.png" alt="defaultlogo" border="0" style="width: 30px;height: 30px" />
+                            {{ $list['company_name'] }}
+                        </span>
+                        </div>
+                        <div class="line"></div>
+                    </div>
+                    <div class="row" style="">
+                        <div class="col-lg-6" style="margin-top: -50px;">
+                            <table class="" width="100%">
+                                <tbody>
+                                    <tr>
+                                        <td width="10%">
+                                            @if($list['status']==1)
+                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
+                                                <input type='hidden' name='status' value='0' />
+                                                <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                    {{-- <i class="fa-solid fa-stop" ></i> --}}
+                                                    <i class="fa-solid fa-square-check" style="font-size: 30px;color: #00FA9A"></i>
+                                                </button>
+                                            {!! Form::close() !!}
+                                            @else()
+                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
+                                                <input type='hidden' name='status' value='1' />
 
-                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                <i class="fa-solid fa-stop" style="color: #C0C0C0;font-size: 30px"></i>
-                                            </button>
-                                        {!! Form::close() !!}
+                                                <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                    <i class="fa-solid fa-stop" style="color: #F5F5F5;font-size: 30px"></i>
+                                                </button>
+                                            {!! Form::close() !!}
 
-                                        @endif()
+                                            @endif()
 
-                                    </td>
-                                    <td width="40%">
-                                        <left>
-                                            <img src="{{ url('/files/'.$list['product_image']) }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 100%;height: 100px">
-                                        </left>
-                                    </td>
+                                        </td>
+                                        <td width="40%">
+                                            <left>
+                                                <img src="{{ url('/files/'.$list['product_image']) }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 100%;height: 100px">
+                                            </left>
+                                        </td>
+                                        <td width="50%">
+                                            <span>
+                                                {{ $list['product_name'] }}
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-lg-6" style="margin-top: -50px">
+                            <table class="" width="100%">
+                                <tbody>
+                                   <td width="40%" style="color:orange">
+                                      <span> {{ $list['product_price'] }}</span>
+                                   </td>
                                     <td width="50%">
-                                        <span>
-                                            {{ $list['product_name'] }}
-                                        </span>
+
+                                        <form id='myform' method='GET' action='' style="border-color: transparent;">
+                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus button' field='quantity'>-</button>
+
+                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty input' onkeypress="return onlyNumeric(event)" />
+
+                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus button' field='quantity'>+</button>
+
+                                        </form>
+
                                     </td>
 
-                                </tr>
-                            </tbody>
-                        </table>
+                                    <td width="10%">
+                                      {!! Form::open(['url'=>url('/carts/'.$list['id']),'method'=>'DELETE', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
+                                        <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')" style="background-color: transparent;border-color: transparent;">
+                                            <i class="fa fa-trash" style="color: red;font-size: 20px"></i>
+                                        </button>
+                                      {!! Form::close() !!}
+                                       
+                                    </td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                    <div class="col-lg-6" style="margin-top: -50px">
-                        <table class="" width="100%">
-                            <tbody>
-                               <td width="40%" style="color:orange">
-                                  <span> {{ $list['product_price'] }}</span>
-                               </td>
-                                <td width="50%">
-
-                                    <form id='myform' method='GET' action='' style="border-color: transparent;">
-                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus button' field='quantity'>-</button>
-
-                                        <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty input' onkeypress="return onlyNumeric(event)" />
-
-                                        <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus button' field='quantity'>+</button>
-
-                                    </form>
-
-                                </td>
-
-                                <td width="10%">
-                                  {!! Form::open(['url'=>url('/carts/'.$list['id']),'method'=>'DELETE', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
-                                    <button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')" style="background-color: transparent;border-color: transparent;">
-                                        <i class="fa fa-trash" style="color: red;font-size: 20px"></i>
-                                    </button>
-                                  {!! Form::close() !!}
-                                   
-                                </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="line"></div>
-
+                    <div class="line"></div>
                 @endforeach
-
             </div>
-
         </div>
 
-        <div class="col-lg-4">
-          <div class="" style="padding-top: 46px">
+        <div class="col-lg-4" style="">
+          <div class="col-md-12" style="padding-top: 20px;padding-left: 10px;border: 1px solid #969696;border-radius: 10px;">
 
             <h4 style="font-family: 'Helvetica Neue';">
-            <i class="fa-solid fa-location-dot"></i>
+            <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
             Alamat
             </h4>
             <div class="heading1"></div>
-            <div class="" id="" style="height: 50px">
+            <div class="" id="" style="height: auto;padding-bottom: 10px">
                 @if(empty($completeaddress))
-                 <span style="font-size: 12px;">
-                   Alamat Belum ditambahkan
-                 </span>
+                    <span style="font-size: 12px;">
+                        Alamat Belum ditambahkan
+                    </span>
+                {!! Form::open(['url'=>url('/address/create/'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
 
-                {!! Form::open(['url'=>url('/address/create/'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:25px']) !!}
                     <button type="submit" class='buttonaddress' field=''>Tambah Alamat</button>
                 {!! Form::close() !!}
                 @else()
@@ -247,14 +245,14 @@ input.qtyminus { width:25px; height:25px;}
             <div>
             <table width="100%" class="" style="margin-top: 10px">
                 <tr style="height:2px">
-                    <td width="10%" style="font-size: 12px">Qty</td>
-                    <td width="60%" style="font-size: 12px">Product</td>
+                    <td width="20%" style="font-size: 12px">Qty</td>
+                    <td width="50%" style="font-size: 12px">Product</td>
                     <td width="30%" style="font-size: 12px">Total</td>
                 </tr>
 
                 @foreach($listchecked as $list)
                 <tr style="height:2px">
-                    <td width="10%" style="font-size: 12px">{{ $list['product_qty'] }}</td>
+                    <td width="10%" style="font-size: 12px">{{ $list['product_qty'] }} Pcs</td>
                     <td width="60%" style="font-size: 10px">{{ $list['product_name'] }}</td>
                     <td width="30%" style="font-size: 12px">{{ $list['total_price'] }}</td>
                 </tr>
@@ -267,11 +265,34 @@ input.qtyminus { width:25px; height:25px;}
                     <span> Rp {{$total_price}}</span>
                 </div>
                 <div style="margin-top: 10px">
-                 <form id="" method='GET' action='#' style="border-color: transparent;">
+
+                 <form id="" method='GET' action='{{ url('/payments/') }}' style="border-color: transparent;">
                     <button type="submit" class='block'>Bayar</button>
+                    {{-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Large Modal</button> --}}
+
+                  {{--   <button class="btn btn-secondary mt-4 detail-btn btn-xs btn-info" data-toggle="modal" data-target="#myModal" data-id="">Bayar</button> --}}
                 </form>
                 </div>
             </div>
+
+             <div class="col-md-12">
+                 <details>
+                    <summary>Detail Item</summary>
+                    <p>
+                        <table>
+                            <tr>
+                                <td>hh</td>
+                                <td>hh</td>
+                                <td>hh</td>
+                                <td>hh</td>
+                                
+                            </tr>
+                        </table>
+                    </p>
+              </details>
+            </div>
+
+            
         </div>
     </div>
 
@@ -280,6 +301,7 @@ input.qtyminus { width:25px; height:25px;}
 </div>
 
 <!-- Scripts -->
+
 <script type="text/javascript">
     jQuery(document).ready(function(){
         // This button will increment the value
