@@ -23,6 +23,14 @@
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('/AdminLTE-2/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
 
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="{{ asset('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') }}">
+
+    <!-- DataTables -->
+    <!-- <link rel="stylesheet" href="{{ asset('AdminLTE-2/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE-2/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('AdminLTE-2/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+ -->
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -102,7 +110,7 @@
             padding: 0px 20px;
         }
 </style>
-<body class="hold-transition skin-purple-light sidebar-mini fixed">
+<body class="hold-transition skin-red-light sidebar-mini fixed">
     <div class="wrapper" style="overflow:visible visible;">
 
         @includeIf('layouts.header')
@@ -147,10 +155,24 @@
     <!-- DataTables -->
     <script src="{{ asset('AdminLTE-2/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('AdminLTE-2/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+
+    <!-- <script src="{{ url('AdminLTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ url('AdminLTE/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script> -->
+
     <!-- AdminLTE App -->
     <script src="{{ asset('AdminLTE-2/dist/js/adminlte.min.js') }}"></script>
     <!-- Validator -->
-    <script src="{{ asset('js/validator.min.js') }}"></script>
+    <!-- <script src="{{ asset('js/validator.min.js') }}"></script> -->
+    <!-- bootstrap datepicker -->
+    <script src="{{ asset('/AdminLTE-2/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
+
 
     <script>
        

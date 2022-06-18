@@ -23,12 +23,12 @@
         <div class="small-box bg-aqua" style="border-radius: 5px;">
             <div class="inner">
                 <h3>{{ $summ_product }}</h3>
-                <p>Products</p>
+                <p>All Products</p>
             </div>
             <div class="icon">
                 <i class="fa fa-dropbox"></i>
             </div>
-            <a href="#" class="small-box-footer">More Info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/products') }}" class="small-box-footer">More Info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->
@@ -37,12 +37,12 @@
         <div class="small-box bg-green" style="border-radius: 5px;">
             <div class="inner">
                 <h3>{{ $summ_transaction }}</h3>
-                <p>Transaction</p>
+                <p>Today Transaction</p>
             </div>
             <div class="icon">
                 <i class="fa fa-cart-arrow-down"></i>
             </div>
-            <a href="#" class="small-box-footer">More Info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ url('/transaction') }}" class="small-box-footer">More Info <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <!-- ./col -->    
@@ -51,7 +51,7 @@
         <div class="small-box bg-red" style="border-radius: 5px;">
             <div class="inner">
                 <h3>5</h3>
-                <p>Contract</p>
+                <p>All Contract</p>
             </div>
             <div class="icon" >
                 <i class="fa fa-stumbleupon-circle"></i>
