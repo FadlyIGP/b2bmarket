@@ -23,6 +23,7 @@ use App\Models\Address;
 use App\Models\MstTransaction;
 use App\Models\TransactionItem;
 use App\Models\MstRekening;
+use App\Models\BankCode;
 
 use Exception;
 use Carbon\Carbon;
@@ -38,8 +39,9 @@ class BankAccountController extends Controller
     public function index()
     {
         $account_list = MstRekening::all();
+        $bankcode_list = BankCode::all();
 
-        return view('bankaccount.bankaccount', ['account_list' => $account_list]);
+        return view('bankaccount.bankaccount', ['account_list' => $account_list, 'bankcode_list' => $bankcode_list]);
     }
 
     /**
