@@ -2,6 +2,10 @@
 @extends('frontEnd.weblayouts.app')
 @section('content')
 <!-- ***** Body ***** -->
+<style type="text/css">
+  
+      
+</style>
 <div id="" class="about-us" style="margin-bottom: -250px">
   <div class="container ">
     <div class="col-lg-12 align-self-center show-up header-text">
