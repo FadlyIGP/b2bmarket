@@ -2,10 +2,10 @@
 
 @section('content')
 <style type="text/css">
- .line {
-  border-bottom: 1px solid #aaa;
-  width: 100%
-}
+   .line {
+      border-bottom: 1px solid #aaa;
+      width: 100%
+  }
 
 table{
   width: 100%; /* Ganti menjadi 100% untuk tampilan responsif */
@@ -264,7 +264,7 @@ input.qtyminus { width:25px; height:25px;}
                     <span> TOTAL</span>
                     <span> Rp {{$total_price}}</span>
                 </div>
-                <div style="margin-top: 10px">
+                <div style="margin-top: 10px;padding-bottom: 10px">
 
                  <form id="" method='GET' action='{{ url('/payments/') }}' style="border-color: transparent;">
                     <button type="submit" class='block'>Bayar</button>
@@ -275,24 +275,6 @@ input.qtyminus { width:25px; height:25px;}
                 </div>
             </div>
 
-             <div class="col-md-12">
-                 <details>
-                    <summary>Detail Item</summary>
-                    <p>
-                        <table>
-                            <tr>
-                                <td>hh</td>
-                                <td>hh</td>
-                                <td>hh</td>
-                                <td>hh</td>
-                                
-                            </tr>
-                        </table>
-                    </p>
-              </details>
-            </div>
-
-            
         </div>
     </div>
 
