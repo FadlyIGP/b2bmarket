@@ -25,6 +25,7 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Validator;
 use Illuminate\Support\Facades\Session;
 
 class PaymentController extends Controller
@@ -43,20 +44,20 @@ class PaymentController extends Controller
         $this->year = Carbon::now()->format('Y');
 
         //**order_number formating**//
-        $getmax = MstTransaction::select('order_number')
+        $getmax = MstTransaction::select('invoice_number')
             ->whereMonth('created_at', $this->month)
-            ->max("order_number");
+            ->max("invoice_number");
 
-        $order_number = [];
+        $invoice_number = [];
         if ($getmax == null) {
-            $this->order_number = 'TRX' . '-' . $this->monthyear . '-' . '00001';
+            $this->invoice_number = 'TRX' . '-' . $this->monthyear . '-' . '00001';
         } else {
             $getmax = MstTransaction::select('invoice_number')
                 ->whereMonth('created_at', $this->month)
                 ->max("invoice_number");
-            $order_number = (int) substr($getmax, 11, 16);
-            $order_number++;
-            $this->order_number = 'TRX' . '-' . $this->monthyear . '-' . sprintf('%05s', $order_number);
+            $invoice_number = (int) substr($getmax, 11, 16);
+            $invoice_number++;
+            $this->invoice_number = 'TRX' . '-' . $this->monthyear . '-' . sprintf('%05s', $invoice_number);
         }
     }
     /**
@@ -76,13 +77,18 @@ class PaymentController extends Controller
 
         $cartlistbyuserid = Cart::with('image', 'product')->where('user_id', $profile->id)->get();
         $chekedcart = Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
-        $getrek = MstRekening::where('company_id', $chekedcart[0]->company_id)
+
+        if (count($chekedcart)==0) {
+            $getrek=[];
+        } else {
+            $getrek = MstRekening::where('company_id', $chekedcart[0]->company_id)
             ->join('bank_code', 'bank_code.bank_code', '=', 'mst_rekening.bank_code')
             ->get();
-        // return $getrek;
+        }       
 
         $totalcheked = [];
         $listchecked = [];
+        $qty_total=[];
         foreach ($chekedcart as $key => $value) {
             $totalcheked[] = $value->total_price;
             $qty_total[] = $value->product_qty;
@@ -103,10 +109,10 @@ class PaymentController extends Controller
         }
 
         $total_price = number_format((float)array_sum($totalcheked), 0, ',', '.');
+        $total_bayar = array_sum($totalcheked);
         $countqty = array_sum($qty_total);
 
-
-        return view('frontEnd.payment.payment', ['total_price' => $total_price, 'listchecked' => $listchecked, 'completeaddress' => $completeaddress, 'address' => $address, 'countqty' => $countqty, 'getrek' => $getrek]);
+        return view('frontEnd.payment.payment', ['total_bayar'=>$total_bayar,'total_price' => $total_price, 'listchecked' => $listchecked, 'completeaddress' => $completeaddress, 'address' => $address, 'countqty' => $countqty, 'getrek' => $getrek]);
     }
 
     /**
@@ -127,58 +133,66 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        // return $request->all();
+        $date=Carbon::now()->format('Y-m-d H:i:s');
+        $validator = Validator::make($request->all(), [
+            'payment_method' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $out = [
+            "message" => $validator->messages()->all(),
+            ];
+            return response()->json($out, 422);
+        }
+
+        if ($request->payment_method=='tunai') {
+            $bank_code='';
+        } else {
+            $bank_code=$request->bank_code;
+        }
+      
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
-        $chekedcart = Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
-        // $this->order_number
-        return $chekedcart;
+        $chekedcart = Cart::with('product','image')->where('user_id', $profile->id)->where('status', 1)->get();
 
+        $trasaction = new MstTransaction();  
+        $trasaction->invoice_number = $this->invoice_number;
+        // $trasaction->payment_chanel = $request->payment_method;
+        $trasaction->user_id = $profile->id; 
+        $trasaction->company_id = $profile->company_id;  
+        $trasaction->invoice_number = $this->invoice_number;
+        $trasaction->status = 0;
+        $trasaction->address_id = $address->id;
+        $trasaction->expected_ammount = $request->ammount;
+        $create_trasaction=$trasaction->save();
+       
         $payment = new Payment();  
-        $payment->external_id = $createVA['external_id'];
-        $payment->name = $name;
-        $payment->email = $email;
-        $payment->user_id = $user_id;
-        $payment->status = '2'; 
-        $payment->currency = $createVA['currency'];  
-        $payment->bank_code = $request->data['bank_code'];  
-        $payment->payment_chanel = 'Virtual Account';  
-        $payment->expected_amount = $ammount;
-        $payment->va_id = $createVA['id'];  
-        $payment->order_number = $this->order_number;  
-        $payment->account_number = $createVA['account_number'];  
-        $payment->expiration_date = $createVA['expiration_date']; 
+        $payment->external_id = " ";
+        $payment->transaction_id = $trasaction->id;
+        $payment->name = Auth::user()->name;
+        $payment->email = Auth::user()->email;
+        $payment->user_id = $profile->id;
+        $payment->status = 0; 
+        $payment->currency = "IDR";  
+        $payment->bank_code = $bank_code;  
+        $payment->payment_chanel = $request->payment_method;  
+        $payment->expected_ammount = $request->ammount;
+        $payment->payment_method = $request->payment_method;  
+        $payment->account_number = "";  
+        $payment->expiration_date = $date; 
         $payment->save();
 
-        $trasaction = new Transactions();  
-        $trasaction->order_number = $this->order_number;
-        $trasaction->payment_chanel = 'Virtual Account';
-        $trasaction->user_id = $user_id; 
-        $trasaction->createdby = $user_id;  
-        $trasaction->invoice_number = $this->invoice_number;
-        $trasaction->status = '2';
-        $trasaction->useraddress = $address[0]->id;
-        $trasaction->id_delivery = $request->id_delivery;
-        $trasaction->save();
-
-        $getdataproduct = CartBuyer::with('productmarket')->where('user_id', $user_id)->where('status',1)->get();
-        foreach ($getdataproduct as $key => $value) {
+        foreach ($chekedcart as $key => $value) {
             $dataitems[]=[
-                "transaction_id"=>$trasaction->id,
+                "transaction_id"=>1,
                 "product_id"=>$value->product_id,
-                "product_name"=>$value->productmarket->name,
-                "product_image"=>$value->productmarket->picture_1,
-                "product_price"=>$value->productmarket->price,
-                "product_item"=>$value->productmarket->satuan,
-                "product_qty"=>$value->qty,
-                "price_total"=>$value->price,
-                "status"=>2,
-                "size"=>$value->productmarket->size,
-                "owner"=>$value->productmarket->owner,
-                "status"=>2,
-                "product_sku"=>$value->productmarket->sku,
-                "product_type"=>producttype($value->productmarket->typeProd_id),
+                "product_name"=>$value->product->product_name,
+                "product_image"=>$value->image[0]->picture_1,
+                "product_price"=>$value->product->product_price,
+                "product_item"=>$value->product->product_item,
+                "product_qty"=>$value->product_qty,
+                "price_total"=>$value->total_price,
+                "product_size"=>$value->product->product_size,
             ];
         }
 
@@ -188,17 +202,12 @@ class PaymentController extends Controller
 
         $trasactionitem = new TransactionHistory();  
         $trasactionitem->transaction_id = $trasaction->id;
-        $trasactionitem->status = 2;
+        $trasactionitem->status = 0;
+        $trasactionitem->transaction_date = $date;
         $trasactionitem->save();
-       
-        $cart = CartBuyer::where('user_id', $user_id)->where('status', 1)->delete();
+        $cart = Cart::where('user_id', $profile->id)->where('status', 1)->delete();
 
-
-
-        //         use App\Models\Payment;
-        //         use App\Models\MstTransaction;
-        // use App\Models\TransactionItem;
-        // use App\Models\TransactionHistory
+        return redirect()->back()->with('message', 'Pesanan Berhasil dikirim');
     }
 
     /**
