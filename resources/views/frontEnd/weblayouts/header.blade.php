@@ -40,6 +40,12 @@
                     <i class="fa-solid fa-user-gear" style="color: #808080;font-size: 20px"></i>
                   <span style="color: #808080">Account</span>  
                 </a>
+            </li>
+            <li style="background-color: transparent;right: 20px;border-radius: 20px">
+                <a href="{{ url('profiles') }}">
+                    <i class="fa-solid fa-user" style="color: #808080;font-size: 20px"></i>
+                  <span style="color: #808080">Profile</span>  
+                </a>
             </li> 
           
             </ul>        

@@ -30,7 +30,9 @@ class ProfileController extends Controller
 
 
         // Address
-        return $address;
+        // return $address;
+        return view('frontEnd.profiles.profiles',['profile' => $profile]);
+
     }
 
     /**
@@ -86,6 +88,16 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $cariprofile = UserMitra::find($id);
+        $cariprofile->name          = $request->name;
+        $cariprofile->email         = $request->email;
+        $cariprofile->save();
+
+        $caripassword = User::where('email', $id)->first();
+        $caripassword->password = $request->password;
+        $caripassword->save();
+
+        return redirect()->route('frontEnd.profiles.profiles')->with('success', 'Successfully Update Data.');
     }
 
     /**
