@@ -1,12 +1,13 @@
 @extends('layouts.master')
 
 @section('title')
-Add Product
+Modify Product
 @endsection
 
 @section('breadcrumb')
 @parent
-<li class="active">Add Product</li>
+<li><a href="{{ url('/products') }}">Products</a></li>
+<li class="active">Modify Product</li>
 @endsection
 @section('content')
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -25,14 +26,13 @@ Add Product
     <div class="col-lg-12">
         <div class="box" style="border-radius: 5px">
 
-            {!! Form::open(['url'=>url('/products',base64_encode($productlisting['id'])),'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+            {!! Form::open(['url'=>url('/products', $productlisting['id']), 'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
                         <div class="box-body">
                             <div class="col-md-12">
-
-                                <div class="box-body col-md-6">{{-- kiri --}}
+                                <div class="box-body col-md-6">     {{-- kiri --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -44,7 +44,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -57,7 +56,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -70,7 +68,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -83,13 +80,8 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="box-body col-md-6">{{-- kana --}}
-
-
-
+                                <div class="box-body col-md-6">     {{-- kanan --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -102,7 +94,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -115,34 +106,48 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
-                                    <!-- <div class="form-group" id="frm-add-data">
-                                        <div class="col-md-12" >
-                                            <div class="col-md-12 field_wrapper" >
-                                                {!! Form::label('Product Image:', '') !!}
-                                                <div class="input-group ">
-                                                    <span class="input-group-addon"><i class="fa fa-picture-o"></i></span>
-                                                    <input type="file" class="form-control has-feedback" value="{{$productlisting['product_name']}}" id="prod_img[]" name="prod_img[]" required>
-                                                    <span class="input-group-addon" style="background-color: green;">
-                                                        <a href="javascript:void(0);" class="add_button" title="Add field"><i class="fa fa-plus" style="color:white;"></i></a>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Product Category:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>                                                    
+                                                    <!-- {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} -->
+                                                    <select class="form-control select2" name="prod_category" id="idprod_category" style="width: 100%;" required> 
+                                                        <option value="{{ $productlisting['id_category'] }}">{{ $productlisting['product_category'] }}</option>
+                                                        @foreach($category_list as $category_list)                   
+                                                          <option value="{{ $category_list->id }}">{{ $category_list->name }}</option>
+                                                        @endforeach              
+                                                    </select>
                                                     </span>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div> -->
-
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Minimum Order:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control has-feedback" value="{{ $productlisting['min_order'] }}" id="min_order" name="min_order" required>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-
                     <div class="box-footer">
-                        {!! Form::submit('Send', ['class'=>'btn btn-primary','style'=>'background-color:#32CD32;border-radius:10px;border-radius: 10px;width:80px']) !!}
+                        {!! Form::submit('Send', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
                         &nbsp;&nbsp;
                         &nbsp;&nbsp;
-                        <a class="btn" href="#" onclick="goBack()" data-toggle="tooltip" data-placement="top" title="Kembali ke Staff Approval" style="border-radius: 10px;width:80px;background-color:#FF0000;color: white">Back</a>
+                        <a class="btn" href="{{ url('/products') }}" title="Back Product List" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                            Back
+                        </a>
                     </div>
                 </div>
             </div>

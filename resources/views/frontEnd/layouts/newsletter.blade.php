@@ -1,4 +1,4 @@
-<!-- NEWSLETTER -->
+{{-- <!-- NEWSLETTER -->
 		<div id="newsletter" class="section">
 			<!-- container -->
 			<div class="container">
@@ -32,4 +32,4 @@
 			</div>
 			<!-- /container -->
 		</div>
-		<!-- /NEWSLETTER -->
+		<!-- /NEWSLETTER --> --}}

@@ -7,22 +7,32 @@ List Category
 @section('breadcrumb')
 @parent
 
-<li class="active">List Category</li>
+<li class="active">Product Categories</li>
 
 @endsection
 
 @section('content')
 
-
+@if (session('success'))
+	<div class="alert alert-info">
+	  {{ session('success') }}
+	  <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: #fff;">&times;</a>  
+	</div>        
+@endif 
+@if (session('warning'))
+	<div class="alert alert-warning">
+	  {{ session('warning') }}
+	  <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: #fff;">&times;</a>  
+	</div>        
+@endif 
 <div class="row">
 	<div class="col-lg-12">
 		<div class="box">
 			<div class="box-header with-border">
-
-				<a href="{{ url('/productcategories/create') }}" class="btn btn-info btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Add Category</a>
+				<a href="{{ url('/productcategories/create') }}" class="btn btn-primary btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Add Category</a>
 			</div>
 			<div class="box-body table-responsive">
-				<table class="table table-bordered" id="table_id">
+				<table class="table table-bordered table-hover" id="table_id">
 					<thead class=" text-primary">
 						<tr>
 							<th width="4%">No</th>
@@ -36,17 +46,15 @@ List Category
 						@foreach($categorylist as $list)
 						<tr>
 							<td width="4%"></td>
-							<td>{{$list['name']}}</td>
-							<td>{{$list['company_name']}}</td>
-							<td>{{date("d-M-Y",strtotime($list['created_at']))}}</td>
+							<td>{{ $list['name'] }}</td>
+							<td>{{ $list['company_name'] }}</td>
+							<td>{{ date("d-M-Y",strtotime($list['created_at'])) }}</td>
 							<td>
 								{!! Form::open() !!}
-								<a href="#" value="" title="Hapus Data" class="btn btn-xs btn-info btn-info"><i class="fa fa-pencil"></i>
-								</a>
-								<button type="submit" class="btn btn-danger btn-xs" onclick="return confirm('yakin ingin menghapus data ini?')">
+								<a href="{{ url('/productcategories/edit',$list['id']) }}" title="Modify Category" class="btn btn-xs btn-warning"><i class="fa fa-pencil"></i></a>
+								<a href="{{ url('/productcategories/delete',$list['id']) }}" title="Delete Category" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure want to delete {{$list['name']}} ?')">
 									<i class="fa fa-trash"></i>
-								</button>
-
+								</a>
 								{!! Form::close()!!}
 							</td>
 						</tr>
@@ -67,7 +75,7 @@ List Category
 		$('#table_id').DataTable({
 			"columnDefs": [{
 				"searchable": false,
-				"orderable": false,
+				"ordering": true,
 				"targets": 0,
 				render: function (data, type, row, meta) {
 					return meta.row + meta.settings._iDisplayStart + 1;
@@ -79,6 +87,15 @@ List Category
 		});
 
 	});
+</script>
 
+<script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 2500);
+    });    
 </script>
 @endpush

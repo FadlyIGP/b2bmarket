@@ -9,6 +9,7 @@ use App\Models\Cart;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
 use App\Models\User;
+use App\Models\Address;
 use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
@@ -19,6 +20,8 @@ use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
+
 
 
 class CartController extends Controller
@@ -40,24 +43,35 @@ class CartController extends Controller
     public function index()
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $address=Address::where('user_id', $profile->id)->where('primary_address',1)->first();
+        if ($address) {
+            $completeaddress=$address->kelurahan." ".$address->kecamatan." ".$address->kabupaten." ".$address->provinsi." , ".$address->postcode;
+           
+        } else {
+            $completeaddress=null;
+            
+        }
+        
+        // return $completeaddress;
+        
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
         $totalcheked=[];
+        $listchecked=[];
         foreach ($chekedcart as $key => $value) {
              $totalcheked[]=$value->total_price;
              $listchecked[]=[
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
-                'total_price'=>number_format((float)$value->total_price, 0, ',', '.'),
+                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
         
@@ -68,8 +82,8 @@ class CartController extends Controller
                 'id'=> $value->id,
                 'product_id'=> $value->product_id,
                 'product_qty'=> $value->product_qty,
-                'product_price'=> $value->product_price,
-                'total_price'=> $value->total_price,
+                'product_price'=>'Rp'." ".number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
                 'status'=> $value->status,
                 'user_id'=> $value->user_id,
                 'company_name'=> gencompany($value->company_id),
@@ -77,12 +91,10 @@ class CartController extends Controller
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
-                'product_price'=> $value->product->product_price,
             ];
         }
 
-        // return $listcart;
-        return view('frontEnd.cart.cart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked]);
+        return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress]);
 
 
     }
@@ -118,7 +130,7 @@ class CartController extends Controller
         $cart->company_id = $getprodiuctdata->company_id;
         $cart->save();
 
-        return redirect()->route('home.buyer');
+        return redirect()->route('firstpage');
 
     }
 
@@ -185,5 +197,15 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+       $cart = Cart::find($id);
+       $cart->delete();
+       return redirect()->route('carts.index');
     }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
 }

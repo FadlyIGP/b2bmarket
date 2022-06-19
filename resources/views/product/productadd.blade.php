@@ -6,6 +6,7 @@ Add Product
 
 @section('breadcrumb')
 @parent
+<li><a href="{{ url('/products') }}">Products</a></li>
 <li class="active">Add Product</li>
 @endsection
 @section('content')
@@ -31,8 +32,7 @@ Add Product
                     <div class="panel panel-default">
                         <div class="box-body">
                             <div class="col-md-12">
-
-                                <div class="box-body col-md-6">{{-- kiri --}}
+                                <div class="box-body col-md-4">     {{-- kiri --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -44,7 +44,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -57,7 +56,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -65,12 +63,10 @@ Add Product
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
                                                     <input type="text" class="form-control has-feedback" value="" id="prod_size" name="prod_size" required>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -83,13 +79,8 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-                                <div class="box-body col-md-6">{{-- kana --}}
-
-
-
+                                <div class="box-body col-md-4">     {{-- tengah --}}
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -102,7 +93,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -115,7 +105,6 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
@@ -123,15 +112,27 @@ Add Product
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
                                                     <!-- <input type="text" class="form-control has-feedback" value="" id="prod_category" name="prod_category" required> -->
-                                                    {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!}    
-                                                
-                                                </span>
+                                                    {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} 
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="form-group" id="frm-add-data">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Minimum Order:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control has-feedback" value="" id="min_order" name="min_order" required>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body col-md-4">     {{-- kanan --}}
+                                     <div class="form-group" id="frm-add-data">
                                         <div class="col-md-12" >
                                             <div class="col-md-12 field_wrapper" >
                                                 {!! Form::label('Product Image:', '') !!}
@@ -145,19 +146,18 @@ Add Product
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
 
-
                     <div class="box-footer">
-                        {!! Form::submit('Send', ['class'=>'btn btn-primary','style'=>'background-color:#32CD32;border-radius:10px;border-radius: 10px;width:80px']) !!}
+                        {!! Form::submit('Send', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
                         &nbsp;&nbsp;
                         &nbsp;&nbsp;
-                        <a class="btn" href="#" onclick="goBack()" data-toggle="tooltip" data-placement="top" title="Kembali ke Staff Approval" style="border-radius: 10px;width:80px;background-color:#FF0000;color: white">Back</a>
+                        <a class="btn" href="{{ url('/products') }}" title="Back Product List" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                            Back
+                        </a>
                     </div>
                 </div>
             </div>

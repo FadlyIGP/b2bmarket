@@ -47,28 +47,8 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-
 @section('content')
 <!-- BREADCRUMB -->
-		<div id="breadcrumb" class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-				<div class="row">
-					<div class="col-md-12">
-						<h3 class="breadcrumb-header">Cart</h3>
-						<ul class="breadcrumb-tree">
-							<li><a href="#">Home</a></li>
-							<li class="active">Cart</li>
-						</ul>
-					</div>
-				</div>
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-		<!-- /BREADCRUMB -->
-
 		<!-- SECTION -->
 		<div class="section">
 			<!-- container -->
@@ -86,7 +66,6 @@
                                 <div class="col-md-12 order-details" style="border-radius: 20px;">
 
                                     @foreach($listcart as $list)
-                                    {{-- <div class="box-header with-border" style="border-radius: 20px;"> --}}
                                         <h4 class="box">
                                         <img class="imglogo" src="https://i.ibb.co/DbJ1qWR/defaultlogo.png" alt="defaultlogo" border="0" />
                                         {{ $list['company_name'] }}
@@ -101,22 +80,21 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="2%">
-
                                                         @if($list['status']==1)
-                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-                                                        <input type='hidden' name='status' value='0' />
-                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                            <i class="fa fa-circle"></i>
-                                                        </button>
-                                                        {!! Form::close() !!}
+                                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                            <input type='hidden' name='status' value='0' />
+                                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                                <i class="fa-solid fa-stop" style="font-size: 30px"></i>
+                                                            </button>
+                                                            {!! Form::close() !!}
                                                         @else()
-                                                        {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-                                                        <input type='hidden' name='status' value='1' />
+                                                            {!! Form::open(['url'=>url('/chekedcart/'.$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                                            <input type='hidden' name='status' value='1' />
 
-                                                        <button style="background-color: transparent;border-color: transparent;" type="submit">
-                                                            <i class="fa fa-circle-thin"></i>
-                                                        </button>
-                                                        {!! Form::close() !!}
+                                                            <button style="background-color: transparent;border-color: transparent;" type="submit">
+                                                                <i class="fa-solid fa-stop" style="color: #C0C0C0;font-size: 30px"></i>
+                                                            </button>
+                                                            {!! Form::close() !!}
 
                                                         @endif()
 
@@ -135,7 +113,7 @@
                                                             {{-- <input id="submitBtn" type='submit' value='-' class='qtyminus' field='quantity' /> --}}
                                                             <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus' field='quantity'>-</button>
 
-                                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' />
+                                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty' onkeypress="return onlyNumeric(event)" />
                                                             {{-- <input id="submitBtn" type='submit' value='+' class='qtyplus' field='quantity' /> --}}
                                                             
                                                             <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus' field='quantity'>+</button>
@@ -265,66 +243,86 @@
 @endsection
 
 <script type="text/javascript">
-   jQuery(document).ready(function(){
-    // This button will increment the value
-    $('.qtyplus').click(function(e){
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        fieldName = $(this).attr('field');
-        // Get its current value
-        var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
-        // If is not undefined
-        if (!isNaN(currentVal)) {
-            // Increment
-            $(this).siblings('input[name='+fieldName+']').val(currentVal + 1);
-        } else {
-            // Otherwise put a 0 there
-           $(this).siblings('input[name='+fieldName+']').val(0);
-        }
+    jQuery(document).ready(function(){
+        // This button will increment the value
+        $('.qtyplus').click(function(e){
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+            // If is not undefined
+            if (!isNaN(currentVal)) {
+                // Increment
+                $(this).siblings('input[name='+fieldName+']').val(currentVal + 1);
+            } else {
+                // Otherwise put a 0 there
+               $(this).siblings('input[name='+fieldName+']').val(1);
+            }
 
-        // alert("Update Qty ?"); 
-        const id = $(this).attr('data-id');
-        $.ajax({
-              url: 'updateqty/' + id,
-              type: 'GET',
-              data: { 
-                  param0: $('#textbox0').val(), 
-              }
-        }); 
+            var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
 
-        // location.reload();    
-
-    });
-
-    // This button will decrement the value till 0
-    $(".qtyminus").click(function(e) {
-        // Stop acting like a button
-        e.preventDefault();
-        // Get the field name
-        fieldName = $(this).attr('field');
-        // Get its current value
-        var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
-        // If it isn't undefined or its greater than 0
-        if (!isNaN(currentVal) && currentVal > 0) {
-            // Decrement one
-            $(this).siblings('input[name='+fieldName+']').val(currentVal - 1);
-        } else {
-            // Otherwise put a 0 there
-            $(this).siblings('input[name='+fieldName+']').val(0);
-        }
-
-        // alert("Update Qty ?"); 
-        const id = $(this).attr('data-id');
-        $.ajax({
-              url: 'updateqty/' + id,
-              type: 'GET',
-              data: { 
-                  param0: $('#textbox0').val(), 
-              }
-        });  
+            // alert("Update Qty ?"); 
+            const id = $(this).attr('data-id');
+            $.ajax({
+                  url: 'updateqty/' + id,
+                  type: 'GET',
+                  data: { 
+                    /* PAPUL => this value just get qty from the first record in the cart */
+                    // param0: $('#textbox0').val(), 
+                    param0: currqty,
+                  }
+            }); 
         });
 
-   });
+        // This button will decrement the value till 1
+        $(".qtyminus").click(function(e) {
+            // Stop acting like a button
+            e.preventDefault();
+            // Get the field name
+            fieldName = $(this).attr('field');
+            // Get its current value
+            var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
+            // If it isn't undefined or its greater than 0
+            if (!isNaN(currentVal) && currentVal > 0) {
+                // Decrement one
+                $(this).siblings('input[name='+fieldName+']').val(currentVal - 1);
 
+                /* PAPUL => if qty 1 then can not to be 0, minum = 1 */               
+                var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
+                if (currqty < 1){
+                    $(this).siblings('input[name='+fieldName+']').val(1);
+                }
+            } else {
+                // Otherwise put a 0 there
+                $(this).siblings('input[name='+fieldName+']').val(1);
+            }            
+
+            var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
+
+            // alert("Update Qty ?"); 
+            const id = $(this).attr('data-id');
+            $.ajax({
+                  url: 'updateqty/' + id,
+                  type: 'GET',
+                  data: { 
+                    /* PAPUL => this value just get qty from the first record in the cart */
+                    // param0: $('#textbox0').val(), 
+                    param0: currqty, 
+                  }
+            });  
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    /* PAPUL => function for numeric input only whne keyboard pressed */
+    function onlyNumeric(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)){
+            return false;
+        }       
+        return true;
+    }
 </script>
