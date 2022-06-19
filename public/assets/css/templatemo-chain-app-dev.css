@@ -1028,26 +1028,8 @@ Services Style
   z-index: 0;
 }
 
-.services:before {
-  content: '';
-  /*background-image: url(../images/services-right-dec.png);*/
-  background-repeat: no-repeat;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 1136px;
-  height: 244px;
-  z-index: 0;
-}
+/**/
 
-.services .section-heading {
-  text-align: center;
-  margin-bottom: 80px;
-}
-
-.services .section-heading .line-dec {
-  margin: 0 auto;
-}
 
 .service-item {
   position: relative;
