@@ -7,7 +7,7 @@ List Category
 @section('breadcrumb')
 @parent
 
-<li class="active">List Category</li>
+<li class="active">Product Categories</li>
 
 @endsection
 

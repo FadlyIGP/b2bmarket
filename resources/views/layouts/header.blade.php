@@ -31,7 +31,7 @@
                         <ul class="menu">
                           @foreach( \Session::get('notif_list') as $notif_list)
                           <li>
-                            <a href="#">
+                            <a href="javascript:void(0)">
                               <i class="fa fa-cart-arrow-down text-green"></i> New Order from {{ $notif_list['company_name'] }}
                             </a>
                           </li>    

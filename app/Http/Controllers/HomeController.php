@@ -55,7 +55,139 @@ class HomeController extends Controller
 
             \Session::put('username', $username);
 
-            return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product]);
+            /*Get Data For Chart*/
+            /************* Transaction Success *************/
+            $JAN_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 1)
+                ->get()->count();
+            
+            $FEB_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 2)
+                ->get()->count();
+
+            $MAR_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 3)
+                ->get()->count();
+
+            $APR_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 4)
+                ->get()->count();
+
+            $MAY_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 5)
+                ->get()->count();
+
+            $JUN_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 6)
+                ->get()->count();
+
+            $JUL_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 7)
+                ->get()->count();
+
+            $AUG_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 8)
+                ->get()->count();
+
+            $SEP_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 9)
+                ->get()->count();
+
+            $OCT_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 10)
+                ->get()->count();
+
+            $NOV_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 11)
+                ->get()->count();
+
+            $DES_finished = MstTransaction::where('status', 3)
+                ->whereMonth('created_at', 12)
+                ->get()->count();
+
+            /************** Cancel Transaction **************/
+            $JAN_cancelled = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 1)
+                ->get()->count();
+            
+            $FEB_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 2)
+                ->get()->count();
+
+            $MAR_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 3)
+                ->get()->count();
+
+            $APR_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 4)
+                ->get()->count();
+
+            $MAY_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 5)
+                ->get()->count();
+
+            $JUN_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 6)
+                ->get()->count();
+
+            $JUL_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 7)
+                ->get()->count();
+
+            $AUG_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 8)
+                ->get()->count();
+
+            $SEP_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 9)
+                ->get()->count();
+
+            $OCT_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 10)
+                ->get()->count();
+
+            $NOV_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 11)
+                ->get()->count();
+
+            $DES_cancelled  = MstTransaction::where('status', 99)
+                ->whereMonth('created_at', 12)
+                ->get()->count();
+
+            $data_finished = [
+                $JAN_finished,
+                $FEB_finished,
+                $MAR_finished,
+                $APR_finished,
+                $MAY_finished,
+                $JUN_finished,
+                $JUL_finished,
+                $AUG_finished,
+                $SEP_finished,
+                $OCT_finished,
+                $NOV_finished,
+                $DES_finished
+            ]; 
+
+            $data_cancelled = [
+                $JAN_cancelled,
+                $FEB_cancelled,
+                $MAR_cancelled,
+                $APR_cancelled,
+                $MAY_cancelled,
+                $JUN_cancelled,
+                $JUL_cancelled,
+                $AUG_cancelled,
+                $SEP_cancelled,
+                $OCT_cancelled,
+                $NOV_cancelled,
+                $DES_cancelled
+            ];    
+
+            $data1 = json_encode($data_finished);
+            $data2 = json_encode($data_cancelled);
+
+            return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product, 'data_finished' => $data1, 'data_cancelled' => $data2]);
         }
         return redirect()->route('firstpage');
     }

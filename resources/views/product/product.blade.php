@@ -5,7 +5,7 @@ List Products
 @endsection
 @section('breadcrumb')
 @parent
-<li class="active">List Products</li>
+<li class="active">Products</li>
 @endsection
 
 @section('content')
