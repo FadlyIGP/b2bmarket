@@ -80,6 +80,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+
         // *findcompany_id *//
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
@@ -195,6 +197,8 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+
         // $id = base64_decode($id);
         $mstprodcuct = MstProduct::find($id);
         $mstprodcuct->product_name          = $request->prod_name;
@@ -221,6 +225,8 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+        
         $orig_id = Crypt::decryptString($id);        
 
         $product = MstProduct::where('id', $orig_id)->first();

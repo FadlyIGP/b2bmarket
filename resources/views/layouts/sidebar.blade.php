@@ -30,6 +30,12 @@
                 <a href="{{ url('/productimages') }}">
                     <i class="fa fa-image text-fuchsia"></i> <span>Product Images</span>
                 </a>
+            </li>
+
+            <li class="{{request()->is('bankaccount') ? 'active' : ''}}">
+                <a href="{{ url('/bankaccount') }}">
+                    <i class="fa fa-image text-warning"></i> <span>Bank Account</span>
+                </a>
             </li>                     
 
             <li class="{{request()->is('transaction') ? 'active' : ''}}">

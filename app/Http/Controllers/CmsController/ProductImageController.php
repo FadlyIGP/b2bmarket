@@ -72,8 +72,10 @@ class ProductImageController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+
         $request->validate([
-            'image_name' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_name' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]);        
 
         $temp_img   = ImgProduct::where('product_id', $request->product)->get();
@@ -135,8 +137,10 @@ class ProductImageController extends Controller
      */
     public function update(Request $request, $id)
     {        
+        date_default_timezone_set('Asia/Jakarta'); 
+
         $request->validate([
-            'image_name' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image_name' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
         ]); 
 
         $ImgProduct = ImgProduct::find($id);
@@ -163,6 +167,8 @@ class ProductImageController extends Controller
      */
     public function destroy($id)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+        
         $orig_id    = Crypt::decryptString($id);
         $ImgProduct = ImgProduct::find($orig_id);
 
@@ -171,7 +177,8 @@ class ProductImageController extends Controller
 
         /*Minimum 1 Image*/
         if ($count_img == 1) {
-            return redirect()->route('productimages.index')->with('warning', 'Deleting not possible. You have already minimum image (1)!');   
+            return redirect()->route('productimages.index')
+                ->with('warning', 'Deleting not possible. You have already minimum image (1) !');   
         }
         
         /*Delete Image*/

@@ -6,7 +6,7 @@ Product Image List
 
 @section('breadcrumb')
 @parent
-<li class="active">List Product Images</li>
+<li class="active">Product Images</li>
 @endsection
 
 @section('content')
