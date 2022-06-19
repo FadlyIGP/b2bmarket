@@ -21,6 +21,7 @@ class Payment extends Model
         'expected_ammount',
         'paid_at',
         'payment_chanel',
+        'payment_method',
         'expiration_date',
         'name',
         'email',
