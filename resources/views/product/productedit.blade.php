@@ -6,7 +6,7 @@ Modify Product
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/products') }}">List Product</a></li>
+<li><a href="{{ url('/products') }}">Products</a></li>
 <li class="active">Modify Product</li>
 @endsection
 @section('content')

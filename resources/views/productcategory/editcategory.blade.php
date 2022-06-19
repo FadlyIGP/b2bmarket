@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 @section('title')
-Modify Product
+Modify Product Category
 @endsection
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/productcategories') }}">List Category</a></li>
+<li><a href="{{ url('/productcategories') }}">Product Categories</a></li>
 <li class="active">Modify Category</li>
 @endsection
 @section('content')

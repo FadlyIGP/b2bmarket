@@ -167,6 +167,8 @@ class TransactionController extends Controller
 
     public function updatestatus(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+
         $msttransaction = MstTransaction::find($request->idtrans);
         $msttransaction->status = $request->radiostat;
         $msttransaction->save();        
@@ -223,6 +225,8 @@ class TransactionController extends Controller
 
     public function payupdatestatus(Request $request)
     {        
+        date_default_timezone_set('Asia/Jakarta'); 
+
         $payment = Payment::find($request->recidpay);
         $payment->status = 2; /*Success Payment*/
         $payment->save();       
@@ -236,6 +240,8 @@ class TransactionController extends Controller
 
     public function statuscancel(Request $request)
     {        
+        date_default_timezone_set('Asia/Jakarta'); 
+        
         $payment = Payment::find($request->recidpay);
         $payment->status = 99; /*Cancelled Payment*/       
         $payment->save();

@@ -87,4 +87,8 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/report/transaction/loadcancellation', [App\Http\Controllers\CmsController\ReportController::class, 'loadcancellationjournal']);
     Route::get('/report/transaction/cancellation/print', [App\Http\Controllers\CmsController\ReportController::class, 'cancellationprint']);
 
+    // Profile
+    Route::resource('/getprofile', App\Http\Controllers\CmsController\ProfileController::class);
+    Route::post('/getprofile/updateaddress', [App\Http\Controllers\CmsController\ProfileController::class, 'updateAddress']);
+    Route::post('/getprofile/updateuser', [App\Http\Controllers\CmsController\ProfileController::class, 'updateUser']);
 });

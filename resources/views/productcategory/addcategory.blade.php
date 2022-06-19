@@ -6,7 +6,7 @@ Add Product Category
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/productcategories') }}">List Category</a></li>
+<li><a href="{{ url('/productcategories') }}">Product Categories</a></li>
 <li class="active">Add Category</li>
 @endsection
 @section('content')

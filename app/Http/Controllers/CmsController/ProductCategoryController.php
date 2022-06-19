@@ -70,6 +70,8 @@ class ProductCategoryController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+
         $profile            = UserMitra::where('email', Auth::user()->email)->first();
         $productcategory    = new ProdCategory;
 
@@ -119,6 +121,8 @@ class ProductCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        date_default_timezone_set('Asia/Jakarta'); 
+        
         $product_category       = ProdCategory::find($id);
         $product_category->name = $request->category_name;        
         $product_category->save();
