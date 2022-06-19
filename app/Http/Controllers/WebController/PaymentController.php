@@ -14,6 +14,11 @@ use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
 use App\Models\UserMitra;
+use App\Models\MstRekening;
+use App\Models\Payment;
+use App\Models\MstTransaction;
+use App\Models\TransactionItem;
+use App\Models\TransactionHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Exception;
@@ -27,9 +32,31 @@ class PaymentController extends Controller
 
     public function __construct()
     {
-        function gencompany($id){
-            $company=MstCompany::find($id);
+        function gencompany($id)
+        {
+            $company = MstCompany::find($id);
             return $company->company_name;
+        }
+        
+        $this->monthyear = Carbon::now()->format('mY'); 
+        $this->month = Carbon::now()->format('m');     
+        $this->year = Carbon::now()->format('Y');
+
+        //**invoice_number formating**//
+        $getmasinvoice = Transactions::select('invoice_number')
+            ->whereMonth('created_at', $this->month)
+            ->max("invoice_number");
+
+        $invoice_number = [];
+        if ($getmasinvoice == null) {
+            $this->invoice_number ='TR' . '/' . 'B2B' . '/' . $this->year . '/' . $this->month . '/' . '00001';
+        } else {
+            $getmasinvoice = Transactions::select('invoice_number')
+                ->whereMonth('created_at', $this->month)
+                ->max("invoice_number");
+            $invoice_number = (int) substr($getmasinvoice, 21, 26);
+            $invoice_number++;
+            $this->invoice_number ='TR' . '/' . 'B2B' . '/' . $this->year . '/' . $this->month . '/' . sprintf('%05s', $invoice_number);
         }
     }
     /**
@@ -40,45 +67,46 @@ class PaymentController extends Controller
     public function index()
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
-        $address=Address::where('user_id', $profile->id)->where('primary_address',1)->first();
+        $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
         if ($address) {
-            $completeaddress=$address->kelurahan." ".$address->kecamatan." ".$address->kabupaten." ".$address->provinsi." , ".$address->postcode;
-            
+            $completeaddress = $address->kelurahan . " " . $address->kecamatan . " " . $address->kabupaten . " " . $address->provinsi . " , " . $address->postcode;
         } else {
-           $completeaddress=null;
+            $completeaddress = null;
         }
-        
-        // return $address;
-        
-        $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
-        $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
-        $totalcheked=[];
-        $listchecked=[];
+        $cartlistbyuserid = Cart::with('image', 'product')->where('user_id', $profile->id)->get();
+        $chekedcart = Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
+        $getrek = MstRekening::where('company_id', $chekedcart[0]->company_id)
+            ->join('bank_code', 'bank_code.bank_code', '=', 'mst_rekening.bank_code')
+            ->get();
+        // return $getrek;
+
+        $totalcheked = [];
+        $listchecked = [];
         foreach ($chekedcart as $key => $value) {
-             $totalcheked[]=$value->total_price;
-             $qty_total[]=$value->product_qty;
+            $totalcheked[] = $value->total_price;
+            $qty_total[] = $value->product_qty;
 
-             $listchecked[]=[
-                'id'=> $value->id,
-                'product_id'=> $value->product_id,
-                'product_qty'=> $value->product_qty,
-                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
-                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
-                'status'=> $value->status,
-                'user_id'=> $value->user_id,
-                'product_name'=> $value->product->product_name,
-                'product_descriptions'=> $value->product->product_descriptions,
-                 'product_image'=> $value->image[0]->img_file,
-                'product_size'=> $value->product->product_size,
+            $listchecked[] = [
+                'id' => $value->id,
+                'product_id' => $value->product_id,
+                'product_qty' => $value->product_qty,
+                'product_price' => number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price' => 'Rp' . " " . number_format((float)$value->total_price, 0, ',', '.'),
+                'status' => $value->status,
+                'user_id' => $value->user_id,
+                'product_name' => $value->product->product_name,
+                'product_descriptions' => $value->product->product_descriptions,
+                'product_image' => $value->image[0]->img_file,
+                'product_size' => $value->product->product_size,
             ];
         }
-        
-        $total_price=number_format((float)array_sum($totalcheked), 0, ',', '.');
-        $countqty=array_sum($qty_total);
+
+        $total_price = number_format((float)array_sum($totalcheked), 0, ',', '.');
+        $countqty = array_sum($qty_total);
 
 
-        return view('frontEnd.payment.payment',['total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress,'address'=>$address,'countqty'=>$countqty]);
+        return view('frontEnd.payment.payment', ['total_price' => $total_price, 'listchecked' => $listchecked, 'completeaddress' => $completeaddress, 'address' => $address, 'countqty' => $countqty, 'getrek' => $getrek]);
     }
 
     /**
@@ -100,6 +128,19 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         //
+        // return $request->all();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
+        $chekedcart = Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
+
+        return $chekedcart;
+
+
+
+        //         use App\Models\Payment;
+        //         use App\Models\MstTransaction;
+        // use App\Models\TransactionItem;
+        // use App\Models\TransactionHistory
     }
 
     /**
