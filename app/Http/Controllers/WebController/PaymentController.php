@@ -37,26 +37,26 @@ class PaymentController extends Controller
             $company = MstCompany::find($id);
             return $company->company_name;
         }
-        
-        $this->monthyear = Carbon::now()->format('mY'); 
-        $this->month = Carbon::now()->format('m');     
+
+        $this->monthyear = Carbon::now()->format('mY');
+        $this->month = Carbon::now()->format('m');
         $this->year = Carbon::now()->format('Y');
 
-        //**invoice_number formating**//
-        $getmasinvoice = Transactions::select('invoice_number')
+        //**order_number formating**//
+        $getmax = MstTransaction::select('order_number')
             ->whereMonth('created_at', $this->month)
-            ->max("invoice_number");
+            ->max("order_number");
 
-        $invoice_number = [];
-        if ($getmasinvoice == null) {
-            $this->invoice_number ='TR' . '/' . 'B2B' . '/' . $this->year . '/' . $this->month . '/' . '00001';
+        $order_number = [];
+        if ($getmax == null) {
+            $this->order_number = 'TRX' . '-' . $this->monthyear . '-' . '00001';
         } else {
-            $getmasinvoice = Transactions::select('invoice_number')
+            $getmax = MstTransaction::select('invoice_number')
                 ->whereMonth('created_at', $this->month)
                 ->max("invoice_number");
-            $invoice_number = (int) substr($getmasinvoice, 21, 26);
-            $invoice_number++;
-            $this->invoice_number ='TR' . '/' . 'B2B' . '/' . $this->year . '/' . $this->month . '/' . sprintf('%05s', $invoice_number);
+            $order_number = (int) substr($getmax, 11, 16);
+            $order_number++;
+            $this->order_number = 'TRX' . '-' . $this->monthyear . '-' . sprintf('%05s', $order_number);
         }
     }
     /**
@@ -132,8 +132,66 @@ class PaymentController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
         $chekedcart = Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
-
+        // $this->order_number
         return $chekedcart;
+
+        $payment = new Payment();  
+        $payment->external_id = $createVA['external_id'];
+        $payment->name = $name;
+        $payment->email = $email;
+        $payment->user_id = $user_id;
+        $payment->status = '2'; 
+        $payment->currency = $createVA['currency'];  
+        $payment->bank_code = $request->data['bank_code'];  
+        $payment->payment_chanel = 'Virtual Account';  
+        $payment->expected_amount = $ammount;
+        $payment->va_id = $createVA['id'];  
+        $payment->order_number = $this->order_number;  
+        $payment->account_number = $createVA['account_number'];  
+        $payment->expiration_date = $createVA['expiration_date']; 
+        $payment->save();
+
+        $trasaction = new Transactions();  
+        $trasaction->order_number = $this->order_number;
+        $trasaction->payment_chanel = 'Virtual Account';
+        $trasaction->user_id = $user_id; 
+        $trasaction->createdby = $user_id;  
+        $trasaction->invoice_number = $this->invoice_number;
+        $trasaction->status = '2';
+        $trasaction->useraddress = $address[0]->id;
+        $trasaction->id_delivery = $request->id_delivery;
+        $trasaction->save();
+
+        $getdataproduct = CartBuyer::with('productmarket')->where('user_id', $user_id)->where('status',1)->get();
+        foreach ($getdataproduct as $key => $value) {
+            $dataitems[]=[
+                "transaction_id"=>$trasaction->id,
+                "product_id"=>$value->product_id,
+                "product_name"=>$value->productmarket->name,
+                "product_image"=>$value->productmarket->picture_1,
+                "product_price"=>$value->productmarket->price,
+                "product_item"=>$value->productmarket->satuan,
+                "product_qty"=>$value->qty,
+                "price_total"=>$value->price,
+                "status"=>2,
+                "size"=>$value->productmarket->size,
+                "owner"=>$value->productmarket->owner,
+                "status"=>2,
+                "product_sku"=>$value->productmarket->sku,
+                "product_type"=>producttype($value->productmarket->typeProd_id),
+            ];
+        }
+
+        foreach ($dataitems as $key => $value) {
+           TransactionItem::create($value);
+        }
+
+        $trasactionitem = new TransactionHistory();  
+        $trasactionitem->transaction_id = $trasaction->id;
+        $trasactionitem->status = 2;
+        $trasactionitem->save();
+       
+        $cart = CartBuyer::where('user_id', $user_id)->where('status', 1)->delete();
 
 
 
