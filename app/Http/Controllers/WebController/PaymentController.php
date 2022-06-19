@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Validator;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PaymentController extends Controller
 {
@@ -207,7 +208,14 @@ class PaymentController extends Controller
         $trasactionitem->save();
         $cart = Cart::where('user_id', $profile->id)->where('status', 1)->delete();
 
-        return redirect()->back()->with('message', 'Pesanan Berhasil dikirim');
+        if ($trasactionitem) {
+            Alert::success('Success', 'Pesanan Berhasil dibuta');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Pesanan failed');
+            return back();
+        }
     }
 
     /**
