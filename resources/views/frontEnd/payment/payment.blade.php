@@ -1,6 +1,7 @@
 @extends('frontEnd.weblayouts.app')
 
 @section('content')
+
 <style type="text/css">
     .line {
         border-bottom: 1px solid #aaa;
@@ -145,13 +146,9 @@
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-@if(session()->has('message'))
-<div class="alert alert-success">
-    {{ session()->get('message') }}
-</div>
-@endif
 
 <div id="" class="services section ">
+@include('sweetalert::alert')
     <div class="container">
         <div class="about-us show-up header-text" style="padding-bottom: 15px;margin-top: -150px;">
 
@@ -320,7 +317,7 @@
                                                 &nbsp;
                                                 <span> Rp</span>
                                                 &nbsp;
-                                                <span >
+                                                <span>
                                                     <input type="hidden" name="ammount" value="{{$total_bayar}}" readonly>
                                                     <input type="text" style="border:none;color: orange;position:absolute;margin-top:0px" name="" value="{{$total_price}}" readonly>
                                                 </span>
@@ -364,6 +361,9 @@
         document.getElementById(cityName).style.display = "block";
         evt.currentTarget.className += " active";
     }
+
+    swal("Good job!", "You clicked the button!", "success");
+
 </script>
 
 @endsection
