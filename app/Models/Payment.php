@@ -27,4 +27,14 @@ class Payment extends Model
         'email',
         'status'
     ];
+
+    public function transaction() 
+    {
+        return $this->hasOne(MstTransaction::class, 'id');
+    }
+
+    public function transactionitem() 
+    {
+        return $this->hasOne(TransactionItem::class, 'transaction_id');
+    }
 }
