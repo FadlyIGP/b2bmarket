@@ -131,6 +131,10 @@ class HomeuserController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         \Session::put('countingcart', count($cartlistbyuserid));
+        $wishlist=Wishlist::where('user_id', $profile->id)->get();
+
+        \Session::put('wishlist', count($wishlist));
+        
          
          // *PRODUCT RANDOM* 
         $random = MstProduct::with('stock', 'image')
