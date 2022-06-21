@@ -35,6 +35,28 @@ class TransactionController extends Controller
             $company=MstCompany::find($id);
             return $company->company_name;
         }
+
+        function getimage($id){
+            $img=ImgProduct::where('product_id',$id)->first();
+            return $img->img_file;
+        }
+
+        function getstatus($status){
+           if ($status==0) {
+               $statuspayment='Menunggu Pembayaran';
+           } elseif($status==1) {
+               $statuspayment='Diproses Penjual';
+               
+           }elseif($status==2) {
+               $statuspayment='Sedang Dikirim';
+               
+           }elseif($status==3) {
+               $statuspayment='Diterima';
+           }
+
+           return $statuspayment;
+           
+        }
     }
 
     /**
@@ -46,33 +68,38 @@ class TransactionController extends Controller
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $payment = Payment::with(['transaction','transactionitem'])->where('user_id', $profile->id)->get();
+        $payment = Payment::with(['transaction','transactionitem'])->where('user_id', $profile->id)->orderBy('created_at','DESC')->get();
+        $listpesanan=[];
         foreach ($payment as $key => $value) {
            $listpesanan[]=[
             "transaction_id"=> $value->transaction_id,
             "user_id"=> $value->user_id,
             "currency"=> $value->currency,
             "bank_code"=> $value->bank_code,
-            "expected_ammount"=> $value->expected_ammount,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
             "paid_at"=> $value->paid_at,
             "payment_chanel"=> $value->payment_chanel,
-            "status"=> $value->status,
+            "status"=> getstatus($value->status),
             "created_at"=> $value->created_at,
             "updated_at"=> $value->updated_at,
             "payment_method"=> $value->payment_method,
             "payment_picture"=> $value->payment_picture,
             "invoice_number"=> $value->transaction->invoice_number,
             "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> $value->transactionitem->product_id
+            "product_image"=> getimage($value->transactionitem->product_id),
+            "product_name"=> $value->transactionitem->product_name,
 
            ];
         }
-        return $listpesanan;
 
-        
+        $menunggupembayaran=[];
+        $diprosespenjual=[];
+        $sedangdikirim=[];
+        $dikirim=[];
 
+        // return $listpesanan;
 
-        return view('frontEnd.transaction.transactionlist',[]);
+        return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim,]);
     }
 
     /**
@@ -104,7 +131,36 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $payment = Payment::with(['transaction','transactionitem'])
+                    ->where('user_id', $profile->id)
+                    ->where('transaction_id', $id)
+                    ->orderBy('created_at','DESC')
+                    ->get();
+        $listpesanan=[];
+        foreach ($payment as $key => $value) {
+           $listpesanan[]=[
+            "transaction_id"=> $value->transaction_id,
+            "user_id"=> $value->user_id,
+            "currency"=> $value->currency,
+            "bank_code"=> $value->bank_code,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+            "paid_at"=> $value->paid_at,
+            "payment_chanel"=> $value->payment_chanel,
+            "status"=> getstatus($value->status),
+            "created_at"=> $value->created_at,
+            "updated_at"=> $value->updated_at,
+            "payment_method"=> $value->payment_method,
+            "payment_picture"=> $value->payment_picture,
+            "invoice_number"=> $value->transaction->invoice_number,
+            "product_id"=> $value->transactionitem->product_id,
+            "product_image"=> getimage($value->transactionitem->product_id),
+            "product_name"=> $value->transactionitem->product_name,
+
+           ];
+        }
+
     }
 
     /**
