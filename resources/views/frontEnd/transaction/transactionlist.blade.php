@@ -66,6 +66,20 @@
       }
 
       tr:nth-child(even){background-color: #f2f2f2}
+
+      .buttonaddress {
+          display: block;
+          width: 50%;
+          height: 30px;
+          border: none;
+          background-color: #FF4500;
+          color: white;
+          /*padding: 14px 28px;*/
+          border-radius: 10px;
+          font-size: 12px;
+          cursor: pointer;
+          text-align: center;
+      }
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -97,30 +111,62 @@
                         <div class="container">
                          <div class="tab-content">
                             <div class="tabs__tab active" id="tab_1" data-tab-info>
+                                @if(empty($listpesanan))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($listpesanan as $list)
                                 <div class="row" style="">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;">
-                                        <table class="" width="">
+
+                                        <table class="" border="1" width="100%">
                                             <tbody>
                                                 <tr>
-                                                    <td width="10%">
-                                                        <img src="https://i.ibb.co/6NNbp7K/store.png" alt="defaultlogo" border="0" style="width: 50px;height: 50px" />
+                                                    <td width="25%">
+                                                        <center>
+                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
+                                                        </center>
 
                                                     </td>
                                                     <td width="20%">
-                                                       Nama Product
+                                                        
+                                                       {{$list['product_name']}}
                                                     </td>
                                                     <td width="20%">
-                                                       Rp. 500.000
+                                                        <center>
+                                                        <b>
+                                                            {{$list['expected_ammount']}}
+                                                        </b>
+                                                       </center>
                                                     </td>
 
                                                     <td width="20%">
-                                                       Rp. 500.000
+                                                       {{$list['status']}}
                                                     </td>
-                                                    <td width="20%">
-                                                       Rp. 500.000
-                                                    </td>
-                                                    <td width="20%">
-                                                       Rp. 500.000
+                                                    <td width="15%">
+                                                      <button class="buttonaddress">Detail</button>
                                                     </td>
 
                                                 </tr>
@@ -128,22 +174,279 @@
                                         </table>
                                     </div>
                                 </div>
-
+                                @endforeach()
+                                @endif()
                             </div>
                             <div class="tabs__tab" id="tab_2" data-tab-info>
-                                <p>Hello Everyone.</p>
+                                @if(empty($menunggupembayaran))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($listpesanan as $list)
+                                <div class="row" style="">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+
+                                        <table class="" border="1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="25%">
+                                                        <center>
+                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
+                                                        </center>
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        
+                                                       {{$list['product_name']}}
+                                                    </td>
+                                                    <td width="20%">
+                                                        <center>
+                                                        <b>
+                                                            {{$list['expected_ammount']}}
+                                                        </b>
+                                                       </center>
+                                                    </td>
+
+                                                    <td width="20%">
+                                                       {{$list['status']}}
+                                                    </td>
+                                                    <td width="15%">
+                                                      <button class="buttonaddress">Detail</button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endforeach()
+                                @endif()
 
                             </div>
                             <div class="tabs__tab" id="tab_3" data-tab-info>
-                                <p>Learn cool stuff.</p>
+                               @if(empty($diprosespenjual))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($listpesanan as $list)
+                                <div class="row" style="">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+
+                                        <table class="" border="1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="25%">
+                                                        <center>
+                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
+                                                        </center>
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        
+                                                       {{$list['product_name']}}
+                                                    </td>
+                                                    <td width="20%">
+                                                        <center>
+                                                        <b>
+                                                            {{$list['expected_ammount']}}
+                                                        </b>
+                                                       </center>
+                                                    </td>
+
+                                                    <td width="20%">
+                                                       {{$list['status']}}
+                                                    </td>
+                                                    <td width="15%">
+                                                      <button class="buttonaddress">Detail</button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endforeach()
+                                @endif()
 
                             </div>
                             <div class="tabs__tab" id="tab_4" data-tab-info>
-                                <p>Learn cool stuff.</p>
+                               @if(empty($sedangdikirim))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($listpesanan as $list)
+                                <div class="row" style="">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+
+                                        <table class="" border="1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="25%">
+                                                        <center>
+                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
+                                                        </center>
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        
+                                                       {{$list['product_name']}}
+                                                    </td>
+                                                    <td width="20%">
+                                                        <center>
+                                                        <b>
+                                                            {{$list['expected_ammount']}}
+                                                        </b>
+                                                       </center>
+                                                    </td>
+
+                                                    <td width="20%">
+                                                       {{$list['status']}}
+                                                    </td>
+                                                    <td width="15%">
+                                                      <button class="buttonaddress">Detail</button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endforeach()
+                                @endif()
 
                             </div>
                             <div class="tabs__tab" id="tab_5" data-tab-info>
-                                <p>Learn cool terim.</p>
+                               @if(empty($dikirim))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($listpesanan as $list)
+                                <div class="row" style="">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+
+                                        <table class="" border="1" width="100%">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="25%">
+                                                        <center>
+                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
+                                                        </center>
+
+                                                    </td>
+                                                    <td width="20%">
+                                                        
+                                                       {{$list['product_name']}}
+                                                    </td>
+                                                    <td width="20%">
+                                                        <center>
+                                                        <b>
+                                                            {{$list['expected_ammount']}}
+                                                        </b>
+                                                       </center>
+                                                    </td>
+
+                                                    <td width="20%">
+                                                       {{$list['status']}}
+                                                    </td>
+                                                    <td width="15%">
+                                                      <button class="buttonaddress">Detail</button>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @endforeach()
+                                @endif()
 
                             </div>
                         </div>
