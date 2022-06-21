@@ -224,7 +224,7 @@ a.menu:hover {
       <div class="col-12">
         <nav class="main-nav">
           <!-- ***** Logo Start ***** -->
-          <a href="index.html" class="logo">
+          <a href="#" class="logo">
             <img src="https://i.ibb.co/kh6Ydz0/newjualinajalogo.png" alt="Chain App Dev" style="width: 200px;height: 70px">
           </a>
           <!-- ***** Logo End ***** -->
@@ -233,9 +233,9 @@ a.menu:hover {
             {{-- <li class="" style="text-align: center;left: 100px"><a href="" class="">Home</a></li> --}}
             <li class="scroll-to-section" style="text-align: center;padding-right: 350px;">
               <form>
-                <input class="scroll-to-section" type="" name="" style="border: 1px solid #808080;border-top-left-radius:20px;border-bottom-left-radius:20px;height: 40px;">
-                <button class="" style="position: absolute;width: 10%;border: 1px solid #808080;border-top-right-radius:20px;border-bottom-right-radius:20px;height: 40px ">
-                  <i class="fa-solid fa-magnifying-glass"></i>
+                <input class="scroll-to-section" type="" name="filter" style="border: 1px solid #FF4500;;border-top-left-radius:20px;border-bottom-left-radius:20px;height: 40px;padding-right: 50px;">
+                <button class="" style="position: absolute;width: 10%;border: 1px solid #FF4500;border-top-right-radius:20px;border-bottom-right-radius:20px;height: 40px;background-color: #FF4500 ">
+                  <i class="fa-solid fa-magnifying-glass" style="color: white"></i>
                   
                 </button>
               </form>

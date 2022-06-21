@@ -17,6 +17,6 @@ class MstTransaction extends Model
         'company_id',
         'status',
         'address_id',
-        'expected_amount'
+        'expected_ammount'
     ];
 }

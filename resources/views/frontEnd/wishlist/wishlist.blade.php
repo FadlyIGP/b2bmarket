@@ -4,7 +4,7 @@
     <!-- ***** Body ***** -->
 <div id="services" class="services section ">
     <div class="container">
-        <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
+        <div class="about-us" style="padding-bottom: 15px;margin-top: -130px;">
            <div class="col-lg-3">
               <div class="div">
                 <h4><a style="color: #424242;" href="#">Favorite Saya</a></h4>
@@ -16,8 +16,8 @@
             @foreach($listcart as $list)
             <div class="col-lg-3" style="margin-top: 12px">
                <div class="service-item" >
-                    <h4 style="font-family: 'Helvetica Neue';font-size: 15px">{{ $list['product_name'] }}</h4>
-                    <img id="imgfile" data-wow-duration="1s" data-wow-delay="0.5s" src="{{ url('/files/'.$list['image']) }}" alt="" style="background-color: transparent;opacity: 4;">
+                    <h4 style="text-transform: uppercase; font-family: 'Roboto'; font-weight: 400; font-size: 15px">{{ $list['product_name'] }}</h4>
+                    <img class="zoom" id="imgfile" data-wow-duration="1s" data-wow-delay="0.5s" src="{{ url('/files/'.$list['image']) }}" alt="" style="background-color: transparent;opacity: 4;">
                     <center>
                            <div class="product-rating">
                               <i class="fa fa-star" style="color: red"></i>
@@ -28,16 +28,23 @@
                           </div>
                     </center>
                     <div class="heading1"></div>
+      <div style="display: flex;">
 
                     <div class="" id="test">
-                        <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                        <span style="color: #ed2114; font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
                     </div>
+                    <div class="" id="test">
+                      <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
+                    </div>
+                  </div>
+<div style="display: flex;">
                     <div class="" id="test">
                         <span style="font-size: 12px;"><b>Min Order {{ $list['min_order'] }}  Pcs</b></span>
                     </div>
                     <div class="" id="test" style="padding-bottom: 25px">
-                        <span style="font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
+                        <span style="float: right; color: #636363; font-size: 12px;"><b>Terjual {{ $list['pay_counting'] }} </b></span>
                     </div>
+                  </div>
 
                     <div class="heading1"></div>
 

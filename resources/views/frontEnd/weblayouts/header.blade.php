@@ -18,7 +18,7 @@
         <div class="col-12">
           <nav class="main-nav">
             <!-- ***** Logo Start ***** -->
-            <a href="index.html" class="logo">
+            <a href="{{url('/index2')}}" class="logo">
               <img src="https://i.ibb.co/kh6Ydz0/newjualinajalogo.png" alt="Chain App Dev" style="width: 200px;height: 70px">
             </a>
             <!-- ***** Logo End ***** -->
@@ -39,6 +39,12 @@
                 <a href="{{ route('logout') }}">
                     <i class="fa-solid fa-user-gear" style="color: #808080;font-size: 20px"></i>
                   <span style="color: #808080">Account</span>  
+                </a>
+            </li>
+            <li style="background-color: transparent;right: 20px;border-radius: 20px">
+                <a href="{{ url('profiles') }}">
+                    <i class="fa-solid fa-user" style="color: #808080;font-size: 20px"></i>
+                  <span style="color: #808080">Profile</span>  
                 </a>
             </li> 
           
