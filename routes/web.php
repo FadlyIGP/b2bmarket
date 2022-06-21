@@ -96,6 +96,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/getprofile', App\Http\Controllers\CmsController\ProfileController::class);
     Route::post('/getprofile/updateaddress', [App\Http\Controllers\CmsController\ProfileController::class, 'updateAddress']);
     Route::post('/getprofile/updateuser', [App\Http\Controllers\CmsController\ProfileController::class, 'updateUser']);
+    Route::post('/getprofile/changepassword', [App\Http\Controllers\CmsController\ProfileController::class, 'changePassword']);
 
     // Bank Account
     Route::resource('/bankaccount', App\Http\Controllers\CmsController\BankAccountController::class);

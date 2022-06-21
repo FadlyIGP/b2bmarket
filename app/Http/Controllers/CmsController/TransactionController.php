@@ -27,24 +27,27 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        /* Automatic Cancel If H+1 From Order Date, Buyer No Payment */
-        $neworder_list = MstTransaction::where('mst_transaction.status', 0)
-            ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
-            ->get(['mst_transaction.id', 'payment.transaction_id as id_pay', 'mst_transaction.created_at']);
-
-        $curr_date = date('Y-m-d H:m:s');
+        date_default_timezone_set('Asia/Jakarta');
         
-        foreach ($neworder_list as $key => $value) {
-            $day_cancel = Carbon::create($value->created_at)->addDays(1);
-            $auto_cancel_date = substr($day_cancel, 0, 10).' '.substr($day_cancel, 11, 8);
+        /* Automatic Cancel If H+1 From Order Date, Buyer No Payment => Move to app/console/kernel.php*/
+        // $neworder_list = MstTransaction::where('mst_transaction.status', 0)
+        //     ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
+        //     ->get(['mst_transaction.id', 'payment.transaction_id as id_pay', 
+        //         'mst_transaction.created_at', 'payment.status as pay_status']);
 
-            if ($auto_cancel_date <= $curr_date AND $value->id_pay == null) {
-                $mstTransaction = MstTransaction::find($value->id);
-                $mstTransaction->status = 99;
-                $mstTransaction->cancel_reason = '**No Payment After Day +1 Confirm Order**';
-                $mstTransaction->save();
-            }
-        }
+        // $curr_date = date('Y-m-d H:m:s');
+        
+        // foreach ($neworder_list as $key => $value) {
+        //     $day_cancel = Carbon::create($value->created_at)->addDays(1);
+        //     $auto_cancel_date = substr($day_cancel, 0, 10).' '.substr($day_cancel, 11, 8);
+
+        //     if ($auto_cancel_date < $curr_date AND /*$value->id_pay == null*/ $value->pay_status == 0) {
+        //         $mstTransaction = MstTransaction::find($value->id);
+        //         $mstTransaction->status = 99;
+        //         $mstTransaction->cancel_reason = '**No Payment After Day +1 Confirm Order**';
+        //         $mstTransaction->save();
+        //     }
+        // }
         /*End*/
 
         $transaction = MstTransaction::join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
