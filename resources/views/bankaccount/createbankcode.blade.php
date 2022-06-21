@@ -1,13 +1,13 @@
 @extends('layouts.master')
 
 @section('title')
-Add Product Image
+Add Bank Code
 @endsection
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/productcategories') }}">Product Images</a></li>
-<li class="active">Add Image</li>
+<li><a href="{{ url('/productcategories') }}">Bank Account</a></li>
+<li class="active">Add Bank Code</li>
 @endsection
 @section('content')
 @if (session('warning'))
@@ -19,7 +19,7 @@ Add Product Image
 <div class="row">
     <div class="col-lg-12">
         <div class="box" style="border-radius: 5px">
-            {!! Form::open(['url'=>url('/productimages'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+            {!! Form::open(['url'=>url('/bankaccount/bankcode/store'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">
@@ -29,23 +29,21 @@ Add Product Image
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
-                                                {!! Form::label('Product Name:', '') !!}
-                                                <select class="form-control select2" name="product" id="id_product" required> 
-                                                    <option value=""></option>
-                                                    @foreach($product_list as $product_list)                   
-                                                      <option value="{{ $product_list->id }}">{{ $product_list->product_name }}</option>
-                                                    @endforeach              
-                                                </select>
+                                                {!! Form::label('Bank Code:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control  has-feedback  " value="" id="idbankcode" name="bankcode" required>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
-                                                {!! Form::label('Image:', '') !!}
+                                                {!! Form::label('Bank Logo:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-image"></i></span>
-                                                    <input type="file" class="form-control" id="image_name" name="image_name" required>
+                                                    <input type="file" class="form-control" id="idbanklogo" name="banklogo" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -59,7 +57,7 @@ Add Product Image
                         {!! Form::submit('Send', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
                         &nbsp;&nbsp;
                         &nbsp;&nbsp;
-                        <a class="btn" href="{{ url('/productimages') }}" title="Back Image List" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                        <a class="btn" href="{{ url('/bankaccount') }}" title="Back Account List" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
                             Back
                         </a>
                     </div>

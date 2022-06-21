@@ -34,7 +34,7 @@
 
             <li class="{{request()->is('bankaccount') ? 'active' : ''}}">
                 <a href="{{ url('/bankaccount') }}">
-                    <i class="fa fa-image text-warning"></i> <span>Bank Account</span>
+                    <i class="fa fa-credit-card text-warning"></i> <span>Bank Account</span>
                 </a>
             </li>                     
 

@@ -10,18 +10,6 @@ Modify Product Image
 <li class="active">Modify Image</li>
 @endsection
 @section('content')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<style type="text/css">
-    .form-elements {
-        margin-top: 10px;
-    }
-
-    #frm-add-data .form-group {
-        margin-left: 13px;
-    }
-</style>
 @if (session('warning'))
     <div class="alert alert-warning">
       {{ session('warning') }}

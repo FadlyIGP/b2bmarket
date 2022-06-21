@@ -167,4 +167,12 @@ class ProfileController extends Controller
 
         return redirect()->route('getprofile.index')->with('success', 'Successfully Update User.');
     }
+     public function changePassword(Request $request){
+         
+        $user = User::where('email', $request->email)->first();
+        $user->password = Hash::make($request->new_pass);
+        $user->save();
+
+        return redirect()->route('getprofile.index')->with('success', 'Successfully Change Password.');
+     }
 }
