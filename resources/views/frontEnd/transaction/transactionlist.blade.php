@@ -47,10 +47,15 @@
             border-bottom: 1px solid #FF4500;
         }
 
+        .tab button.active {
+          background-color: #ccc;
+        }
+
         .line {
           border-bottom: 1px solid #aaa;
           width: 100%
         }
+
         table{
             font-size: 12px;
         }
@@ -98,14 +103,12 @@
 
                     <div class="col-md-12" style="border-radius: 10px;border: 1px solid #969696;padding-bottom: 20px;margin-top: 10px">
                         <div style="padding-bottom: 20px;padding-left: 10px;padding-top: 10px;">
-                               <div class="tabs">
+                            <div class="tabs">
                                 <span data-tab-value="#tab_1" style="">Semua</span>
                                 <span data-tab-value="#tab_2">Menunggu Pembayaran</span>
                                 <span data-tab-value="#tab_3">Diproses Penjual</span>
                                 <span data-tab-value="#tab_4">Sedang Dikirim</span>
                                 <span data-tab-value="#tab_5">Diterima</span>
-
-
                             </div>
                             <div class="line"></div>
                         </div>
