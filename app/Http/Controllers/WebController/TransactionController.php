@@ -17,7 +17,8 @@ use App\Models\UserMitra;
 use App\Models\MstTransaction;
 use App\Models\TransactionItem;
 use App\Models\TransactionHistory;
-use App\Models\Payment;        
+use App\Models\Payment;    
+use App\Models\MstRekening;    
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Exception;
@@ -25,6 +26,9 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
+use File;
+
 
 class TransactionController extends Controller
 {
@@ -69,6 +73,7 @@ class TransactionController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
         $payment = Payment::with(['transaction','transactionitem'])->where('user_id', $profile->id)->orderBy('created_at','DESC')->get();
+        // return $payment;
         $listpesanan=[];
         foreach ($payment as $key => $value) {
            $listpesanan[]=[
@@ -92,13 +97,88 @@ class TransactionController extends Controller
            ];
         }
 
+        $paymentwaiting = Payment::with(['transaction','transactionitem'])
+                  ->where('user_id', $profile->id)
+                  ->where('status',0)
+                  ->orderBy('created_at','DESC')->get();
         $menunggupembayaran=[];
+        foreach ($paymentwaiting as $key => $value) {
+           $menunggupembayaran[]=[
+            "transaction_id"=> $value->transaction_id,
+            "user_id"=> $value->user_id,
+            "currency"=> $value->currency,
+            "bank_code"=> $value->bank_code,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+            "paid_at"=> $value->paid_at,
+            "payment_chanel"=> $value->payment_chanel,
+            "status"=> getstatus($value->status),
+            "created_at"=> $value->created_at,
+            "updated_at"=> $value->updated_at,
+            "payment_method"=> $value->payment_method,
+            "payment_picture"=> $value->payment_picture,
+            "invoice_number"=> $value->transaction->invoice_number,
+            "product_id"=> $value->transactionitem->product_id,
+            "product_image"=> getimage($value->transactionitem->product_id),
+            "product_name"=> $value->transactionitem->product_name,
+
+           ];
+        }
+
+        $paymentproses = Payment::with(['transaction','transactionitem'])
+                   ->where('user_id', $profile->id)
+                   ->where('status', 1)
+                   ->orderBy('created_at','DESC')->get();
         $diprosespenjual=[];
+        foreach ($paymentproses as $key => $value) {
+           $diprosespenjual[]=[
+            "transaction_id"=> $value->transaction_id,
+            "user_id"=> $value->user_id,
+            "currency"=> $value->currency,
+            "bank_code"=> $value->bank_code,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+            "paid_at"=> $value->paid_at,
+            "payment_chanel"=> $value->payment_chanel,
+            "status"=> getstatus($value->status),
+            "created_at"=> $value->created_at,
+            "updated_at"=> $value->updated_at,
+            "payment_method"=> $value->payment_method,
+            "payment_picture"=> $value->payment_picture,
+            "invoice_number"=> $value->transaction->invoice_number,
+            "product_id"=> $value->transactionitem->product_id,
+            "product_image"=> getimage($value->transactionitem->product_id),
+            "product_name"=> $value->transactionitem->product_name,
+
+           ];
+        }
+
+        $paymenkirim = Payment::with(['transaction','transactionitem'])
+                   ->where('user_id', $profile->id)
+                   ->where('status', 2)
+                   ->orderBy('created_at','DESC')->get();
         $sedangdikirim=[];
+        foreach ($paymenkirim as $key => $value) {
+           $sedangdikirim[]=[
+            "transaction_id"=> $value->transaction_id,
+            "user_id"=> $value->user_id,
+            "currency"=> $value->currency,
+            "bank_code"=> $value->bank_code,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+            "paid_at"=> $value->paid_at,
+            "payment_chanel"=> $value->payment_chanel,
+            "status"=> getstatus($value->status),
+            "created_at"=> $value->created_at,
+            "updated_at"=> $value->updated_at,
+            "payment_method"=> $value->payment_method,
+            "payment_picture"=> $value->payment_picture,
+            "invoice_number"=> $value->transaction->invoice_number,
+            "product_id"=> $value->transactionitem->product_id,
+            "product_image"=> getimage($value->transactionitem->product_id),
+            "product_name"=> $value->transactionitem->product_name,
+
+           ];
+        }
+
         $dikirim=[];
-
-        // return $listpesanan;
-
         return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim,]);
     }
 
@@ -120,7 +200,30 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->hasFile('transfer_img')) {
+
+           $image = $request->file('transfer_img');
+           $image_name = time().'.'.$image->getClientOriginalExtension();
+           $destinationPath = public_path('paymentpicture');
+           $image->move($destinationPath, $image_name);
+           $tr_image = Payment::where('transaction_id',$request->tr_id)->first();
+           $tr_image->payment_picture = $image_name;
+           $tr_image->save();
+          
+        }else {
+            Alert::error('Failed', 'Upload failed');
+            return back();
+        }
+
+        if ($tr_image) {
+            Alert::success('Success', 'Struk berhasil diupload, tunggu dichedk admin');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Upload failed');
+            return back();
+        }
+
     }
 
     /**
@@ -133,33 +236,30 @@ class TransactionController extends Controller
     {
 
         $profile = UserMitra::where('email', Auth::user()->email)->first();
-        $payment = Payment::with(['transaction','transactionitem'])
+        $payment = MstTransaction::with(['item','payment'])
                     ->where('user_id', $profile->id)
-                    ->where('transaction_id', $id)
+                    ->where('id', $id)
                     ->orderBy('created_at','DESC')
-                    ->get();
-        $listpesanan=[];
-        foreach ($payment as $key => $value) {
-           $listpesanan[]=[
-            "transaction_id"=> $value->transaction_id,
-            "user_id"=> $value->user_id,
-            "currency"=> $value->currency,
-            "bank_code"=> $value->bank_code,
-            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "paid_at"=> $value->paid_at,
-            "payment_chanel"=> $value->payment_chanel,
-            "status"=> getstatus($value->status),
-            "created_at"=> $value->created_at,
-            "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment_method,
-            "payment_picture"=> $value->payment_picture,
-            "invoice_number"=> $value->transaction->invoice_number,
-            "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> getimage($value->transactionitem->product_id),
-            "product_name"=> $value->transactionitem->product_name,
+                    ->first();
 
+        $getrek = MstRekening::where('company_id', $payment->company_id)->where('bank_code',$payment->payment->bank_code)
+            ->first();
+        // return $payment;
+        $listpesanan=[];
+        foreach ($payment['item'] as $key => $value) {
+           $listpesanan[]=[
+            "transaction_id"=> $payment->id,
+            "product_image"=> getimage($value->product_id),
+            "product_name"=> $value->product_name,
+            "product_qty"=>$value->product_qty,
+            "price_total"=>'Rp '. number_format((float)$value->price_total, 0, ',', '.'),
            ];
         }
+
+        $expected_ammount='Rp '. number_format((float)$payment->expected_ammount, 0, ',', '.');
+
+        return view('frontEnd.transaction.transactiondetail', ['listpesanan' => $listpesanan,'payment'=>$payment,'getrek'=>$getrek,'expected_ammount'=>$expected_ammount]);       
+
 
     }
 
