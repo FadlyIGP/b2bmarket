@@ -39,11 +39,12 @@
         }
           
         .tabs span:hover {
-            background: #FF4500 ;
+            /*background: #FF4500 ;*/
             cursor: pointer;
-            color: white;
-            font-size: 15px;
-            border-radius: 10px
+            color: #FF4500;
+            font-size: 12px;
+            /*border-radius: 10px*/
+            border-bottom: 1px solid #FF4500;
         }
 
         .line {
@@ -166,7 +167,19 @@
                                                        {{$list['status']}}
                                                     </td>
                                                     <td width="15%">
-                                                      <button class="buttonaddress">Detail</button>
+                                                     {{--  <a href="{{ url('/transactions', $list['transaction_id']) }}" id="modal1" class="buttonaddress" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        Detail
+                                                      </a>   --}}  
+
+                                                      {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                      <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        <span style="font-family: 'Helvetica Neue';color: white">
+                                                            <b>
+                                                                Detail
+                                                            </b>
+                                                        </span>
+                                                    </button>
+                                                    {!! Form::close() !!}
                                                     </td>
 
                                                 </tr>
@@ -204,7 +217,7 @@
 
                                 @else()
 
-                                @foreach($listpesanan as $list)
+                                @foreach($menunggupembayaran as $list)
                                 <div class="row" style="">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;">
 
@@ -272,7 +285,7 @@
 
                                 @else()
 
-                                @foreach($listpesanan as $list)
+                                @foreach($diprosespenjual as $list)
                                 <div class="row" style="">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;">
 
@@ -340,7 +353,7 @@
 
                                 @else()
 
-                                @foreach($listpesanan as $list)
+                                @foreach($sedangdikirim as $list)
                                 <div class="row" style="">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;">
 
@@ -459,24 +472,65 @@
         </div>
     </div>
 </div>
+@include('sweetalert::alert')
+
+<!-- Modal Transaction Item -->
+<div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="border-radius: 15px">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: ">   
+                <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
+                   <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
+                    Items
+                </span>    
+            </div>
+            <div class="modal-body" id="body-item">
+                <!--Include showitem.blade.php here -->
+            </div>              
+            <div class="modal-footer"> 
+
+                <a class="btn btn-default buttonaddress" id="hide" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Close
+                </a>
+            </div> 
+        </div>
+    </div>
+</div>
 
 <!-- Scripts -->
 
 <script>
-const tabs = document.querySelectorAll('[data-tab-value]')
-        const tabInfos = document.querySelectorAll('[data-tab-info]')
-  
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const target = document
-                    .querySelector(tab.dataset.tabValue);
-  
-                tabInfos.forEach(tabInfo => {
-                    tabInfo.classList.remove('active')
-                })
-                target.classList.add('active');
+    const tabs = document.querySelectorAll('[data-tab-value]')
+    const tabInfos = document.querySelectorAll('[data-tab-info]')
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const target = document
+            .querySelector(tab.dataset.tabValue);
+
+            tabInfos.forEach(tabInfo => {
+                tabInfo.classList.remove('active')
             })
+            target.classList.add('active');
         })
+    })
+
+
+    $('tbody').on('click','#modal1', function(e){
+        e.preventDefault();
+
+        const id = $(this).attr('data-id');
+        $.ajax({
+            url: 'transactions/' + id,                     
+            dataType: 'html',
+            success: function(response){
+                $('#body-item').html(response);
+            }
+        });
+
+        $('#detailItem').modal('show');
+
+    });
 </script>
 
 @endsection  

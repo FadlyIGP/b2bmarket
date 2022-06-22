@@ -19,4 +19,13 @@ class MstTransaction extends Model
         'address_id',
         'expected_ammount'
     ];
+
+    public function item() 
+    {
+        return $this->hasMany(TransactionItem::class, 'transaction_id');
+    }
+    public function payment() 
+    {
+        return $this->hasOne(Payment::class, 'transaction_id');
+    }
 }
