@@ -42,7 +42,7 @@
           	<input type="text" class="form-control" name="paid" id="idpaid" value="{{ $payment_list['phone'] }} / {{ $payment_list['tel_number'] }}" readonly>
         </div>  
         <div class="form-group">                    	
-          	<img src="{{ url('/files/'.$payment_list['payment_picture']) }}" alt="image" style="width: 270px;height: 250px;">  
+          	<img src="{{ url('/paymentpicture/'.$payment_list['payment_picture']) }}" alt="image" style="width: 100%;">  
         </div>             
 	</div>
 </div>
