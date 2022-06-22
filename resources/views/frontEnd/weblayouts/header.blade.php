@@ -25,7 +25,7 @@
             <!-- ***** Menu Start ***** -->
             <ul class="nav">
               {{-- <li class="" style="text-align: center;left: 100px"><a href="" class="">Home</a></li> --}}
-              <li class="scroll-to-section" style="text-align: center;padding-right: 350px;">
+              <li class="scroll-to-section" style="text-align: center;margin-right: 100px;">
                 <form>
                 <input class="scroll-to-section" type="" name="filter" style="border: 1px solid #FF4500;;border-top-left-radius:20px;border-bottom-left-radius:20px;height: 40px;padding-right: 50px;">
                 <button class="" style="position: absolute;width: 10%;border: 1px solid #FF4500;border-top-right-radius:20px;border-bottom-right-radius:20px;height: 40px;background-color: #FF4500 ">
@@ -35,16 +35,16 @@
                 </form>
 
               </li>
-              <li style="background-color: transparent;right: 20px;border-radius: 20px">
-                <a href="{{ route('logout') }}">
+              <li style="background-color: transparent;right: 20px;border-radius: 20px;margin-right: 0px;">
+                <a href="{{ url('profiles') }}">
                     <i class="fa-solid fa-user-gear" style="color: #808080;font-size: 20px"></i>
                   <span style="color: #808080">Account</span>  
                 </a>
             </li>
-            <li style="background-color: transparent;right: 20px;border-radius: 20px">
-                <a href="{{ url('profiles') }}">
-                    <i class="fa-solid fa-user" style="color: #808080;font-size: 20px"></i>
-                  <span style="color: #808080">Profile</span>  
+            <li style="background-color: transparent;right: 0px;border-radius: 20px;margin-right: -50px;">
+                <a href="{{ route('logout') }}">
+                    <i class="fa-solid fa-right-from-bracket" style="color: #808080;font-size: 20px"></i>
+                  <span style="color: #808080">Logout</span>  
                 </a>
             </li> 
           
