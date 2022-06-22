@@ -21,9 +21,20 @@ class Payment extends Model
         'expected_ammount',
         'paid_at',
         'payment_chanel',
+        'payment_method',
         'expiration_date',
         'name',
         'email',
         'status'
     ];
+
+    public function transaction() 
+    {
+        return $this->hasOne(MstTransaction::class, 'id');
+    }
+
+    public function transactionitem() 
+    {
+        return $this->hasOne(TransactionItem::class, 'transaction_id');
+    }
 }

@@ -55,103 +55,129 @@ class HomeController extends Controller
 
             \Session::put('username', $username);
 
+            $curr_year = date('Y');
+            
             /*Get Data For Chart*/
             /************* Transaction Success *************/
             $JAN_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 1)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
             
             $FEB_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 2)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAR_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 3)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $APR_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 4)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAY_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 5)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUN_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 6)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUL_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 7)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $AUG_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 8)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $SEP_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 9)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $OCT_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 10)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $NOV_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 11)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $DES_finished = MstTransaction::where('status', 3)
                 ->whereMonth('created_at', 12)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             /************** Cancel Transaction **************/
             $JAN_cancelled = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 1)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
             
             $FEB_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 2)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAR_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 3)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $APR_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 4)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAY_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 5)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUN_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 6)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUL_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 7)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $AUG_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 8)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $SEP_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 9)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $OCT_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 10)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $NOV_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 11)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $DES_cancelled  = MstTransaction::where('status', 99)
                 ->whereMonth('created_at', 12)
+                ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $data_finished = [

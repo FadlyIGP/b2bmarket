@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-
 use App\Models\MstProduct;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
@@ -19,7 +18,6 @@ use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
 use App\Models\UserMitra;
-
 use Exception;
 use Carbon\Carbon;
 use File;
