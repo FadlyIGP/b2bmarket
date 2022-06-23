@@ -129,7 +129,7 @@ Company Profile
 	              	{!! Form::close() !!}
               	</div>
               	<div class="tab-pane" id="chgpassword">
-                	{!! Form::open(['url'=>url('/'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                	{!! Form::open(['url'=>url('/getprofile/changepassword'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off', 'onsubmit'=>'return validateForm(this)']) !!}
               		<div class="form-group">	                	
                   		<div class="col-sm-10">
 	                      	<input type="hidden" class="form-control" id="id_email" name="email" value="{{ $profile->email }}">
@@ -138,13 +138,15 @@ Company Profile
                 	<div class="form-group">
 	                	<label class="col-sm-2 control-label">New Password</label>
                   		<div class="col-sm-10">
-	                      	<input type="password" class="form-control" id="idnew_pass" name="new_pass" placeholder="New Password" required>
+	                      	<input type="password" class="form-control" id="idnew_pass" name="new_pass" placeholder="New Password" onblur="checkLength1(this)">
+							<span id="errPass1" style="color: red;"></span>
 	                    </div>
 	              	</div>	 
 	              	<div class="form-group">
 	                	<label class="col-sm-2 control-label">Confirm Password</label>
                   		<div class="col-sm-10">
-	                      	<input type="password" class="form-control" id="idconrim_pass" name="conrim_pass" placeholder="Confirm Password" required>
+	                      	<input type="password" class="form-control" id="idconrim_pass" name="conrim_pass" placeholder="Confirm Password">
+							  <span id="errPass2" style="color: red;"></span>
 	                    </div>
 	              	</div>             	
 	              	<div class="form-group">
@@ -208,5 +210,43 @@ Company Profile
             });
         }, 2500);
     });    
+</script>
+
+<script>
+  	function validateForm(form){        
+    if (form.new_pass.value == ""){
+		document.getElementById("errPass1").innerHTML = "Password can't be empty!";
+		form.new_pass.focus();
+		return false;
+		}
+		else if(form.new_pass.value.length < 6){
+		document.getElementById("errPass1").innerHTML = "Minimum password must be 6 characters!";
+		form.new_pass.focus();
+		return false;
+		}
+
+		if (form.conrim_pass.value == ""){
+		document.getElementById("errPass2").innerHTML = "Password can't be empty!";
+		form.conrim_pass.focus();
+		return false;
+		}
+
+		var newPass = document.getElementById('idnew_pass').value;
+		var checkPass = document.getElementById('idconrim_pass').value;
+
+		if (checkPass != newPass){
+		document.getElementById("errPass2").innerHTML = "Confirm password does not match!";
+		form.conrim_pass.focus();
+		return false;
+		}
+		return true;
+  	}
+
+	// On Leave Passwword Baru
+	function checkLength1(el){
+		if (el.value.length >= 6){
+		document.getElementById("errPass1").innerHTML = "";
+		}       
+	}
 </script>
 @endpush

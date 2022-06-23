@@ -96,7 +96,16 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('/getprofile', App\Http\Controllers\CmsController\ProfileController::class);
     Route::post('/getprofile/updateaddress', [App\Http\Controllers\CmsController\ProfileController::class, 'updateAddress']);
     Route::post('/getprofile/updateuser', [App\Http\Controllers\CmsController\ProfileController::class, 'updateUser']);
+    Route::post('/getprofile/changepassword', [App\Http\Controllers\CmsController\ProfileController::class, 'changePassword']);
 
     // Bank Account
     Route::resource('/bankaccount', App\Http\Controllers\CmsController\BankAccountController::class);
+    Route::get('bankaccount/edit/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'edit']);
+    Route::get('bankaccount/delete/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'destroy']);
+
+    Route::get('bankaccount/bankcode/create', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeCreate']);
+    Route::post('/bankaccount/bankcode/store', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeStore']);
+    Route::get('bankaccount/bankcode/edit/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeModify']);
+    Route::post('/bankaccount/bankcode/update', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeUpdate']);
+    Route::get('bankaccount/bankcode/delete/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeDelete']);
 });

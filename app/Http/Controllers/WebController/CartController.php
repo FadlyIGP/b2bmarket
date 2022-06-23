@@ -76,7 +76,7 @@ class CartController extends Controller
         }
         
         $total_price=number_format((float)array_sum($totalcheked), 0, ',', '.');
-
+        $listcart=[];
         foreach ($cartlistbyuserid as $key => $value) {
             $listcart[]=[
                 'id'=> $value->id,

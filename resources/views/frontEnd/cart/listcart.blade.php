@@ -19,9 +19,9 @@ table tr {
     height: 40px;
 }
 
-img {
+/*img {
     width:30%;height: 5%
-}
+}*/
 
 .imglogo {
     width:10%;height: 5% !important;
@@ -101,6 +101,17 @@ img {
 
 }
 
+.body {  
+    background-image: url(assets/images/backgroundshop.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    /*padding: 250px 120px 150px 120px;*/
+    position: relative;
+    overflow: hidden;
+ } 
+
+
 /*.input{
 
 }*/
@@ -114,13 +125,51 @@ input.qtyminus { width:25px; height:25px;}
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
-
 <div id="" class="services section ">
   <div class="container">
-     <div class="about-us show-up header-text" style="padding-bottom: 15px;margin-top: -150px;">
+    <div class="about-us show-up header-text" style="padding-bottom: 15px;margin-top: -150px;">
 
-     </div>
-     <div class="row">
+    </div>
+    {{-- <body class="body"> --}}
+    @if(empty($listcart))
+    <div class="row body" style="border-radius: 10px;">
+         {{-- <div class="container"> --}}
+            <center>
+            <div class="col-md-12 divbackg" style="padding-left: 20px;padding-right: 20px;padding-top: 50px;padding-bottom:5px;margin-bottom: 20px;height: auto;">
+                <div class="row " style="">
+                    <div class="col-md-12" >
+                    <img src="{{ asset('assets/images/cart.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 20%;">
+                    <span style="font-family: 'Helvetica Neue';color: #FF4500">
+                        <h2>
+                            <b>
+                                Keranjang Masih Kosong
+                            </b>
+                        </h2>
+                    </span>
+                    
+                    {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                    <button style="background-color: transparent;border-color: transparent;" type="submit">
+                        <span style="font-family: 'Helvetica Neue';color: orange">
+                            <h2>
+                                <b>
+                                    Yuk Belanja..!
+                                </b>
+                            </h2>
+                            <i class="fa-brands fa-golang" style="font-size: 60px;margin-top: 0px;color: #7CFC00"></i>
+
+                        </span>
+                    </button>
+                    {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+            </center>
+
+        {{-- </div> --}}
+      
+    </div>
+    @else()
+    <div class="row">
         <div class="col-lg-12" >
           <div class="row">
             <div class="col-lg-8" style="padding-bottom: 20px;">
@@ -278,7 +327,10 @@ input.qtyminus { width:25px; height:25px;}
         </div>
     </div>
 
-</div>
+    @endif()
+   {{-- </body> --}}
+
+  </div>
 
 </div>
 

@@ -1,164 +1,165 @@
 @extends('frontEnd.weblayouts.app')
 @section('content')
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+{{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
 <style type="text/css">
-	.form-elements {
-		margin-top: 10px;
-	}
+    /* Style the tab */
+    .tab {
+      overflow: hidden;
+      /*border: 1px solid #ccc;*/
+      /*background-color: #f1f1f1;*/
+  }
 
-	#frm-add-data .form-group {
-		margin-left: 13px;
-	}
+  /* Style the buttons inside the tab */
+  .tab button {
+      background-color: inherit;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 14px 16px;
+      transition: 0.3s;
+      font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+      background-color: #ddd;
+      border-radius: 10px;
+
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+      background-color: #FF0000;
+      border-radius: 10px;
+      color: white;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+      display: none;
+      padding: 6px 12px;
+      /*border: 1px solid #ccc;*/
+      border-top: none;
+  }
 </style>
-<div id="" class="about-us" style="margin-bottom: -250px">
+<div id="" class="about-us show-up header-text" style="margin-bottom: -250px">
 	<div class="container ">
-		<div class="col-lg-12 align-self-center show-up header-text">
-			<div class="row">
-				<div style="overflow-x:auto;">
-					<div class="col-lg-12">
-						<div class="row">
-							<div class="col-lg-12">
-								
-								<div class="col-lg-6">
-									<div class="box" style="border-radius: 5px;background-color: #F0EFEB">
-										<i class="fa fa-key" style="padding-top: 20px;padding-bottom: 20px;padding-left: 30px;"></i>&nbsp Login Details
+        <div class="row">
+            <div class="col-lg-12" >
+                <div class="row">
+                    <div class="col-lg-4" style="padding-bottom: 20px;">
+                        <div style="border: 1px solid #969696;border-radius: 10px;">
+                            <h4 style="font-family: 'Helvetica Neue';">
+                                <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
+                                Alamat
+                            </h4>
+                            <div class="heading1"></div>
+                            <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
+                                <table width="100%" class="" style="margin-top: 10px">
+                                    <tr style="height:2px">
+                                        <td width="20%" style="font-size: 12px">Qty</td>
+                                        <td width="50%" style="font-size: 12px">Product</td>
+                                        <td width="30%" style="font-size: 12px">Total</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
-										{!! Form::open(['url'=>url('/profiles', $profile['id']), 'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-										<div class="row">
-											<div class="col-md-12">
-												<div class="panel panel-default">
-													<div class="box-body">
-														<div class="col-md-12">
-															<div class="box-body col-md-12">     {{-- kiri --}}
-																<div class="form-group">
-																	<div class="col-md-12">
-																		<div class="col-md-12" style="padding-top: 20px">
-																			{!! Form::label('Name:', '') !!}
-																			<div class="input-group">
-																				<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-																				<input type="text" class="form-control  has-feedback  " value="{{$profile['name']}}" id="name" name="name" required>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-																<div class="form-group">
-																	<div class="col-md-12">
-																		<div class="col-md-12">
-																			{!! Form::label('Login Email:', '') !!}
-																			<div class="input-group">
-																				<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-																				<input type="text" class="form-control  has-feedback  " value="{{$profile['email']}}" id="email" name="email" required>
-																			</div>
-																		</div>
-																	</div>
-																</div>
+                    </div>
 
-																<div class="form-group">
-																	<div class="box-footer">
-																		{!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
-																	</div>
-																</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									{!! Form::close()!!}
+                    <div class="col-lg-8" style="padding-bottom: 20px;">
+                        <div style="border: 1px solid #969696;border-radius: 10px;">
+                            <div class="tab">
+                              <button id="London-tab" class="tablinks" onclick="openCity(event, 'London')">Address</button>
+                              <button id="Paris-tab" class="tablinks" onclick="openCity(event, 'Paris')">Change Password</button>
+                              <button id="Tokyo-tab" class="tablinks" onclick="openCity(event, 'Tokyo')">User Setup</button>
+                            </div>
+                            <div class="heading1"></div>
+                                  <div id="London" class="tabcontent">
+                                      <h3>London</h3>
+                                      <p>London is the capital city of England.</p>
+                                      <button class="new-btn" onclick="openCity(event, 'Tokyo')">Click Me</button>
+                                  </div>
 
-									<div class="col-lg-6">
-										<div class="box" style="border-radius: 5px;background-color: #F0EFEB">
-											<i class="fa fa-key" style="padding-top: 20px;padding-bottom: 20px;padding-left: 30px;"></i>&nbsp Change Password
-											{!! Form::open(['url'=>url(''), 'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-											<div class="row">
-												<div class="col-md-12">
-													<div class="panel panel-default">
-														<div class="box-body">
-															<div class="col-md-12">
-																<div class="box-body col-md-12">     {{-- kiri --}}
-																	<div class="form-group">
-																		<div class="col-md-12">
-																			<div class="col-md-12"style="padding-top: 20px">
-																				{!! Form::label('Password:', '') !!}
-																				<div class="input-group">
-																					<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-																					<input type="text" class="form-control  has-feedback  " value="" id="password" name="password" required>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																	<div class="form-group">
-																		<div class="col-md-12">
-																			<div class="col-md-12">
-																				{!! Form::label('Confirm Password:', '') !!}
-																				<div class="input-group">
-																					<span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-																					<input type="text" class="form-control  has-feedback  " value="" id="confirm_password" name="confirm_password" required>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
+                                  <div id="Paris" class="tabcontent">
+                                      <h3>Paris</h3>
+                                      <p>Paris is the capital of France.</p>
+                                  </div>
 
-																	<div class="form-group">
-																		<div class="col-md-12">
-																			<div class="col-md-12">
+                                  <div id="Tokyo" class="tabcontent">
+                                      <h3>Tokyo</h3>
+                                      <p>Tokyo is the capital of Japan.</p>
+                                  </div>
+                        </div>
 
-																				<div class="form-actions">
-																					<div class="row">
-																						<div class="col-md-offset-4 col-md-9">
-																							<button type="button" onclick="updateLogin();return false;" class="btn green"><i
-																								class="fa fa-check"></i> {{trans('Update')}}</button>
-
-																							</div>
-																						</div>
-																					</div>
-																				</div>
-																			</div>
-																		</div>
-																	</div>
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												{!! Form::close()!!}
-											</div>
-										</div>
+                    </div>
 
 
+                </div>
+            </div>
 
-							{{-- <div class="col-lg-6">
-								<i class="fa fa-key"></i>Login Details
-								<hr>
-								<div class="col-lg-10 align-center">
-									<div class="row">
-										<div class="col-lg-3">
-											Name : 
-										</div>
-										<div class="col-lg-3">
-											<input type="" name=""> 
-										</div>
-									</div>
-								</div>
-								<hr>
-							</div>
-							<div class="col-lg-6">
-								<i class="fa fa-key"></i>Change Password
-								<hr>
+            <div class="col-lg-12" >
+                <div class="row">
+                    <div class="col-lg-4" style="padding-bottom: 20px;">
+                        <div style="border: 1px solid #969696;border-radius: 10px;">
+                            <h4 style="font-family: 'Helvetica Neue';">
+                                <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
+                                Alamat
+                            </h4>
+                            <div class="heading1"></div>
+                            <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
+                                <table width="100%" class="" style="margin-top: 10px">
+                                    <tr style="height:2px">
+                                        <td width="20%" style="font-size: 12px">Qty</td>
+                                        <td width="50%" style="font-size: 12px">Product</td>
+                                        <td width="30%" style="font-size: 12px">Total</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
-								<hr>
-							</div> --}}
-						</div>
-					</div>
+                    </div>
 
-				</div>
-			</div>
-		</div>
-	</div>
+                    <div class="col-lg-8" style="padding-bottom: 20px;">
+                        <div style="border: 1px solid #969696;border-radius: 10px;">
+                            <h4 style="font-family: 'Helvetica Neue';">
+                                <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
+                                Alamat
+                            </h4>
+                            <div class="heading1"></div>
+                            <div style="height: 100px;padding-right: 10px;padding-left: 10px;">
+                                Test
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script type="text/javascript">
+    function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+    }
+    document.getElementById(cityName).style.display = "block";
+    document.getElementById(cityName + "-tab").classList.add("active");
+  // evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("London-tab").click();
+</script>
 
 @endsection()

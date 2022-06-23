@@ -2,7 +2,7 @@
     <div class="footer">
       <p class="footer-text-left">
 
-        <a href="#" id="GFG" class="menu icon-style" title="home">
+        <a href="{{url('/index2')}}" id="GFG" class="menu icon-style" title="home">
           <i class="fa-solid fa-house-user"></i>
         </a>
 
@@ -13,7 +13,7 @@
 
         <a href="{{ url('/wishlists') }}" id="GFG" class="menu icon-style" title="favorite">
           <i class="fa-solid fa-heart"></i>
-          <span class='badge badge-warning' id='lblCartCount'> 5 </span>
+          <span class='badge badge-warning' id='lblCartCount'> {{\Session::get('wishlist')}} </span>
         </a> 
 
         <a href="{{url('/transactions')}}" id="GFG" class="menu icon-style" title="pesanan">
