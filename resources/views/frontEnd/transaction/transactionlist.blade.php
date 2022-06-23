@@ -249,7 +249,15 @@
                                                        {{$list['status']}}
                                                     </td>
                                                     <td width="15%">
-                                                      <button class="buttonaddress">Detail</button>
+                                                     {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                     <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        <span style="font-family: 'Helvetica Neue';color: white">
+                                                            <b>
+                                                                Detail
+                                                            </b>
+                                                        </span>
+                                                    </button>
+                                                    {!! Form::close() !!}
                                                     </td>
 
                                                 </tr>
@@ -317,7 +325,15 @@
                                                        {{$list['status']}}
                                                     </td>
                                                     <td width="15%">
-                                                      <button class="buttonaddress">Detail</button>
+                                                      {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                      <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        <span style="font-family: 'Helvetica Neue';color: white">
+                                                            <b>
+                                                                Detail
+                                                            </b>
+                                                        </span>
+                                                         </button>
+                                                     {!! Form::close() !!}
                                                     </td>
 
                                                 </tr>
@@ -385,7 +401,15 @@
                                                        {{$list['status']}}
                                                     </td>
                                                     <td width="15%">
-                                                      <button class="buttonaddress">Detail</button>
+                                                       {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                         <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        <span style="font-family: 'Helvetica Neue';color: white">
+                                                            <b>
+                                                                Detail
+                                                            </b>
+                                                        </span>
+                                                        </button>
+                                                        {!! Form::close() !!}
                                                     </td>
 
                                                 </tr>
@@ -424,7 +448,7 @@
 
                                 @else()
 
-                                @foreach($listpesanan as $list)
+                                @foreach($dikirim as $list)
                                 <div class="row" style="">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;">
 
@@ -453,7 +477,15 @@
                                                        {{$list['status']}}
                                                     </td>
                                                     <td width="15%">
-                                                      <button class="buttonaddress">Detail</button>
+                                                       {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                     <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                        <span style="font-family: 'Helvetica Neue';color: white">
+                                                            <b>
+                                                                Detail
+                                                            </b>
+                                                        </span>
+                                                    </button>
+                                                    {!! Form::close() !!}
                                                     </td>
 
                                                 </tr>

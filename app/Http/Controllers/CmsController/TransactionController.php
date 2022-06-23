@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\MstCompany;
 use App\Models\MstTransaction;
 use App\Models\TransactionItem;
+use App\Models\TransactionHistory;
 use App\Models\UserMitra;
 use App\Models\Payment;
 use Illuminate\Http\Request;
@@ -230,15 +231,30 @@ class TransactionController extends Controller
     {        
         date_default_timezone_set('Asia/Jakarta'); 
 
-        $payment = Payment::find($request->recidpay);
-        $payment->status = 2; /*Success Payment*/
-        $payment->save();       
+        if ($request->methodpay == 'transfer') {
+            $payment = Payment::find($request->recidpay);
+            $payment->status = 2; /*Success Payment*/
+            $payment->save();       
 
-        $msttransaction = MstTransaction::find($request->recidtrans);
-        $msttransaction->status = 1; /*Proccessing*/
-        $msttransaction->save();
+            $msttransaction = MstTransaction::find($request->recidtrans);
+            $msttransaction->status = 1; /*Proccessing*/
+            $msttransaction->save();
 
-        return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Success Payment.');
+            $TransactionHist = new TransactionHistory;
+            $TransactionHist->transaction_id    = $request->recidtrans;
+            $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
+            $TransactionHist->status            = 2;
+            $TransactionHist->save();
+
+            return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Success Payment.');
+        }else if ($request->methodpay == 'tunai') {
+            $msttransaction = MstTransaction::find($request->recidtrans);
+            $msttransaction->status = 1; /*Proccessing*/
+            $msttransaction->save();
+           
+            return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Proccessing Order.');
+        }
+        
     } 
 
     public function statuscancel(Request $request)
@@ -253,6 +269,12 @@ class TransactionController extends Controller
         $msttransaction->status = 99; /*Cancel Order*/
         $msttransaction->cancel_reason = $request->cancelreason;
         $msttransaction->save();
+
+        $TransactionHist = new TransactionHistory;
+        $TransactionHist->transaction_id    = $request->recidtrans;
+        $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
+        $TransactionHist->status            = 99;
+        $TransactionHist->save();
 
         return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Cancellation Payment & Order.');
     } 
