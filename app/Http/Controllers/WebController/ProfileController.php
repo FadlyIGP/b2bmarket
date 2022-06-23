@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\MstProduct;
 use App\Models\Cart;
 use App\Models\UserMitra;
+use App\Models\User;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
 use App\Models\Address;
@@ -22,17 +23,17 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $profile=UserMitra::where('email', Auth::user()->email)->first();
 
         $company=MstCompany::find($profile->company_id);
 
         $address=Address::where('user_id', $profile->id)->get();
+        // return $address;
 
 
         // Address
         // return $address;
-        return view('frontEnd.profiles.profiles',['profile' => $profile]);
-
+        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company'=>$company,'address'=>$address]);
     }
 
     /**
@@ -87,17 +88,24 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // return Auth::user();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        
         $cariprofile = UserMitra::find($id);
-        $cariprofile->name          = $request->name;
-        $cariprofile->email         = $request->email;
-        $cariprofile->save();
+        $cariprofile->name = $request->name;
+        $cariprofile->email= $request->email;
+        $cariprofile->save();        
 
-        $caripassword = User::where('email', $id)->first();
-        $caripassword->password = $request->password;
-        $caripassword->save();
+        $getuser = User::find(Auth::user()->id);
+        $update = $getuser->update($request->all());
 
-        return redirect()->route('frontEnd.profiles.profiles')->with('success', 'Successfully Update Data.');
+        return redirect()->route('profiles')->with('success', 'Successfully Update Data.');
+    }
+
+    public function updateAddress(Request $request, $id)
+    {
+        $address=Address::where('user_id', $profile->id)->get();
+
     }
 
     /**

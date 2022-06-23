@@ -56,16 +56,10 @@
 																</div>
 
 																<div class="form-group">
-																	<div class="form-actions">
-																		<div class="row">
-																			<div class="col-md-offset-4 col-md-9">
-																				<button type="button" onclick="updateLogin();return false;" class="btn green"><i
-																					class="fa fa-check"></i> {{trans('Update')}}</button>
-
-																				</div>
-																			</div>
-																		</div>
+																	<div class="box-footer">
+																		{!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
 																	</div>
+																</div>
 																</div>
 															</div>
 														</div>
