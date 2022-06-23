@@ -132,6 +132,7 @@ class ProfileController extends Controller
         $MstAddress->patokan            = $request->remark;
         $MstAddress->primary_address    = 1;
         $MstAddress->save();
+        return $MstAddress;
 
         return redirect()->route('getprofile.index')->with('success', 'Successfully Update Address.');
     }

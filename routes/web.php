@@ -36,6 +36,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/infoproducts', App\Http\Controllers\WebController\InfoProductController::class);
     // profile
     Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
+    Route::post('/profiles/updateaddress', [App\Http\Controllers\WebController\ProfileController::class, 'updateAddress']);
+    Route::post('/profiles/changepassword', [App\Http\Controllers\WebController\ProfileController::class, 'changePassword']);
+    Route::post('/profiles/changeuser', [App\Http\Controllers\WebController\ProfileController::class, 'changeUser']);
     // address
 
     Route::resource('/address', App\Http\Controllers\WebController\AddressController::class);

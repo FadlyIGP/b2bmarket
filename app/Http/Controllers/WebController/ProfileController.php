@@ -13,6 +13,7 @@ use App\Models\MstCompany;
 use App\Models\Address;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -25,15 +26,13 @@ class ProfileController extends Controller
     {
         $profile=UserMitra::where('email', Auth::user()->email)->first();
 
-        $company=MstCompany::find($profile->company_id);
+        $address_list=Address::find($profile->address_id);
+        $company_list=MstCompany::find($profile->company_id);
 
-        $address=Address::where('user_id', $profile->id)->get();
-        // return $address;
+        // $address=Address::where('user_id', $profile->id)->get();
+        // return $address_list;
 
-
-        // Address
-        // return $address;
-        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company'=>$company,'address'=>$address]);
+        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list]);
     }
 
     /**
@@ -89,24 +88,68 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         // return Auth::user();
-        $profile = UserMitra::where('email', Auth::user()->email)->first();
-        
-        $cariprofile = UserMitra::find($id);
-        $cariprofile->name = $request->name;
-        $cariprofile->email= $request->email;
-        $cariprofile->save();        
+        // $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $getuser = User::find(Auth::user()->id);
-        $update = $getuser->update($request->all());
+        // $cariprofile = UserMitra::find($id);
+        // $cariprofile->name = $request->name;
+        // $cariprofile->email= $request->email;
+        // $cariprofile->save();        
 
-        return redirect()->route('profiles')->with('success', 'Successfully Update Data.');
+        // $getuser = User::find(Auth::user()->id);
+        // $update = $getuser->update($request->all());
+
+        // return redirect()->route('profiles')->with('success', 'Successfully Update Data.');
+
     }
 
-    public function updateAddress(Request $request, $id)
+    public function updateAddress(Request $request)
     {
-        $address=Address::where('user_id', $profile->id)->get();
+        // $address=Address::where('user_id', $profile->id)->get();
+       date_default_timezone_set('Asia/Jakarta'); 
+       $MstAddress = Address::find($request->id_address);
+       $MstAddress->contact            = $request->comp_contact;
+       $MstAddress->provinsi           = $request->prov;
+       $MstAddress->kabupaten          = $request->city;
+       $MstAddress->kecamatan          = $request->district;
+       $MstAddress->kelurahan          = $request->neighborhoods;
+       $MstAddress->complete_address   = $request->compaddr;
+       $MstAddress->postcode           = $request->postcode;
+       $MstAddress->patokan            = $request->remark;
+       $MstAddress->primary_address    = 1;
+       $MstAddress->save();
 
-    }
+       return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+
+   }
+
+   public function changePassword(Request $request)
+   {
+    $user = User::where('email',$request->email)->first();
+    $user->password = Hash::make($request->new_pass);
+    $user->save();
+
+    return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+
+}
+
+public function changeUser(Request $request)
+{
+
+    date_default_timezone_set('Asia/Jakarta'); 
+
+    $usermitra = UserMitra::where('email', Auth::user()->email)->first();
+    $usermitra->name = $request->name;
+    $usermitra->phone = $request->phone;
+    $usermitra->tel_number = $request->tel_number;
+    $usermitra->save();
+
+    $user = User::where('email', Auth::user()->email)->first();
+    $user->name = $request->name;
+    $user->save();
+
+
+    return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+}
 
     /**
      * Remove the specified resource from storage.
