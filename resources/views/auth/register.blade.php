@@ -73,6 +73,18 @@ form .input-box span.details{
   border-bottom-width: 2px;
   transition: all 0.3s ease;
 }
+
+.user-details .input-box select{
+  height: 30px;
+  width: 100%;
+  outline: none;
+  font-size: 16px;
+  border-radius: 5px;
+  padding-left: 15px;
+  border: 1px solid #ccc;
+  border-bottom-width: 2px;
+  transition: all 0.3s ease;
+}
 .user-details .input-box input:focus,
 .user-details .input-box input:valid{
   border-color: #9b59b6;
@@ -162,31 +174,38 @@ form .user-details .input-box{
     <div class="container">
         <div class="title">Registration</div>
         <div class="content">
-            <form action="#">
+            {{-- {!! Form::open(['url'=>route('userregister'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!} --}}
+            <form action="{{url('/reguser')}}" method="POST">
+                @csrf
                 <div class="user-details">
                     <div class="input-box">
                         <span class="details">Full Name</span>
-                        <input type="text" placeholder="Enter your name" required>
+                        <input type="text" placeholder="Enter your name"  name="name">
                     </div>
-                    <div class="input-box">
-                        <span class="details">Username</span>
-                        <input type="text" placeholder="Enter your username" required>
+                   
+                     <div class="input-box">
+                        <span class="details">Phone Number</span>
+                        <input type="text" placeholder="Enter your number" name="phone" >
                     </div>
                     <div class="input-box">
                         <span class="details">Email</span>
-                        <input type="text" placeholder="Enter your email" required>
+                        <input type="text" placeholder="Enter your email"  name="email">
                     </div>
                     <div class="input-box">
-                        <span class="details">Phone Number</span>
-                        <input type="text" placeholder="Enter your number" required>
+                        <span class="details">Pilih Type</span>
+                        <select name="role_id" id="role_id" form="carform" style="width: 100%">
+                          <option value="2">Buyer</option>
+                          <option value="1">Seller</option>
+                         
+                        </select>
                     </div>
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="text" placeholder="Enter your password" required>
+                        <input type="text" placeholder="Enter your password"  name="password">
                     </div>
                     <div class="input-box">
-                        <span class="details">Confirm Password</span>
-                        <input type="text" placeholder="Confirm your password" required>
+                        <span class="details">Company Name</span>
+                        <input type="text" placeholder=""  name="company">
                     </div>
                 </div>
                 <div class="button">
