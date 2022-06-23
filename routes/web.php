@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
 
 Auth::routes();
+Route::post('/reguser', [App\Http\Controllers\Auth\UserRegisterController::class, 'registered'])->name('registered');
 
 // route web
 Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
@@ -111,4 +112,6 @@ Route::middleware(['auth'])->group(function() {
     Route::get('bankaccount/bankcode/edit/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeModify']);
     Route::post('/bankaccount/bankcode/update', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeUpdate']);
     Route::get('bankaccount/bankcode/delete/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeDelete']);
+
+
 });
