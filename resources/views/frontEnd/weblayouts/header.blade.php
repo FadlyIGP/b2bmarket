@@ -69,7 +69,6 @@
                 <input class="scroll-to-section" type="" name="filter" style="border: 1px solid #FF4500;;border-top-left-radius:20px;border-bottom-left-radius:20px;height: 40px;padding-right: 50px;">
                 <button class="" style="position: absolute;width: 10%;border: 1px solid #FF4500;border-top-right-radius:20px;border-bottom-right-radius:20px;height: 40px;background-color: #FF4500 ">
                   <i class="fa-solid fa-magnifying-glass" style="color: white"></i>
-                  
                 </button>
               </form>
 

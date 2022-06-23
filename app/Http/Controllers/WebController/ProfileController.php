@@ -14,6 +14,9 @@ use App\Models\Address;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Request\UpdateAddressRequest;
+use App\Http\Request\UpdatePasswordRequest;
+use App\Http\Request\UpdateUserSetupRequest;
 
 class ProfileController extends Controller
 {
@@ -102,7 +105,7 @@ class ProfileController extends Controller
 
     }
 
-    public function updateAddress(Request $request)
+    public function updateAddress(UpdateAddressRequest $request)
     {
         // $address=Address::where('user_id', $profile->id)->get();
        date_default_timezone_set('Asia/Jakarta'); 
@@ -122,14 +125,13 @@ class ProfileController extends Controller
 
    }
 
-   public function changePassword(Request $request)
+   public function changePassword(UpdatePasswordRequest $request)
    {
     $user = User::where('email',$request->email)->first();
     $user->password = Hash::make($request->new_pass);
     $user->save();
 
     return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
-
 }
 
 public function changeUser(Request $request)
