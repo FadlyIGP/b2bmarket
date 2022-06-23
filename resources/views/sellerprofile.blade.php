@@ -118,7 +118,7 @@ Company Profile
 	              	<div class="form-group">
 	                	<label class="col-sm-2 control-label">Remark</label>
                   		<div class="col-sm-10">
-	                      	<input type="text" class="form-control" id="id_remark" name="remark" placeholder="Remark" value="{{ $address_list['patokan'] }}">
+	                      	<input type="text" class="form-control" id="id_remark" name="remark" placeholder="Remark" value="{{ $address_list['patokan'] }}" required>
 	                    </div>
 	              	</div>
 	              	<div class="form-group">

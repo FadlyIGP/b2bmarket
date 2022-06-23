@@ -32,6 +32,15 @@
 				{{$expected_ammount}} 
 			</td>
 		</tr>
+        <tr>
+            <td width="50%">
+                Payment Method
+            </td>
+            <td width="50%">
+               {{$payment->payment->payment_chanel}} 
+            </td>
+        </tr>
+        @if($payment->payment->payment_chanel!='tunai')
 		<tr>
 			<td width="50%">
 				Bank Code
@@ -48,24 +57,50 @@
 			   {{$getrek->rek_number}} 
 			</td>
 		</tr>
+        @endif()
 	</tbody>
 </table>
-<div style="padding-bottom: 10px">
-	<span style="color:#FF0000;font-family: 'Helvetica Neue';">
-		Note: Silahkan transfer ke renening di atas dan upload bukti transfer ....
-	</span>
-</div>
-<div>
-	{!! Form::open(['url'=>url('/transactions'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-	<input type="hidden" name="tr_id" value="{{$payment->id}}">
-	<input type="file" name="transfer_img" value="" required="">
+@if($payment->payment->payment_chanel!='tunai')
+    @if($payment->payment->status==0)
+    <div style="padding-bottom: 10px">
+    	<span style="color:#FF0000;font-family: 'Helvetica Neue';">
+    		Note: Silahkan transfer ke renening di atas dan upload bukti transfer ....
+    	</span>
+    </div>
+    <div>
+        {!! Form::open(['url'=>url('/transactions'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+        <input type="hidden" name="tr_id" value="{{$payment->id}}">
+        <input type="file" name="transfer_img" value="" required="">
 
-	<button style="background-color: transparent;border-color: #FF0000;border-radius: 10px" type="submit">
-		<span style="font-family: 'Helvetica Neue';color: orange">
-			<b>
-				Submit
-			</b>
-		</span>
-	</button>
-	{!! Form::close() !!}
-</div>
+        <button style="background-color: transparent;border-color: #FF0000;border-radius: 10px" type="submit">
+            <span style="font-family: 'Helvetica Neue';color: orange">
+                <b>
+                    Submit
+                </b>
+            </span>
+        </button>
+        {!! Form::close() !!}
+    </div>
+    @elseif($payment->status==2)
+        <span style="color:#FF0000;font-family: 'Helvetica Neue';">
+            Note: Mohon Konfirmasi jika barang sudah diterima ....
+        </span>
+     {!! Form::open(['url'=>url('/transactions',$payment->id),'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+        <input type="hidden" name="tr_id" value="{{$payment->id}}">
+
+        <button style="background-color: transparent;border-color: #FF0000;border-radius: 10px" type="submit">
+            <span style="font-family: 'Helvetica Neue';color: orange">
+                <b>
+                    Confirm
+                </b>
+            </span>
+        </button>
+        {!! Form::close() !!}
+    @endif()
+
+@else()
+    <span style="color:#FF0000;font-family: 'Helvetica Neue';">
+        Note: Harap siapkan uang sebesar  {{$expected_ammount}} ....
+    </span>
+@endif()
+

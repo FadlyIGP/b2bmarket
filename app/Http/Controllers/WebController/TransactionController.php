@@ -151,34 +151,64 @@ class TransactionController extends Controller
            ];
         }
 
-        $paymenkirim = Payment::with(['transaction','transactionitem'])
+        // return $paymentproses;
+
+        $paymenkirim = MstTransaction::with(['payment','item'])
                    ->where('user_id', $profile->id)
                    ->where('status', 2)
                    ->orderBy('created_at','DESC')->get();
+
+
         $sedangdikirim=[];
         foreach ($paymenkirim as $key => $value) {
            $sedangdikirim[]=[
-            "transaction_id"=> $value->transaction_id,
+            "transaction_id"=> $value->id,
             "user_id"=> $value->user_id,
-            "currency"=> $value->currency,
-            "bank_code"=> $value->bank_code,
             "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "paid_at"=> $value->paid_at,
-            "payment_chanel"=> $value->payment_chanel,
+            "currency"=> $value->payment->payment,
+            "bank_code"=> $value->payment->bank_code,
+            "paid_at"=> $value->payment->paid_at,
+            "payment_chanel"=> $value->payment->payment_chanel,
             "status"=> getstatus($value->status),
             "created_at"=> $value->created_at,
             "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment_method,
-            "payment_picture"=> $value->payment_picture,
-            "invoice_number"=> $value->transaction->invoice_number,
-            "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> getimage($value->transactionitem->product_id),
-            "product_name"=> $value->transactionitem->product_name,
+            "payment_method"=> $value->payment->payment_method,
+            "payment_picture"=> $value->payment->payment_picture,
+            "invoice_number"=> $value->invoice_number,
+            "product_id"=> $value->item[0]->product_id,
+            "product_image"=> getimage($value->item[0]->product_id),
+            "product_name"=> $value->item[0]->product_name,
 
            ];
         }
 
+        $diterima = MstTransaction::with(['payment','item'])
+                   ->where('user_id', $profile->id)
+                   ->where('status', 3)
+                   ->orderBy('created_at','DESC')->get();
+
         $dikirim=[];
+        foreach ($diterima as $key => $value) {
+           $dikirim[]=[
+            "transaction_id"=> $value->id,
+            "user_id"=> $value->user_id,
+            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+            "currency"=> $value->payment->payment,
+            "bank_code"=> $value->payment->bank_code,
+            "paid_at"=> $value->payment->paid_at,
+            "payment_chanel"=> $value->payment->payment_chanel,
+            "status"=> getstatus($value->status),
+            "created_at"=> $value->created_at,
+            "updated_at"=> $value->updated_at,
+            "payment_method"=> $value->payment->payment_method,
+            "payment_picture"=> $value->payment->payment_picture,
+            "invoice_number"=> $value->invoice_number,
+            "product_id"=> $value->item[0]->product_id,
+            "product_image"=> getimage($value->item[0]->product_id),
+            "product_name"=> $value->item[0]->product_name,
+
+           ];
+        }
         return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim,]);
     }
 
@@ -208,6 +238,7 @@ class TransactionController extends Controller
            $image->move($destinationPath, $image_name);
            $tr_image = Payment::where('transaction_id',$request->tr_id)->first();
            $tr_image->payment_picture = $image_name;
+           $tr_image->status = 1;
            $tr_image->save();
           
         }else {
@@ -241,10 +272,14 @@ class TransactionController extends Controller
                     ->where('id', $id)
                     ->orderBy('created_at','DESC')
                     ->first();
-
-        $getrek = MstRekening::where('company_id', $payment->company_id)->where('bank_code',$payment->payment->bank_code)
+        if ($payment->payment_chanel=='tunai') {
+             $getrek ='';
+        } else {
+            $getrek = MstRekening::where('company_id', $payment->company_id)->where('bank_code',$payment->payment->bank_code)
             ->first();
-        // return $payment;
+        }
+
+       
         $listpesanan=[];
         foreach ($payment['item'] as $key => $value) {
            $listpesanan[]=[
@@ -284,6 +319,27 @@ class TransactionController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $date=Carbon::now()->format('Y-m-d H:i:s');
+        $trasaction = MstTransaction::find($id);  
+        $trasaction->status = 3;
+        $create_trasaction=$trasaction->save();
+
+        $trasactionitem = new TransactionHistory();  
+        $trasactionitem->transaction_id = $id;
+        $trasactionitem->status = 3;
+        $trasactionitem->transaction_date = $date;
+        $trasactionitem->save();
+
+        if ($trasactionitem) {
+            Alert::success('Success', 'Barang telah diterima');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Gagal konfirm');
+            return back();
+        }
+       
+     
     }
 
     /**
