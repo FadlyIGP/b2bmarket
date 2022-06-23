@@ -17,7 +17,7 @@ class CreateMstRekeningTable extends Migration
             $table->id();
             $table->integer('company_id');
             $table->string('bank_code');
-            $table->integer('rek_number');
+            $table->string('rek_number', 20);
             $table->timestamps();
         });
     }
