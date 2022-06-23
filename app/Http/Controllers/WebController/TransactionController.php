@@ -178,6 +178,8 @@ class TransactionController extends Controller
            ];
         }
 
+        // return $sedangdikirim;
+
         $dikirim=[];
         return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim,]);
     }
@@ -208,6 +210,7 @@ class TransactionController extends Controller
            $image->move($destinationPath, $image_name);
            $tr_image = Payment::where('transaction_id',$request->tr_id)->first();
            $tr_image->payment_picture = $image_name;
+           $tr_image->status = 1;
            $tr_image->save();
           
         }else {
