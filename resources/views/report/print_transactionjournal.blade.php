@@ -38,7 +38,7 @@
             <thead class="text-primary">
                 <tr>
                     <th width="1%">Date</th>
-                    <th width="1%">Invoice</th>
+                    <th width="8%">Invoice</th>
                     <th width="4%">Status</th>
                     <th width="15%">Product</th>
                     <th width="5%" class="text-right">Price</th>
