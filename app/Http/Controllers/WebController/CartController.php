@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 
@@ -122,7 +124,7 @@ class CartController extends Controller
         // return $getprodiuctdata;
         $cart = new Cart;
         $cart->product_id = $getprodiuctdata->id;
-        $cart->product_qty = 1;
+        $cart->product_qty = $getprodiuctdata->minimum_order;
         $cart->product_price = $getprodiuctdata->product_price;
         $cart->total_price = $getprodiuctdata->product_price;
         $cart->status = 0;
@@ -130,7 +132,16 @@ class CartController extends Controller
         $cart->company_id = $getprodiuctdata->company_id;
         $cart->save();
 
-        return redirect()->route('firstpage');
+        if ($cart) {
+            Alert::success('Success', 'Success add to cart');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
+
+        // return redirect()->route('firstpage');
 
     }
 

@@ -185,7 +185,7 @@ class PaymentController extends Controller
 
         foreach ($chekedcart as $key => $value) {
             $dataitems[]=[
-                "transaction_id"=>1,
+                "transaction_id"=>$trasaction->id,
                 "product_id"=>$value->product_id,
                 "product_name"=>$value->product->product_name,
                 "product_image"=>$value->image[0]->picture_1,

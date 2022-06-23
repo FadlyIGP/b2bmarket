@@ -1,6 +1,8 @@
 {{-- footer-text-left --}}
 @extends('frontEnd.weblayouts.app')
 @section('content')
+@include('sweetalert::alert')
+
 <!-- ***** Body ***** -->
 <style type="text/css">
   
