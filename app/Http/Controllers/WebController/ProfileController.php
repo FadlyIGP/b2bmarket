@@ -7,11 +7,21 @@ use Illuminate\Http\Request;
 use App\Models\MstProduct;
 use App\Models\Cart;
 use App\Models\UserMitra;
+use App\Models\User;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
 use App\Models\Address;
+use App\Models\MstTransaction;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Request\UpdateAddressRequest;
+use App\Http\Request\UpdatePasswordRequest;
+use App\Http\Request\UpdateUserSetupRequest;
+use Validator;
+use RealRashid\SweetAlert\Facades\Alert;
+
+
 
 class ProfileController extends Controller
 {
@@ -22,17 +32,17 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $profile=UserMitra::where('email', Auth::user()->email)->first();
 
-        $company=MstCompany::find($profile->company_id);
+        $address_list=Address::find($profile->address_id);
+        $company_list=MstCompany::find($profile->company_id);
+        $transaction_finished = MstTransaction::where('status',3);
+        $count_finished = $transaction_finished->count();
 
-        $address=Address::where('user_id', $profile->id)->get();
+        $transaction_failed = MstTransaction::where('status', 99);
+        $count_failed = $transaction_failed->count();
 
-
-        // Address
-        // return $address;
-        return view('frontEnd.profiles.profiles',['profile' => $profile]);
-
+        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list,'count_finished' => $count_finished, 'count_failed'=> $count_failed]);
     }
 
     /**
@@ -87,18 +97,68 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $cariprofile = UserMitra::find($id);
-        $cariprofile->name          = $request->name;
-        $cariprofile->email         = $request->email;
-        $cariprofile->save();
 
-        $caripassword = User::where('email', $id)->first();
-        $caripassword->password = $request->password;
-        $caripassword->save();
-
-        return redirect()->route('frontEnd.profiles.profiles')->with('success', 'Successfully Update Data.');
     }
+
+    public function updateAddress(UpdateAddressRequest $request)
+    {
+     date_default_timezone_set('Asia/Jakarta'); 
+     $MstAddress = Address::find($request->id_address);
+     $MstAddress->contact            = $request->comp_contact;
+     $MstAddress->provinsi           = $request->prov;
+     $MstAddress->kabupaten          = $request->city;
+     $MstAddress->kecamatan          = $request->district;
+     $MstAddress->kelurahan          = $request->neighborhoods;
+     $MstAddress->complete_address   = $request->compaddr;
+     $MstAddress->postcode           = $request->postcode;
+     $MstAddress->patokan            = $request->remark;
+     $MstAddress->primary_address    = 1;
+     $MstAddress->save();
+
+     return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+
+ }
+
+ public function changePassword(Request $request)
+ {
+    
+       $validator = Validator::make($request->all(), [
+             'password' => 'required|confirmed|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            $out = [
+            "message" => $validator->messages()->all(),
+            ];
+            Alert::error('Failed', $out['message'][0]);
+            return back();
+        }
+
+    $user = User::where('email',$request->email)->first();
+    $user->password = Hash::make($request->new_pass);
+    $user->save();
+
+    return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+}
+
+public function changeUser(Request $request)
+{
+
+    date_default_timezone_set('Asia/Jakarta'); 
+
+    $usermitra = UserMitra::where('email', Auth::user()->email)->first();
+    $usermitra->name = $request->name;
+    $usermitra->phone = $request->phone;
+    $usermitra->tel_number = $request->tel_number;
+    $usermitra->save();
+
+    $user = User::where('email', Auth::user()->email)->first();
+    $user->name = $request->name;
+    $user->save();
+
+
+    return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+}
 
     /**
      * Remove the specified resource from storage.

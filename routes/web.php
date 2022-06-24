@@ -45,7 +45,10 @@ Route::middleware(['auth'])->group(function () {
     // product
     Route::resource('/infoproducts', InfoProductController::class);
     // profile
-    Route::resource('/profiles', ProfileController::class);
+    Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
+    Route::post('/profiles/updateaddress', [App\Http\Controllers\WebController\ProfileController::class, 'updateAddress']);
+    Route::post('/profiles/changepassword', [App\Http\Controllers\WebController\ProfileController::class, 'changePassword']);
+    Route::post('/profiles/changeuser', [App\Http\Controllers\WebController\ProfileController::class, 'changeUser']);
     // address
     Route::resource('/address', AddressController::class);
     //wishlist
@@ -54,17 +57,12 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/payments', PaymentController::class);
     // transactions
     Route::resource('/transactions', TransactionController::class);
-
-
-
-    
-    
 });
 
 
 // route cms
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::middleware(['auth'])->group(function() {
+Route::middleware(['auth'])->group(function () {
 
     // product
     Route::resource('/products', App\Http\Controllers\CmsController\ProductController::class);
@@ -87,7 +85,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Transaction
     Route::resource('/transaction', App\Http\Controllers\CmsController\TransactionController::class);
-    Route::get('viewitem/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewitem']);    
+    Route::get('viewitem/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewitem']);
     Route::post('/transaction/updatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'updatestatus']);
     Route::get('viewpayment/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewpayment']);
     Route::post('/payment/payupdatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'payupdatestatus']);
@@ -117,6 +115,4 @@ Route::middleware(['auth'])->group(function() {
     Route::get('bankaccount/bankcode/edit/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeModify']);
     Route::post('/bankaccount/bankcode/update', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeUpdate']);
     Route::get('bankaccount/bankcode/delete/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeDelete']);
-
-
 });
