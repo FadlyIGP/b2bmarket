@@ -24,7 +24,8 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'password' => 'required'
+            'new_pass' => 'required',
+            'conrim_pass' => 'required'
         ];
     }
 }

@@ -69,11 +69,27 @@
         @endif 
         <div class="col-lg-4" style="padding-bottom: 20px;">
           <div style="border: 1px solid #969696;border-radius: 10px;">
-            <h4 style="font-family: 'Helvetica Neue';">
+            <div style="display: flex;justify-content: center;padding-top: 10px">
+              <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 60px" />
+</div>
+<div style="text-align: center;">
+<h5>{{ $company_list['company_name']}}</h5>
+</div>
+            <div class="heading1"></div>
+            <ul class="list-group list-group-unbordered">
+                  {{-- <li class="list-group-item">
+                      <b>All Transaction Finished</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_finished }}</a>
+                  </li>
+                  <li class="list-group-item">
+                      <b>All Transaction Failed</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_failed }}</a>
+                  </li>      --}}           
+                </ul> 
+            <div class="heading1"></div>
+            {{-- <h4 style="font-family: 'Helvetica Neue';">
               <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
               Alamat
-            </h4>
-            <div class="heading1"></div>
+            </h4> --}}
+            {{-- <div class="heading1"></div> --}}
             <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
               <table width="100%" class="" style="margin-top: 10px">
                 <tr style="height:2px">
@@ -170,14 +186,14 @@
                   <div class="form-group">
                     <label class="col-sm-2 control-label">New Password</label>
                       <div class="col-sm-10">
-                          <input type="password" class="form-control" id="idnew_pass" name="new_pass" placeholder="New Password" onblur="checkLength1(this)">
+                          <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
               <span id="errPass1" style="color: red;"></span>
                       </div>
                   </div>   
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Confirm Password</label>
                       <div class="col-sm-10">
-                          <input type="password" class="form-control" id="idconrim_pass" name="conrim_pass" placeholder="Confirm Password">
+                          <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
                 <span id="errPass2" style="color: red;"></span>
                       </div>
                   </div>              

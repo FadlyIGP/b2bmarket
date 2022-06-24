@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Request\UpdateAddressRequest;
 use App\Http\Request\UpdatePasswordRequest;
 use App\Http\Request\UpdateUserSetupRequest;
+use Validator;
+use RealRashid\SweetAlert\Facades\Alert;
+
+
 
 class ProfileController extends Controller
 {
@@ -31,6 +35,7 @@ class ProfileController extends Controller
 
         $address_list=Address::find($profile->address_id);
         $company_list=MstCompany::find($profile->company_id);
+        // $transaction_finished = Mst
 
         // $address=Address::where('user_id', $profile->id)->get();
         // return $address_list;
@@ -108,25 +113,45 @@ class ProfileController extends Controller
     public function updateAddress(UpdateAddressRequest $request)
     {
         // $address=Address::where('user_id', $profile->id)->get();
-       date_default_timezone_set('Asia/Jakarta'); 
-       $MstAddress = Address::find($request->id_address);
-       $MstAddress->contact            = $request->comp_contact;
-       $MstAddress->provinsi           = $request->prov;
-       $MstAddress->kabupaten          = $request->city;
-       $MstAddress->kecamatan          = $request->district;
-       $MstAddress->kelurahan          = $request->neighborhoods;
-       $MstAddress->complete_address   = $request->compaddr;
-       $MstAddress->postcode           = $request->postcode;
-       $MstAddress->patokan            = $request->remark;
-       $MstAddress->primary_address    = 1;
-       $MstAddress->save();
+     date_default_timezone_set('Asia/Jakarta'); 
+     $MstAddress = Address::find($request->id_address);
+     $MstAddress->contact            = $request->comp_contact;
+     $MstAddress->provinsi           = $request->prov;
+     $MstAddress->kabupaten          = $request->city;
+     $MstAddress->kecamatan          = $request->district;
+     $MstAddress->kelurahan          = $request->neighborhoods;
+     $MstAddress->complete_address   = $request->compaddr;
+     $MstAddress->postcode           = $request->postcode;
+     $MstAddress->patokan            = $request->remark;
+     $MstAddress->primary_address    = 1;
+     $MstAddress->save();
 
-       return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+     return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
 
-   }
+ }
 
-   public function changePassword(UpdatePasswordRequest $request)
-   {
+ public function changePassword(Request $request)
+ {
+    
+       $validator = Validator::make($request->all(), [
+             'password' => 'required|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            $out = [
+            "message" => $validator->messages()->all(),
+            ];
+            return response()->json($out, 422);
+        }
+
+        // if ($trasactionitem) {
+        //     Alert::success('Success', 'Pesanan Berhasil dibuta');
+        //     return back();
+        // }
+        // else {
+        //     Alert::error('Failed', 'Pesanan failed');
+        //     return back();
+        // }
     $user = User::where('email',$request->email)->first();
     $user->password = Hash::make($request->new_pass);
     $user->save();
