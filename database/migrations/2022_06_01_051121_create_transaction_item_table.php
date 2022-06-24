@@ -21,6 +21,7 @@ class CreateTransactionItemTable extends Migration
             $table->string('product_size');
             $table->integer('product_price');
             $table->string('product_item');
+            $table->integer('product_qty');
             $table->softDeletes();
             $table->timestamps();
         });

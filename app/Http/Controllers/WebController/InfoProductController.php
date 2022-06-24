@@ -16,6 +16,8 @@ class InfoProductController extends Controller
 
     public function __construct()
     {
+        $this->per_page = 10;
+
         function pay_counting($data){
 
                 if ($data==null) {
@@ -30,15 +32,33 @@ class InfoProductController extends Controller
             $company=MstCompany::find($id);
             return $company->company_name;
         }
+
+        function getwishlist($prod_id){
+            $cekwislist=Wishlist::where('user_id',$prod_id[0])->where('product_id',$prod_id[1])->first();
+            if ($cekwislist) {
+                $status=true;
+            } else {
+                $status=false;
+            }
+            return $status;
+        }
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if (empty($request->filter) && empty($request->page)) {
+            $product = MstProduct::with('stock', 'image','category')
+            ->where('id',$id)->get();
+        } else {
+            # code...
+        }
+        
+        $product = MstProduct::with('stock', 'image','category')
+        ->where('id',$id)->first();
     }
 
     /**
