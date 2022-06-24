@@ -260,15 +260,10 @@
                     All Address
                   </h4>&nbsp&nbsp&nbsp
 
-                  {!! Form::open(['url'=>url('/transactions',5),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                  <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="5" title="View Detail">
-                    <span style="font-family: 'Helvetica Neue';color: white">
-                      <b>
-                        Detail
-                      </b>
-                    </span>
+                  <!-- Button to Open the Modal -->
+                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                      Open modal
                   </button>
-                  {!! Form::close() !!}
 
                 </div>
                 <div class="heading1"></div>
@@ -316,72 +311,60 @@
     </div>
   </div>
 
-  <!-- Modal Transaction Item -->
-  <div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="border-radius: 15px">
-      <div class="modal-content">
-        <div class="modal-header" style="background-color: ">   
-          <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
-           <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
-           Items
-         </span>    
-       </div>
-       <div class="modal-body" id="body-item">
-        <!--Include showitem.blade.php here -->
-      </div>              
-      <div class="modal-footer"> 
+  <!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-        <a class="btn btn-default buttonaddress" id="hide" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
-          Close
-        </a>
-      </div> 
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Modal Heading</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        Modal body..
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-  function openCity(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-      tabcontent[i].style.display = "none";
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+          tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+          tablinks[i].classList.remove("active");
+        }
+        document.getElementById(cityName).style.display = "block";
+        document.getElementById(cityName + "-tab").classList.add("active");
+      // evt.currentTarget.className += " active";
     }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-      tablinks[i].classList.remove("active");
-    }
-    document.getElementById(cityName).style.display = "block";
-    document.getElementById(cityName + "-tab").classList.add("active");
-  // evt.currentTarget.className += " active";
-}
 
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("London-tab").click();
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("London-tab").click();
 
 
-$(document).ready(function() {
-  window.setTimeout(function() {
-    $(".alert").fadeTo(500, 0).slideUp(500, function(){
-      $(this).remove();
-    });
-  }, 2500);
-}); 
+    $(document).ready(function() {
+      window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+          $(this).remove();
+        });
+      }, 2500);
+    }); 
 
-$('tbody').on('click','#modal1', function(e){
-  e.preventDefault();
 
-  const id = $(this).attr('data-id');
-  $.ajax({
-    url: 'transactions/' + id,                     
-    dataType: 'html',
-    success: function(response){
-      $('#body-item').html(response);
-    }
-  });
-
-  $('#detailItem').modal('show');
-
-});  
 </script>
 
 @endsection()
