@@ -2,6 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\WebController\{
+    HomeuserController,
+    CartController,
+    InfoProductController,
+    ProfileController,
+    AddressController,
+    WishlistController,
+    PaymentController,
+    TransactionController,
+};
+
+use App\Http\Controllers\Auth\{
+    UserRegisterController,
+    LoginController
+};
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,39 +30,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
-
 Auth::routes();
-Route::post('/reguser', [App\Http\Controllers\Auth\UserRegisterController::class, 'registered'])->name('registered');
-
+Route::post('/reguser', [UserRegisterController::class, 'registered'])->name('registered');
 // route web
-Route::get('/homeuser', [App\Http\Controllers\WebController\HomeuserController::class, 'index'])->name('home.buyer');
 Route::middleware(['auth'])->group(function () {
-    Route::get('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
-
+    Route::get('/logout', [LoginController::class, 'logout']);
     // router for buyer here
-    Route::get('index2', [App\Http\Controllers\WebController\HomeuserController::class, 'index2'])->name('firstpage');
+    Route::get('index2', [HomeuserController::class, 'index2'])->name('firstpage');
     // carts
-    Route::resource('/carts', App\Http\Controllers\WebController\CartController::class);
-    Route::get('updateqty/{id}', [App\Http\Controllers\WebController\CartController::class, 'updateqty']);
-    Route::get('chekedcart/{id}', [App\Http\Controllers\WebController\CartController::class, 'chekedcart']);
+    Route::resource('/carts', CartController::class);
+    Route::get('updateqty/{id}', [CartController::class, 'updateqty']);
+    Route::get('chekedcart/{id}', [CartController::class, 'chekedcart']);
     // product
-    Route::resource('/infoproducts', App\Http\Controllers\WebController\InfoProductController::class);
+    Route::resource('/infoproducts', InfoProductController::class);
     // profile
-    Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
+    Route::resource('/profiles', ProfileController::class);
     // address
-
-    Route::resource('/address', App\Http\Controllers\WebController\AddressController::class);
-
-    Route::resource('/wishlists', App\Http\Controllers\WebController\WishlistController::class);
+    Route::resource('/address', AddressController::class);
+    //wishlist
+    Route::resource('/wishlists', WishlistController::class);
     // payment
-    Route::resource('/payments', App\Http\Controllers\WebController\PaymentController::class);
+    Route::resource('/payments', PaymentController::class);
     // transactions
-    Route::resource('/transactions', App\Http\Controllers\WebController\TransactionController::class);
+    Route::resource('/transactions', TransactionController::class);
 
 
 
