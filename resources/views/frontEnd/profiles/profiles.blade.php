@@ -1,7 +1,6 @@
 @extends('frontEnd.weblayouts.app')
 @section('content')
-{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
-{{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
+
 <style type="text/css">
   /* Style the tab */
   .tab {
@@ -49,7 +48,21 @@
     align-items:center;
     padding-top: 10px;
   }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
 </style>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
+{{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> --}}
 @include('sweetalert::alert')
 
 <div id="" class="about-us show-up header-text" style="margin-bottom: -250px">
@@ -78,15 +91,15 @@
               <h5>{{ $company_list['company_name']}}</h5>
             </div>
             <div class="heading1"></div>
-            <ul class="list-group list-group-unbordered">
-              <li class="list-group-item" style="display: flex;justify-content: space-around;">
+            <div class="list-group list-group-unbordered">
+              <div class="list-group-item" style="display: flex;justify-content: space-around;">
                 <b>All Transaction Finished</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_finished }}</a>
-              </li>
-              <li class="list-group-item" style="display: flex;justify-content: space-around;">
+              </div>
+              <div class="list-group-item" style="display: flex;justify-content: space-around;">
                 <b>All Transaction Failed</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_failed }}</a>
-              </li>                
-            </ul> 
-                  <div class="heading1"></div>
+              </div>                
+            </div> 
+            <div class="heading1"></div>
           </div>
 
         </div>
@@ -171,16 +184,16 @@
                       <input type="hidden" class="form-control" id="id_email" name="email" value="{{ $profile->email }}">
                     </div>
                   </div>
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">New Password</label>
-                    <div class="col-sm-10">
+                  <div class="form-group" id="rata">
+                    <label class="col-sm-3 control-label">New Password</label>
+                    <div class="col-sm-9">
                       <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
                       <span id="errPass1" style="color: red;"></span>
                     </div>
                   </div>   
-                  <div class="form-group">
-                    <label class="col-sm-2 control-label">Confirm Password</label>
-                    <div class="col-sm-10">
+                  <div class="form-group" id="rata">
+                    <label class="col-sm-3 control-label">Confirm Password</label>
+                    <div class="col-sm-9">
                       <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
                       <span id="errPass2" style="color: red;"></span>
                     </div>
@@ -198,25 +211,25 @@
                     <p>Tokyo is the capital of Japan.</p> --}}
                     {!! Form::open(['url'=>url('/profiles/changeuser'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off']) !!}
                     <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label"></label>
+                      <label class="col-sm-2 control-label">Email</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" name="email" id="idemail" placeholder="Email" value="{{ $profile['email']}}" disabled>
                       </div>
                     </div>
                     <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label"></label>
+                      <label class="col-sm-2 control-label">Username</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" name="name" id="idname" placeholder="Name" value="{{ $profile['name']}}">
                       </div>
                     </div>
                     <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label"></label>
+                      <label class="col-sm-2 control-label">Handphone</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" name="phone" id="idphone" placeholder="phone" value="{{ $profile['phone']}}">
                       </div>
                     </div>
                     <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label"></label>
+                      <label class="col-sm-2 control-label">No. Telp</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" name="tel_number" id="idtel_number" placeholder="tel_number" value="{{ $profile['tel_number']}}">
                       </div>
@@ -241,12 +254,35 @@
           <div class="row">
             <div class="col-lg-4" style="padding-bottom: 20px;">
               <div style="border: 1px solid #969696;border-radius: 10px;">
-                <h4 style="font-family: 'Helvetica Neue';">
-                  <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
-                  Alamat
-                </h4>
+                <div style="display: flex;align-content: space-around;">
+                  <h4 style="font-family: 'Helvetica Neue';">
+                    <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
+                    All Address
+                  </h4>&nbsp&nbsp&nbsp
+
+                  {!! Form::open(['url'=>url('/transactions',5),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                  <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="5" title="View Detail">
+                    <span style="font-family: 'Helvetica Neue';color: white">
+                      <b>
+                        Detail
+                      </b>
+                    </span>
+                  </button>
+                  {!! Form::close() !!}
+
+                </div>
                 <div class="heading1"></div>
-                <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
+                <div style="padding: 10px">
+                  @foreach($address_all as $address)
+                  <table style="width: 100%">
+                    <tr>
+                      <td style="width: 20%;text-align: center;"> {{ $loop->iteration}}</td>
+                      <td style="">{{ $address->name}}</td>
+                    </tr>
+                  </table>
+                  @endforeach
+                </div>
+                {{-- <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
                   <table width="100%" class="" style="margin-top: 10px">
                     <tr style="height:2px">
                       <td width="20%" style="font-size: 12px">Qty</td>
@@ -254,7 +290,7 @@
                       <td width="30%" style="font-size: 12px">Total</td>
                     </tr>
                   </table>
-                </div>
+                </div> --}}
               </div>
 
             </div>
@@ -263,7 +299,7 @@
               <div style="border: 1px solid #969696;border-radius: 10px;">
                 <h4 style="font-family: 'Helvetica Neue';">
                   <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
-                  Alamat
+                  Add Address
                 </h4>
                 <div class="heading1"></div>
                 <div style="height: 100px;padding-right: 10px;padding-left: 10px;">
@@ -279,73 +315,73 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript">
-    function openCity(evt, cityName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].classList.remove("active");
-      }
-      document.getElementById(cityName).style.display = "block";
-      document.getElementById(cityName + "-tab").classList.add("active");
+
+  <!-- Modal Transaction Item -->
+  <div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="border-radius: 15px">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: ">   
+          <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
+           <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
+           Items
+         </span>    
+       </div>
+       <div class="modal-body" id="body-item">
+        <!--Include showitem.blade.php here -->
+      </div>              
+      <div class="modal-footer"> 
+
+        <a class="btn btn-default buttonaddress" id="hide" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+          Close
+        </a>
+      </div> 
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function openCity(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+      tablinks[i].classList.remove("active");
+    }
+    document.getElementById(cityName).style.display = "block";
+    document.getElementById(cityName + "-tab").classList.add("active");
   // evt.currentTarget.className += " active";
 }
 
 // Get the element with id="defaultOpen" and click on it
 document.getElementById("London-tab").click();
+
+
+$(document).ready(function() {
+  window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+      $(this).remove();
+    });
+  }, 2500);
+}); 
+
+$('tbody').on('click','#modal1', function(e){
+  e.preventDefault();
+
+  const id = $(this).attr('data-id');
+  $.ajax({
+    url: 'transactions/' + id,                     
+    dataType: 'html',
+    success: function(response){
+      $('#body-item').html(response);
+    }
+  });
+
+  $('#detailItem').modal('show');
+
+});  
 </script>
 
 @endsection()
-
-@push('scripts')
-<script>
-  $(document).ready(function() {
-    window.setTimeout(function() {
-      $(".alert").fadeTo(500, 0).slideUp(500, function(){
-        $(this).remove();
-      });
-    }, 2500);
-  });    
-</script>
-
-<script>
-  function validateForm(form){        
-    if (form.new_pass.value == ""){
-      document.getElementById("errPass1").innerHTML = "Password can't be empty!";
-      form.new_pass.focus();
-      return false;
-    }
-    else if(form.new_pass.value.length < 6){
-      document.getElementById("errPass1").innerHTML = "Minimum password must be 6 characters!";
-      form.new_pass.focus();
-      return false;
-    }
-
-    if (form.conrim_pass.value == ""){
-      document.getElementById("errPass2").innerHTML = "Password can't be empty!";
-      form.conrim_pass.focus();
-      return false;
-    }
-
-    var newPass = document.getElementById('idnew_pass').value;
-    var checkPass = document.getElementById('idconrim_pass').value;
-
-    if (checkPass != newPass){
-      document.getElementById("errPass2").innerHTML = "Confirm password does not match!";
-      form.conrim_pass.focus();
-      return false;
-    }
-    return true;
-  }
-
-  function checkLength1(el){
-    if (el.value.length >= 6) {
-      document.getElementById("errPass1").innerHtml = "";
-    }
-  }
-</script>
-@endpush

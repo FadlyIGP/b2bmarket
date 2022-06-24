@@ -33,6 +33,8 @@ class ProfileController extends Controller
     public function index()
     {
         $profile=UserMitra::where('email', Auth::user()->email)->first();
+        // return $profile[0]->id;
+        // return $profile;
 
         $address_list=Address::find($profile->address_id);
         $company_list=MstCompany::find($profile->company_id);
@@ -42,7 +44,10 @@ class ProfileController extends Controller
         $transaction_failed = MstTransaction::where('status', 99);
         $count_failed = $transaction_failed->count();
 
-        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list,'count_finished' => $count_finished, 'count_failed'=> $count_failed]);
+        $address_all=Address::where('user_id', $profile->id)->get();
+        // return $address_all;
+
+        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list,'count_finished' => $count_finished, 'count_failed'=> $count_failed, 'address_all'=>$address_all]);
     }
 
     /**
