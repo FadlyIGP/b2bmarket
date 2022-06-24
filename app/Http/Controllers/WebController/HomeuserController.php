@@ -210,4 +210,61 @@ class HomeuserController extends Controller
     public function destroy($id)
     {
     }
+
+    public function getjsondata()
+    {
+
+        // $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $chekedcart=Cart::with('product')->where('user_id', 3)->where('status', 1)->get();
+
+        $listchecked=[];
+        foreach ($chekedcart as $key => $value) {
+             $totalcheked[]=$value->total_price;
+             $listchecked[]=[
+                'id'=> $value->id,
+                'product_id'=> $value->product_id,
+                'product_qty'=> $value->product_qty,
+                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
+                'status'=> $value->status,
+                'user_id'=> $value->user_id,
+                'product_name'=> $value->product->product_name,
+                'product_descriptions'=> $value->product->product_descriptions,
+                'product_size'=> $value->product->product_size,
+            ];
+        }
+        return $listchecked;
+
+        $data=[[
+                "name"=> "Lucius Gray1",
+                "phone"=> "1-516-232-7113",
+                "email"=> "nonummy.ultricies@dui.net",
+                "region"=> "Auvergne",
+                "country"=> "South Korea"
+               ],
+               [
+                "name"=> "Lucius Gray2",
+                "phone"=> "1-516-232-7113",
+                "email"=> "nonummy.ultricies@dui.net",
+                "region"=> "Auvergne",
+                "country"=> "South Korea"
+               ],
+               [
+                "name"=> "Lucius Gray3",
+                "phone"=> "1-516-232-7113",
+                "email"=> "nonummy.ultricies@dui.net",
+                "region"=> "Auvergne",
+                "country"=> "South Korea"
+               ],
+               [
+                "name"=> "Lucius Gray4",
+                "phone"=> "1-516-232-7113",
+                "email"=> "nonummy.ultricies@dui.net",
+                "region"=> "Auvergne",
+                "country"=> "South Korea"
+               ]
+            ];
+
+        return $data;
+    }
 }

@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/payments', PaymentController::class);
     // transactions
     Route::resource('/transactions', TransactionController::class);
+    Route::get('/getjsondata', [HomeuserController::class, 'getjsondata'])->name('getjsondata');
+
 });
 
 
