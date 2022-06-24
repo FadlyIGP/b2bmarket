@@ -16,8 +16,6 @@ class InfoProductController extends Controller
 
     public function __construct()
     {
-        $this->urlimg = 'https://ik.imagekit.io/1002kxgfmea/';
-
         function pay_counting($data){
 
                 if ($data==null) {
