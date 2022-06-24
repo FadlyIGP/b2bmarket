@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
 use App\Models\Address;
+use App\Models\MstTransaction;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -35,12 +36,13 @@ class ProfileController extends Controller
 
         $address_list=Address::find($profile->address_id);
         $company_list=MstCompany::find($profile->company_id);
-        // $transaction_finished = Mst
+        $transaction_finished = MstTransaction::where('status',3);
+        $count_finished = $transaction_finished->count();
 
-        // $address=Address::where('user_id', $profile->id)->get();
-        // return $address_list;
+        $transaction_failed = MstTransaction::where('status', 99);
+        $count_failed = $transaction_failed->count();
 
-        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list]);
+        return view('frontEnd.profiles.profiles',['profile' => $profile, 'company_list'=>$company_list,'address_list'=>$address_list,'count_finished' => $count_finished, 'count_failed'=> $count_failed]);
     }
 
     /**
@@ -95,24 +97,11 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // return Auth::user();
-        // $profile = UserMitra::where('email', Auth::user()->email)->first();
-
-        // $cariprofile = UserMitra::find($id);
-        // $cariprofile->name = $request->name;
-        // $cariprofile->email= $request->email;
-        // $cariprofile->save();        
-
-        // $getuser = User::find(Auth::user()->id);
-        // $update = $getuser->update($request->all());
-
-        // return redirect()->route('profiles')->with('success', 'Successfully Update Data.');
 
     }
 
     public function updateAddress(UpdateAddressRequest $request)
     {
-        // $address=Address::where('user_id', $profile->id)->get();
      date_default_timezone_set('Asia/Jakarta'); 
      $MstAddress = Address::find($request->id_address);
      $MstAddress->contact            = $request->comp_contact;
@@ -134,24 +123,17 @@ class ProfileController extends Controller
  {
     
        $validator = Validator::make($request->all(), [
-             'password' => 'required|confirmed',
+             'password' => 'required|confirmed|min:6',
         ]);
 
         if ($validator->fails()) {
             $out = [
             "message" => $validator->messages()->all(),
             ];
-            return response()->json($out, 422);
+            Alert::error('Failed', $out['message'][0]);
+            return back();
         }
 
-        // if ($trasactionitem) {
-        //     Alert::success('Success', 'Pesanan Berhasil dibuta');
-        //     return back();
-        // }
-        // else {
-        //     Alert::error('Failed', 'Pesanan failed');
-        //     return back();
-        // }
     $user = User::where('email',$request->email)->first();
     $user->password = Hash::make($request->new_pass);
     $user->save();

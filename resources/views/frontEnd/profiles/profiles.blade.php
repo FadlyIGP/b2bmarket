@@ -50,6 +50,8 @@
     padding-top: 10px;
   }
 </style>
+@include('sweetalert::alert')
+
 <div id="" class="about-us show-up header-text" style="margin-bottom: -250px">
 	<div class="container ">
     <div class="row">
@@ -70,35 +72,21 @@
         <div class="col-lg-4" style="padding-bottom: 20px;">
           <div style="border: 1px solid #969696;border-radius: 10px;">
             <div style="display: flex;justify-content: center;padding-top: 10px">
-              <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 60px" />
-</div>
-<div style="text-align: center;">
-<h5>{{ $company_list['company_name']}}</h5>
-</div>
+              <img src="{{ url('/files/'.$company_list['company_logo']) }}" alt="location" border="0" style="width: 150px" />
+            </div>
+            <div style="text-align: center;">
+              <h5>{{ $company_list['company_name']}}</h5>
+            </div>
             <div class="heading1"></div>
             <ul class="list-group list-group-unbordered">
-                  {{-- <li class="list-group-item">
-                      <b>All Transaction Finished</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_finished }}</a>
-                  </li>
-                  <li class="list-group-item">
-                      <b>All Transaction Failed</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_failed }}</a>
-                  </li>      --}}           
-                </ul> 
-            <div class="heading1"></div>
-            {{-- <h4 style="font-family: 'Helvetica Neue';">
-              <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
-              Alamat
-            </h4> --}}
-            {{-- <div class="heading1"></div> --}}
-            <div style="height: 100px;padding-right: 10px;padding-left: 10px;" >
-              <table width="100%" class="" style="margin-top: 10px">
-                <tr style="height:2px">
-                  <td width="20%" style="font-size: 12px">Qty</td>
-                  <td width="50%" style="font-size: 12px">Product</td>
-                  <td width="30%" style="font-size: 12px">Total</td>
-                </tr>
-              </table>
-            </div>
+              <li class="list-group-item" style="display: flex;justify-content: space-around;">
+                <b>All Transaction Finished</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_finished }}</a>
+              </li>
+              <li class="list-group-item" style="display: flex;justify-content: space-around;">
+                <b>All Transaction Failed</b> <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_failed }}</a>
+              </li>                
+            </ul> 
+                  <div class="heading1"></div>
           </div>
 
         </div>
@@ -179,29 +167,29 @@
                   <p>Paris is the capital of France.</p> --}}
                   {!! Form::open(['url'=>url('/profiles/changepassword'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off', 'onsubmit'=>'return validateForm(this)']) !!}
                   <div class="form-group">                    
-                      <div class="col-sm-10">
-                          <input type="hidden" class="form-control" id="id_email" name="email" value="{{ $profile->email }}">
-                      </div>
+                    <div class="col-sm-10">
+                      <input type="hidden" class="form-control" id="id_email" name="email" value="{{ $profile->email }}">
+                    </div>
                   </div>
                   <div class="form-group">
                     <label class="col-sm-2 control-label">New Password</label>
-                      <div class="col-sm-10">
-                          <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
-              <span id="errPass1" style="color: red;"></span>
-                      </div>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
+                      <span id="errPass1" style="color: red;"></span>
+                    </div>
                   </div>   
                   <div class="form-group">
                     <label class="col-sm-2 control-label">Confirm Password</label>
-                      <div class="col-sm-10">
-                          <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
-                <span id="errPass2" style="color: red;"></span>
-                      </div>
+                    <div class="col-sm-10">
+                      <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
+                      <span id="errPass2" style="color: red;"></span>
+                    </div>
                   </div>              
                   <div class="form-group">
-                      <div class="col-sm-offset-2 col-sm-10">
-                          {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
-                      </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                      {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
                     </div>
+                  </div>
                   {!! Form::close() !!}
                 </div>
 
@@ -327,32 +315,32 @@ document.getElementById("London-tab").click();
 <script>
   function validateForm(form){        
     if (form.new_pass.value == ""){
-    document.getElementById("errPass1").innerHTML = "Password can't be empty!";
-    form.new_pass.focus();
-    return false;
+      document.getElementById("errPass1").innerHTML = "Password can't be empty!";
+      form.new_pass.focus();
+      return false;
     }
     else if(form.new_pass.value.length < 6){
-    document.getElementById("errPass1").innerHTML = "Minimum password must be 6 characters!";
-    form.new_pass.focus();
-    return false;
+      document.getElementById("errPass1").innerHTML = "Minimum password must be 6 characters!";
+      form.new_pass.focus();
+      return false;
     }
 
     if (form.conrim_pass.value == ""){
-    document.getElementById("errPass2").innerHTML = "Password can't be empty!";
-    form.conrim_pass.focus();
-    return false;
+      document.getElementById("errPass2").innerHTML = "Password can't be empty!";
+      form.conrim_pass.focus();
+      return false;
     }
 
     var newPass = document.getElementById('idnew_pass').value;
     var checkPass = document.getElementById('idconrim_pass').value;
 
     if (checkPass != newPass){
-    document.getElementById("errPass2").innerHTML = "Confirm password does not match!";
-    form.conrim_pass.focus();
-    return false;
+      document.getElementById("errPass2").innerHTML = "Confirm password does not match!";
+      form.conrim_pass.focus();
+      return false;
     }
     return true;
-    }
+  }
 
   function checkLength1(el){
     if (el.value.length >= 6) {
