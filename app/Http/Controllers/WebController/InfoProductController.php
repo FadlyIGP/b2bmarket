@@ -75,15 +75,31 @@ class InfoProductController extends Controller
         $wishlist = Wishlist::where('user_id', $profile->id)->get();
         \Session::put('wishlist', count($wishlist));
 
-        // **PRODUCT TERLARIS
-        $productmaxpay = MstProduct::with('stock', 'image', 'category')
-            ->offset($limit_page)
-            ->limit($this->per_page)
-            ->orderBy('pay_counting', 'DESC')
-            ->get();
+        if (empty($request->filterbyname)) {
+            // **PRODUCT TERLARIS
+            $productmaxpay = MstProduct::with('stock', 'image', 'category')
+                            ->offset($limit_page)
+                            ->limit($this->per_page)
+                            ->orderBy('pay_counting', 'DESC')
+                            ->get();
 
-        $count = count(MstProduct::select('*')
-            ->get());
+            $count = count(MstProduct::select('*')
+                ->get());
+        } else {
+            // **PRODUCT TERLARIS
+            $productmaxpay = MstProduct::with('stock', 'image', 'category')
+                            ->where('product_name', 'LIKE', "%{$request->filterbyname}%")
+                            ->offset($limit_page)
+                            ->limit($this->per_page)
+                            ->orderBy('pay_counting', 'DESC')
+                            ->get();
+
+            $count = count(MstProduct::select('*')
+                    ->get());
+        }
+        
+
+       
 
         if ($count / $requestpage <= ($this->per_page)) {
             $islastpage = true;
