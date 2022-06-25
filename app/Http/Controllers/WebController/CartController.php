@@ -101,6 +101,49 @@ class CartController extends Controller
 
     }
 
+    public function gettotal()
+    {
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
+        $totalcheked=[];
+        foreach ($chekedcart as $key => $value) {
+             $totalcheked[]=$value->total_price;
+        }
+        
+        $total_price=number_format((float)array_sum($totalcheked), 0, ',', '.');
+        $response=[
+            "gettotal"=>$total_price
+        ];
+
+        return  $response;
+    }
+
+    public function getjsondata()
+    {
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
+
+        $listchecked=[];
+        foreach ($chekedcart as $key => $value) {
+             $totalcheked[]=$value->total_price;
+             $listchecked[]=[
+                'id'=> $value->id,
+                'product_id'=> $value->product_id,
+                'product_qty'=> $value->product_qty,
+                'product_price'=> number_format((float)$value->product_price, 0, ',', '.'),
+                'total_price'=>'Rp'." ".number_format((float)$value->total_price, 0, ',', '.'),
+                'status'=> $value->status,
+                'user_id'=> $value->user_id,
+                'product_name'=> $value->product->product_name,
+                'product_descriptions'=> $value->product->product_descriptions,
+                'product_size'=> $value->product->product_size,
+            ];
+        }
+        return $listchecked;
+    }
+
     /**
      * Show the form for creating a new resource.
      *

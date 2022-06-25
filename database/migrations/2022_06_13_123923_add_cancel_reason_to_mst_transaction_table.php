@@ -14,7 +14,7 @@ class AddCancelReasonToMstTransactionTable extends Migration
     public function up()
     {
         Schema::table('mst_transaction', function (Blueprint $table) {
-            $table->string('cancel_reason', 64);
+            $table->string('cancel_reason', 64)->nullable();
         });
     }
 
