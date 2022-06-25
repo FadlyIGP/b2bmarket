@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/getjsondata', [HomeuserController::class, 'getjsondata'])->name('getjsondata');
+// Route::get('/getjsondata', [HomeuserController::class, 'getjsondata'])->name('getjsondata');
 
 

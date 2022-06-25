@@ -42,6 +42,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/carts', CartController::class);
     Route::get('updateqty/{id}', [CartController::class, 'updateqty']);
     Route::get('chekedcart/{id}', [CartController::class, 'chekedcart']);
+    Route::get('gettotal', [CartController::class, 'gettotal']);
+    Route::get('/getjsondata', [CartController::class, 'getjsondata'])->name('getjsondata');
+
+    
     // product
     Route::resource('/infoproducts', InfoProductController::class);
     // profile
@@ -57,7 +61,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/payments', PaymentController::class);
     // transactions
     Route::resource('/transactions', TransactionController::class);
-    Route::get('/getjsondata', [HomeuserController::class, 'getjsondata'])->name('getjsondata');
 
 });
 

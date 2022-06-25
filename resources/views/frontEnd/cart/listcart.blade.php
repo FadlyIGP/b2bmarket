@@ -295,24 +295,22 @@ input.qtyminus { width:25px; height:25px;}
           
             <div class="heading1"></div>
             <div>
-            <table class="" id="table-list" width="100%">
-                    <thead style="font-size: 12px">
-                        <tr class="">
-                            <th class="" width="5%">Qty</th>
-                            <th class="" width="60%">Produk</th>
-                            <th class="" width="34%">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                       @foreach($listchecked as $list)
-                       <tr style="height:2px">
-                            <td width="10%" class="py-1 px-2" >{{ $list['product_qty'] }}</td>
-                            <td width="60%" class="py-1 px-2">{{ $list['product_name'] }}</td>
-                            <td width="30%" class="py-1 px-2">{{ $list['total_price'] }}</td>
-                      </tr>
-                    @endforeach
-
-
+                <table class="" id="table-list" width="100%">
+                        <thead style="font-size: 12px">
+                            <tr class="">
+                                <th class="" width="5%">Qty</th>
+                                <th class="" width="60%">Produk</th>
+                                <th class="" width="34%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach($listchecked as $list)
+                            <tr style="height:2px">
+                                <td width="10%" class="py-1 px-2" >{{ $list['product_qty'] }}</td>
+                                <td width="60%" class="py-1 px-2">{{ $list['product_name'] }}</td>
+                                <td width="30%" class="py-1 px-2">{{ $list['total_price'] }}</td>
+                            </tr>
+                            @endforeach
                     </tbody>
                 </table>
                 <div id="loader" class="d-flex justify-content-center">
@@ -320,14 +318,17 @@ input.qtyminus { width:25px; height:25px;}
                         <span class="visually-hidden">Loading...</span>
                     </div>
                 </div>
-           {{--  <button type="button" class="btn btn-sm btn-success rounded-0 my-2" >
-                Reload Data
-            </button> --}}
+               {{-- 
+                <button type="button" class="btn btn-sm btn-success rounded-0 my-2" >
+                    Reload Data
+                </button> 
+                --}}
             </div>
             <div class="col-md-12">
                 <div class="">
                     <span> TOTAL</span>
-                    <span> Rp {{$total_price}}</span>
+                    <span>Rp</span>
+                    <span id="total_price"> {{$total_price}}</span>
                 </div>
                 <div style="margin-top: 10px;padding-bottom: 10px">
 
@@ -385,6 +386,8 @@ input.qtyminus { width:25px; height:25px;}
                   }
             }); 
 
+
+
             $('#loader').removeClass('d-none')
                 // Selecting the table Element
             var table = $('#table-list')
@@ -393,7 +396,7 @@ input.qtyminus { width:25px; height:25px;}
             setTimeout(() => {
                 $.ajax({
                     // JSON FILE URL
-                    url: 'http://127.0.0.1:8000/api/getjsondata',
+                    url: 'getjsondata',
                     // Type of Return Data
                     dataType: 'json',
                     // Error Function
@@ -429,7 +432,18 @@ input.qtyminus { width:25px; height:25px;}
                         $('#loader').addClass('d-none')
                     }
                 })
-            }, 500)
+
+                $.ajax({
+                    url: 'gettotal/',
+                    type: 'GET',
+                    success: function(data) {
+                      console.log(data);
+                      $('#total_price').html(data.gettotal);
+                  }
+                });
+            }, 200)
+
+           
 
 
         });
@@ -472,7 +486,7 @@ input.qtyminus { width:25px; height:25px;}
             });  
 
 
-             $('#loader').removeClass('d-none')
+            $('#loader').removeClass('d-none')
                 // Selecting the table Element
             var table = $('#table-list')
                 // Emptying the Table items
@@ -480,7 +494,7 @@ input.qtyminus { width:25px; height:25px;}
             setTimeout(() => {
                 $.ajax({
                     // JSON FILE URL
-                    url: 'http://127.0.0.1:8000/api/getjsondata',
+                    url: 'getjsondata',
                     // Type of Return Data
                     dataType: 'json',
                     // Error Function
@@ -516,28 +530,35 @@ input.qtyminus { width:25px; height:25px;}
                         $('#loader').addClass('d-none')
                     }
                 })
-            }, 500)
+
+                $.ajax({
+                    url: 'gettotal/',
+                    type: 'GET',
+
+                    success: function(data) {
+                      console.log(data);
+                      $('#total_price').html(data.gettotal);
+                  }
+                });
+
+            }, 200)
 
         });
     });
 
-    function load_data() {
-    // Show loader
-   
-}
 
-$(function() {
-    // Hide loader on document ready
-    $('#loader').addClass('d-none')
-    setTimeout(() => {
+    $(function() {
+        // Hide loader on document ready
+        $('#loader').addClass('d-none')
+        setTimeout(() => {
+                load_data()
+            }, 100)
+            // Reload Button Function
+        $('#reload_data').click(function() {
+            // refreshing the table data
             load_data()
-        }, 200)
-        // Reload Button Function
-    $('#reload_data').click(function() {
-        // refreshing the table data
-        load_data()
+        })
     })
-})
 </script>
 
 <script type="text/javascript">
@@ -549,6 +570,23 @@ $(function() {
         }       
         return true;
     }
+
+
+$('#myModal').modal('hide');
+
+  $(document).ready(function() {
+    $('.detail-btn').click(function() {
+      $.ajax({
+        url: 'detailpasiens/',
+        type: 'GET',
+       
+        success: function(data) {
+          console.log(data);
+          $('#total_price').html(data.gettotal);
+        }
+      })
+    });
+  });
 </script>
 
     @endsection  
