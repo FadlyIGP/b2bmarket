@@ -79,13 +79,13 @@ Transactions
 										<i class="fa fa-truck"></i>
 									</a>
 								@endif								
-								<a href="#" id="" data-target="#" class="btn btn-xs btn-primary" data-toggle="modal" data-id="{{ $list['id'] }}" title="Print Invoice">
+								<a href="{{ url('/transaction/printinvoice', $list['id']) }}" id="printinv" class="btn btn-xs btn-primary" title="Print Invoice" target="_blank">
 									<i class="fa fa-print"></i>
 								</a> 
 								@if ($list['id_pay'] != '-1')
 									<a href="#" id="modalpayment" class="btn btn-xs bg-orange" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Payment">
 										<i class="fa fa-money"></i>
-									</a>        
+									</a>
 								@else    
 									<a href="#" class="btn btn-xs bg-orange" title="View Payment" disabled>
 										<i class="fa fa-money"></i>
