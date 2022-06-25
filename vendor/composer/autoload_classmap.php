@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Console\\Commands\\AutoCancelOrder' => $baseDir . '/app/Console/Commands/AutoCancelOrder.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
@@ -13,6 +14,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\LoginController' => $baseDir . '/app/Http/Controllers/Auth/LoginController.php',
     'App\\Http\\Controllers\\Auth\\RegisterController' => $baseDir . '/app/Http/Controllers/Auth/RegisterController.php',
     'App\\Http\\Controllers\\Auth\\ResetPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ResetPasswordController.php',
+    'App\\Http\\Controllers\\Auth\\UserRegisterController' => $baseDir . '/app/Http/Controllers/Auth/UserRegisterController.php',
     'App\\Http\\Controllers\\Auth\\VerificationController' => $baseDir . '/app/Http/Controllers/Auth/VerificationController.php',
     'App\\Http\\Controllers\\CmsController\\BankAccountController' => $baseDir . '/app/Http/Controllers/CmsController/BankAccountController.php',
     'App\\Http\\Controllers\\CmsController\\ProductCategoryController' => $baseDir . '/app/Http/Controllers/CmsController/ProductCategoryController.php',
@@ -42,7 +44,11 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Requests\\UpdateAddressRequest' => $baseDir . '/app/Http/Requests/UpdateAddressRequest.php',
+    'App\\Http\\Requests\\UpdatePasswordRequest' => $baseDir . '/app/Http/Requests/UpdatePasswordRequest.php',
+    'App\\Http\\Requests\\UpdateUserSetupRequest' => $baseDir . '/app/Http/Requests/UpdateUserSetupRequest.php',
     'App\\Models\\Address' => $baseDir . '/app/Models/Address.php',
+    'App\\Models\\BankCode' => $baseDir . '/app/Models/BankCode.php',
     'App\\Models\\Cart' => $baseDir . '/app/Models/Cart.php',
     'App\\Models\\ImgProduct' => $baseDir . '/app/Models/ImgProduct.php',
     'App\\Models\\MstCompany' => $baseDir . '/app/Models/MstCompany.php',
@@ -1197,6 +1203,7 @@ return array(
     'GuzzleHttp\\Psr7\\StreamWrapper' => $vendorDir . '/guzzlehttp/psr7/src/StreamWrapper.php',
     'GuzzleHttp\\Psr7\\UploadedFile' => $vendorDir . '/guzzlehttp/psr7/src/UploadedFile.php',
     'GuzzleHttp\\Psr7\\Uri' => $vendorDir . '/guzzlehttp/psr7/src/Uri.php',
+    'GuzzleHttp\\Psr7\\UriComparator' => $vendorDir . '/guzzlehttp/psr7/src/UriComparator.php',
     'GuzzleHttp\\Psr7\\UriNormalizer' => $vendorDir . '/guzzlehttp/psr7/src/UriNormalizer.php',
     'GuzzleHttp\\Psr7\\UriResolver' => $vendorDir . '/guzzlehttp/psr7/src/UriResolver.php',
     'GuzzleHttp\\Psr7\\Utils' => $vendorDir . '/guzzlehttp/psr7/src/Utils.php',
@@ -3351,6 +3358,7 @@ return array(
     'PHPUnit\\Util\\PHP\\DefaultPhpProcess' => $vendorDir . '/phpunit/phpunit/src/Util/PHP/DefaultPhpProcess.php',
     'PHPUnit\\Util\\PHP\\WindowsPhpProcess' => $vendorDir . '/phpunit/phpunit/src/Util/PHP/WindowsPhpProcess.php',
     'PHPUnit\\Util\\Printer' => $vendorDir . '/phpunit/phpunit/src/Util/Printer.php',
+    'PHPUnit\\Util\\Reflection' => $vendorDir . '/phpunit/phpunit/src/Util/Reflection.php',
     'PHPUnit\\Util\\RegularExpression' => $vendorDir . '/phpunit/phpunit/src/Util/RegularExpression.php',
     'PHPUnit\\Util\\Test' => $vendorDir . '/phpunit/phpunit/src/Util/Test.php',
     'PHPUnit\\Util\\TestDox\\CliTestDoxPrinter' => $vendorDir . '/phpunit/phpunit/src/Util/TestDox/CliTestDoxPrinter.php',
