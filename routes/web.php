@@ -45,10 +45,11 @@ Route::middleware(['auth'])->group(function () {
     // product
     Route::resource('/infoproducts', InfoProductController::class);
     // profile
-    Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
-    Route::post('/profiles/updateaddress', [App\Http\Controllers\WebController\ProfileController::class, 'updateAddress']);
-    Route::post('/profiles/changepassword', [App\Http\Controllers\WebController\ProfileController::class, 'changePassword']);
-    Route::post('/profiles/changeuser', [App\Http\Controllers\WebController\ProfileController::class, 'changeUser']);
+    Route::resource('/profiles', ProfileController::class);
+    Route::post('/profiles/updateaddress', [ProfileController::class, 'updateAddress']);
+    Route::post('/profiles/changepassword', [ProfileController::class, 'changePassword']);
+    Route::post('/profiles/changeuser', [ProfileController::class, 'changeUser']);
+    Route::post('/profiles/updateprimary', [ProfileController::class, 'updatePrimary']);
     // address
     Route::resource('/address', AddressController::class);
     //wishlist
