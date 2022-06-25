@@ -278,4 +278,43 @@ class TransactionController extends Controller
 
         return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Cancellation Payment & Order.');
     } 
+
+    public function printinvoice($id){
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $company_list = MstCompany::find($profile->company_id);
+        $company_name = $company_list->company_name;
+
+        $transaction = MstTransaction::where('mst_transaction.id', $id)
+            ->join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
+            ->join('mst_address', 'mst_address.id', '=', 'mst_transaction.address_id')
+            ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
+            ->get(['mst_transaction.id', 'mst_transaction.invoice_number', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 
+                'payment.id as id_payment', 'payment.status as pay_status', 'payment.payment_method', 'payment.paid_at',
+                'mst_company.company_name', 'mst_address.complete_address', 'mst_address.contact', 'mst_address.postcode', 'mst_address.patokan']);
+
+        $totqty     = 0;
+        $gtotal     = 0;  
+        $countprice = 0;      
+        $counter    = 1;
+
+        $item_list = TransactionItem::where('transaction_id', $id)->get();            
+        $transaction_item = [];
+        foreach ($item_list as $key => $value) {   
+            $totqty = $totqty + $value->product_qty;
+            $countprice = $countprice + $value->price_total;
+
+            $transaction_item[] = [
+                "no"            => $counter++,
+                "product_name"  => $value->product_name,
+                "product_price" => $value->product_price,
+                "product_qty"   => $value->product_qty,
+                "product_item"  => $value->product_item,
+                "price_total"   => $value->price_total
+            ];
+        }
+
+        $gtotal = 'Rp '.number_format($countprice);
+
+        return view('transaction.printinvoice', ['transactionlist' => $transaction, 'company' => $company_name, 'transaction_item' => $transaction_item, 'gtotal' => $gtotal, 'totqty' => $totqty]);
+    }
 }

@@ -210,4 +210,6 @@ class HomeuserController extends Controller
     public function destroy($id)
     {
     }
+
+    
 }

@@ -42,8 +42,15 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/carts', CartController::class);
     Route::get('updateqty/{id}', [CartController::class, 'updateqty']);
     Route::get('chekedcart/{id}', [CartController::class, 'chekedcart']);
+    Route::get('gettotal', [CartController::class, 'gettotal']);
+    Route::get('/getjsondata', [CartController::class, 'getjsondata'])->name('getjsondata');
+
+    
     // product
     Route::resource('/infoproducts', InfoProductController::class);
+    Route::get('/getlistproduct', [InfoProductController::class, 'getlistproduct'])->name('getlistproduct');
+
+    
     // profile
     Route::resource('/profiles', ProfileController::class);
     Route::post('/profiles/updateaddress', [ProfileController::class, 'updateAddress']);
@@ -58,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/payments', PaymentController::class);
     // transactions
     Route::resource('/transactions', TransactionController::class);
+
 });
 
 
@@ -91,6 +99,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('viewpayment/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewpayment']);
     Route::post('/payment/payupdatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'payupdatestatus']);
     Route::post('payment/payupdatestatus/cancelled', [App\Http\Controllers\CmsController\TransactionController::class, 'statuscancel']);
+    Route::get('transaction/printinvoice/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'printinvoice']);    
 
     // Report
     Route::get('/report/transaction/journal', [App\Http\Controllers\CmsController\ReportController::class, 'transactionjournallist']);
