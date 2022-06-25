@@ -48,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     
     // product
     Route::resource('/infoproducts', InfoProductController::class);
+    Route::get('/getlistproduct', [InfoProductController::class, 'getlistproduct'])->name('getlistproduct');
+
+    
     // profile
     Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
     Route::post('/profiles/updateaddress', [App\Http\Controllers\WebController\ProfileController::class, 'updateAddress']);
@@ -95,6 +98,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('viewpayment/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'viewpayment']);
     Route::post('/payment/payupdatestatus', [App\Http\Controllers\CmsController\TransactionController::class, 'payupdatestatus']);
     Route::post('payment/payupdatestatus/cancelled', [App\Http\Controllers\CmsController\TransactionController::class, 'statuscancel']);
+    Route::get('transaction/printinvoice/{id}', [App\Http\Controllers\CmsController\TransactionController::class, 'printinvoice']);    
 
     // Report
     Route::get('/report/transaction/journal', [App\Http\Controllers\CmsController\ReportController::class, 'transactionjournallist']);

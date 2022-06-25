@@ -56,6 +56,10 @@ class TransactionController extends Controller
                
            }elseif($status==3) {
                $statuspayment='Diterima';
+           }elseif($status==99){
+               $statuspayment='Dibatalkan';
+           }else{
+               $statuspayment='Unknown';
            }
 
            return $statuspayment;
