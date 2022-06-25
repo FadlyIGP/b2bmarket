@@ -386,45 +386,29 @@ input.qtyminus { width:25px; height:25px;}
                   }
             }); 
 
-
-
             $('#loader').removeClass('d-none')
-                // Selecting the table Element
             var table = $('#table-list')
-                // Emptying the Table items
             table.find('tbody').html('')
             setTimeout(() => {
                 $.ajax({
-                    // JSON FILE URL
                     url: 'getjsondata',
-                    // Type of Return Data
                     dataType: 'json',
-                    // Error Function
                     error: err => {
                         console.log(err)
                         alert("An error occured")
                         $('#loader').addClass('d-none')
                     },
-                    // Succes Function
                     success: function(resp) {
                         if (resp.length > 0) {
-                            // If returned json data is not empty
                             var i = 1;
-                            // looping the returned data
                             Object.keys(resp).map(k => {
-                                // creating new table row element
                                 var tr = $('<tr>')
-                                    // second column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].product_qty + '</td>')
-                                    // third column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].product_name + '</td>')
-                                    // fourth column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].total_price + '</td>')
-                                // Append table row item to table body
                                 table.find('tbody').append(tr)
                             })
                         } else {
-                            // If returned json data is empty
                             var tr = $('<tr>')
                             tr.append('<th class="py-1 px-2 text-center">No data to display</th>')
                             table.find('tbody').append(tr)
@@ -442,9 +426,6 @@ input.qtyminus { width:25px; height:25px;}
                   }
                 });
             }, 200)
-
-           
-
 
         });
 
@@ -470,9 +451,7 @@ input.qtyminus { width:25px; height:25px;}
                 // Otherwise put a 0 there
                 $(this).siblings('input[name='+fieldName+']').val(1);
             }            
-
             var currqty = parseInt($(this).siblings('input[name='+fieldName+']').val());
-
             // alert("Update Qty ?"); 
             const id = $(this).attr('data-id');
             $.ajax({
@@ -485,44 +464,29 @@ input.qtyminus { width:25px; height:25px;}
                   }
             });  
 
-
             $('#loader').removeClass('d-none')
-                // Selecting the table Element
             var table = $('#table-list')
-                // Emptying the Table items
             table.find('tbody').html('')
             setTimeout(() => {
                 $.ajax({
-                    // JSON FILE URL
                     url: 'getjsondata',
-                    // Type of Return Data
                     dataType: 'json',
-                    // Error Function
                     error: err => {
                         console.log(err)
                         alert("An error occured")
                         $('#loader').addClass('d-none')
                     },
-                    // Succes Function
                     success: function(resp) {
                         if (resp.length > 0) {
-                            // If returned json data is not empty
                             var i = 1;
-                            // looping the returned data
                             Object.keys(resp).map(k => {
-                                // creating new table row element
                                 var tr = $('<tr>')
-                                    // second column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].product_qty + '</td>')
-                                    // third column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].product_name + '</td>')
-                                    // fourth column data
                                 tr.append('<td class="py-1 px-2">' + resp[k].total_price + '</td>')
-                                // Append table row item to table body
                                 table.find('tbody').append(tr)
                             })
                         } else {
-                            // If returned json data is empty
                             var tr = $('<tr>')
                             tr.append('<th class="py-1 px-2 text-center">No data to display</th>')
                             table.find('tbody').append(tr)
@@ -534,7 +498,6 @@ input.qtyminus { width:25px; height:25px;}
                 $.ajax({
                     url: 'gettotal/',
                     type: 'GET',
-
                     success: function(data) {
                       console.log(data);
                       $('#total_price').html(data.gettotal);
@@ -570,23 +533,6 @@ input.qtyminus { width:25px; height:25px;}
         }       
         return true;
     }
-
-
-$('#myModal').modal('hide');
-
-  $(document).ready(function() {
-    $('.detail-btn').click(function() {
-      $.ajax({
-        url: 'detailpasiens/',
-        type: 'GET',
-       
-        success: function(data) {
-          console.log(data);
-          $('#total_price').html(data.gettotal);
-        }
-      })
-    });
-  });
 </script>
 
-    @endsection  
+@endsection  

@@ -48,6 +48,9 @@ Route::middleware(['auth'])->group(function () {
     
     // product
     Route::resource('/infoproducts', InfoProductController::class);
+    Route::get('/getlistproduct', [InfoProductController::class, 'getlistproduct'])->name('getlistproduct');
+
+    
     // profile
     Route::resource('/profiles', App\Http\Controllers\WebController\ProfileController::class);
     Route::post('/profiles/updateaddress', [App\Http\Controllers\WebController\ProfileController::class, 'updateAddress']);
