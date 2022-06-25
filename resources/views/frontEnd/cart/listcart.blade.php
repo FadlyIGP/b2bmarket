@@ -124,6 +124,9 @@ input.qtyminus { width:25px; height:25px;}
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+
 
 <div id="" class="services section ">
   <div class="container">
@@ -234,11 +237,11 @@ input.qtyminus { width:25px; height:25px;}
                                     <td width="50%">
 
                                         <form id='myform' method='GET' action='' style="border-color: transparent;">
-                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyminus button' field='quantity'>-</button>
+                                            <button data-id="{{ $list['id'] }}" type="button" class='qtyminus button' field='quantity' id="reload_data">-</button>
 
                                             <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty input' onkeypress="return onlyNumeric(event)" />
 
-                                            <button data-id="{{ $list['id'] }}" type="submit" class='qtyplus button' field='quantity'>+</button>
+                                            <button data-id="{{ $list['id'] }}" type="button" class='qtyplus button' field='quantity'>+</button>
 
                                         </form>
 
@@ -292,26 +295,40 @@ input.qtyminus { width:25px; height:25px;}
           
             <div class="heading1"></div>
             <div>
-            <table width="100%" class="" style="margin-top: 10px">
-                <tr style="height:2px">
-                    <td width="20%" style="font-size: 12px">Qty</td>
-                    <td width="50%" style="font-size: 12px">Product</td>
-                    <td width="30%" style="font-size: 12px">Total</td>
-                </tr>
-
-                @foreach($listchecked as $list)
-                <tr style="height:2px">
-                    <td width="10%" style="font-size: 12px">{{ $list['product_qty'] }} Pcs</td>
-                    <td width="60%" style="font-size: 10px">{{ $list['product_name'] }}</td>
-                    <td width="30%" style="font-size: 12px">{{ $list['total_price'] }}</td>
-                </tr>
-                @endforeach
-            </table>
+                <table class="" id="table-list" width="100%">
+                        <thead style="font-size: 12px">
+                            <tr class="">
+                                <th class="" width="5%">Qty</th>
+                                <th class="" width="60%">Produk</th>
+                                <th class="" width="34%">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach($listchecked as $list)
+                            <tr style="height:2px">
+                                <td width="10%" class="py-1 px-2" >{{ $list['product_qty'] }}</td>
+                                <td width="60%" class="py-1 px-2">{{ $list['product_name'] }}</td>
+                                <td width="30%" class="py-1 px-2">{{ $list['total_price'] }}</td>
+                            </tr>
+                            @endforeach
+                    </tbody>
+                </table>
+                <div id="loader" class="d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+               {{-- 
+                <button type="button" class="btn btn-sm btn-success rounded-0 my-2" >
+                    Reload Data
+                </button> 
+                --}}
             </div>
             <div class="col-md-12">
                 <div class="">
                     <span> TOTAL</span>
-                    <span> Rp {{$total_price}}</span>
+                    <span>Rp</span>
+                    <span id="total_price"> {{$total_price}}</span>
                 </div>
                 <div style="margin-top: 10px;padding-bottom: 10px">
 
@@ -368,6 +385,67 @@ input.qtyminus { width:25px; height:25px;}
                     param0: currqty,
                   }
             }); 
+
+
+
+            $('#loader').removeClass('d-none')
+                // Selecting the table Element
+            var table = $('#table-list')
+                // Emptying the Table items
+            table.find('tbody').html('')
+            setTimeout(() => {
+                $.ajax({
+                    // JSON FILE URL
+                    url: 'getjsondata',
+                    // Type of Return Data
+                    dataType: 'json',
+                    // Error Function
+                    error: err => {
+                        console.log(err)
+                        alert("An error occured")
+                        $('#loader').addClass('d-none')
+                    },
+                    // Succes Function
+                    success: function(resp) {
+                        if (resp.length > 0) {
+                            // If returned json data is not empty
+                            var i = 1;
+                            // looping the returned data
+                            Object.keys(resp).map(k => {
+                                // creating new table row element
+                                var tr = $('<tr>')
+                                    // second column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].product_qty + '</td>')
+                                    // third column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].product_name + '</td>')
+                                    // fourth column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].total_price + '</td>')
+                                // Append table row item to table body
+                                table.find('tbody').append(tr)
+                            })
+                        } else {
+                            // If returned json data is empty
+                            var tr = $('<tr>')
+                            tr.append('<th class="py-1 px-2 text-center">No data to display</th>')
+                            table.find('tbody').append(tr)
+                        }
+                        $('#loader').addClass('d-none')
+                    }
+                })
+
+                $.ajax({
+                    url: 'gettotal/',
+                    type: 'GET',
+                    success: function(data) {
+                      console.log(data);
+                      $('#total_price').html(data.gettotal);
+                  }
+                });
+            }, 200)
+
+           
+
+
         });
 
         // This button will decrement the value till 1
@@ -406,8 +484,81 @@ input.qtyminus { width:25px; height:25px;}
                     param0: currqty, 
                   }
             });  
+
+
+            $('#loader').removeClass('d-none')
+                // Selecting the table Element
+            var table = $('#table-list')
+                // Emptying the Table items
+            table.find('tbody').html('')
+            setTimeout(() => {
+                $.ajax({
+                    // JSON FILE URL
+                    url: 'getjsondata',
+                    // Type of Return Data
+                    dataType: 'json',
+                    // Error Function
+                    error: err => {
+                        console.log(err)
+                        alert("An error occured")
+                        $('#loader').addClass('d-none')
+                    },
+                    // Succes Function
+                    success: function(resp) {
+                        if (resp.length > 0) {
+                            // If returned json data is not empty
+                            var i = 1;
+                            // looping the returned data
+                            Object.keys(resp).map(k => {
+                                // creating new table row element
+                                var tr = $('<tr>')
+                                    // second column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].product_qty + '</td>')
+                                    // third column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].product_name + '</td>')
+                                    // fourth column data
+                                tr.append('<td class="py-1 px-2">' + resp[k].total_price + '</td>')
+                                // Append table row item to table body
+                                table.find('tbody').append(tr)
+                            })
+                        } else {
+                            // If returned json data is empty
+                            var tr = $('<tr>')
+                            tr.append('<th class="py-1 px-2 text-center">No data to display</th>')
+                            table.find('tbody').append(tr)
+                        }
+                        $('#loader').addClass('d-none')
+                    }
+                })
+
+                $.ajax({
+                    url: 'gettotal/',
+                    type: 'GET',
+
+                    success: function(data) {
+                      console.log(data);
+                      $('#total_price').html(data.gettotal);
+                  }
+                });
+
+            }, 200)
+
         });
     });
+
+
+    $(function() {
+        // Hide loader on document ready
+        $('#loader').addClass('d-none')
+        setTimeout(() => {
+                load_data()
+            }, 100)
+            // Reload Button Function
+        $('#reload_data').click(function() {
+            // refreshing the table data
+            load_data()
+        })
+    })
 </script>
 
 <script type="text/javascript">
@@ -419,6 +570,23 @@ input.qtyminus { width:25px; height:25px;}
         }       
         return true;
     }
+
+
+$('#myModal').modal('hide');
+
+  $(document).ready(function() {
+    $('.detail-btn').click(function() {
+      $.ajax({
+        url: 'detailpasiens/',
+        type: 'GET',
+       
+        success: function(data) {
+          console.log(data);
+          $('#total_price').html(data.gettotal);
+        }
+      })
+    });
+  });
 </script>
 
     @endsection  
