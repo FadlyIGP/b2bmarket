@@ -193,7 +193,7 @@ class InfoProductController extends Controller
      */
     public function show($id)
     {
-
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
         $product = MstProduct::with('stock', 'image', 'category')
             ->where('id', $id)->first();
         $productimage = ImgProduct::where('product_id', $product->id)->get();
@@ -205,7 +205,7 @@ class InfoProductController extends Controller
             "product_size" => $product->product_size,
             "product_price" => 'Rp' . number_format((float)$product->product_price, 0, ',', '.'),
             "product_item" => $product->product_item,
-            "wishlist_status" => $product->wishlist_status,
+            "wishlist_status" => getwishlist([$profile->id, $product->id]),
             "company_id" => $product->company_id,
             "created_at" => $product->created_at,
             "stock" => $product->stock->qty,
@@ -215,6 +215,7 @@ class InfoProductController extends Controller
             "minimum_order" => $product->minimum_order,
             "company_name" => getcompany($product->company_id),
         ];
+
 
         return view('frontEnd.home.productdetail', ['productdetail' => $productdetail, 'productimage' => $productimage]);
     }

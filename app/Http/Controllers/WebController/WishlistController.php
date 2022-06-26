@@ -8,6 +8,7 @@ use App\Models\Wishlist;
 use App\Models\UserMitra;
 use App\Models\MstProduct;
 use Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class WishlistController extends Controller
 {
@@ -25,19 +26,19 @@ class WishlistController extends Controller
                 return $seelcounting;
         }
     }
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $cartlistbyuserid=Wishlist::with('image','product')->where('user_id', $profile->id)->get();
-        // return $cartlistbyuserid;
-
         // $chekedcart=Wishlist::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
-
+        $listcart=[];
         foreach ($cartlistbyuserid as $key => $value) {
             $listcart[]=[
                 "id" => $value->id,
@@ -55,7 +56,6 @@ class WishlistController extends Controller
                 "user_id" => $value->user_id
             ];
         }
-        // return $listcart;
 
         return view('frontEnd.wishlist.wishlist',['listcart'=>$listcart]);
 
@@ -86,7 +86,15 @@ class WishlistController extends Controller
         $wishlist->status = 1;
         $wishlist->user_id = $profile->id;
         $wishlist->save();
-        return redirect()->route('firstpage');
+
+        if ($wishlist) {
+            Alert::success('Success', 'Success add to wishlist');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
 
     }
 
