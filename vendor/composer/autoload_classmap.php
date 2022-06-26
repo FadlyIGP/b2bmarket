@@ -44,6 +44,7 @@ return array(
     'App\\Http\\Middleware\\TrustHosts' => $baseDir . '/app/Http/Middleware/TrustHosts.php',
     'App\\Http\\Middleware\\TrustProxies' => $baseDir . '/app/Http/Middleware/TrustProxies.php',
     'App\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
+    'App\\Http\\Requests\\StoreAddressRequest' => $baseDir . '/app/Http/Requests/StoreAddressRequest.php',
     'App\\Http\\Requests\\UpdateAddressRequest' => $baseDir . '/app/Http/Requests/UpdateAddressRequest.php',
     'App\\Http\\Requests\\UpdatePasswordRequest' => $baseDir . '/app/Http/Requests/UpdatePasswordRequest.php',
     'App\\Http\\Requests\\UpdateUserSetupRequest' => $baseDir . '/app/Http/Requests/UpdateUserSetupRequest.php',

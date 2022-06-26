@@ -21,6 +21,7 @@ use App\Http\Requests\UpdateUserSetupRequest;
 use App\Http\Requests\StoreAddressRequest;
 use Validator;
 use RealRashid\SweetAlert\Facades\Alert;
+use File;
 
 
 
@@ -188,6 +189,24 @@ class ProfileController extends Controller
         $usermitra->phone = $request->phone;
         $usermitra->tel_number = $request->tel_number;
         $usermitra->save();
+
+        $mitra = UserMitra::find($usermitra->id);
+        if ($request->hasfile('user_foto')) {
+          $request->validate([
+            'user_foto' => 'image|mimes:jpeg,png,jpg,svg|max:2048'
+          ]);
+
+          //delete foto
+          File::delete(public_path().'/files/'.$mitra->user_foto);
+
+          //add foto
+          $imageName = $request->user_foto->getClientOriginalName();
+          $request->user_foto->move(public_path('files'),$imageName);
+
+          //modif foto
+          $mitra->user_foto = $imageName;
+          $mitra->save();
+        }
 
         $user = User::where('email', Auth::user()->email)->first();
         $user->name = $request->name;

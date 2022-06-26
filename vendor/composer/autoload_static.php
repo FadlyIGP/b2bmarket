@@ -601,6 +601,7 @@ class ComposerStaticInitf7dded7613c9526572c91b4f69fd1500
         'App\\Http\\Middleware\\TrustHosts' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustHosts.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Http\\Requests\\StoreAddressRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StoreAddressRequest.php',
         'App\\Http\\Requests\\UpdateAddressRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateAddressRequest.php',
         'App\\Http\\Requests\\UpdatePasswordRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdatePasswordRequest.php',
         'App\\Http\\Requests\\UpdateUserSetupRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UpdateUserSetupRequest.php',
