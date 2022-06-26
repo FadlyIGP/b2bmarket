@@ -1,6 +1,27 @@
 @extends('frontEnd.weblayouts.app')
 
 @section('content')
+@include('sweetalert::alert')
+<style type="text/css">
+    .buttonaddress {
+      display: block;
+      width: 100%;
+      height: 30px;
+      border: none;
+      background-color: #FF4500;
+      color: white;
+      /*padding: 14px 28px;*/
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+  }
+
+  .buttonaddress:hover {
+      background-color: #ddd;
+      color: black;
+  }
+</style>
 
 <div id="services about-us" class="services section ">
   <div class="container">
@@ -29,26 +50,40 @@
           </div>
       </div>
                 
-      <div class="col-lg-6">
+      <div class="col-lg-6" >
           <div class="service-item" >
             <h4 style="font-family: 'Helvetica Neue';">{{$productdetail['product_name']}}</h4>
             <div class="heading1"></div>
-            <div class="" id="test">
-                <span style="font-size: 12px;"><b>IDR {{$productdetail['product_price']}}</b></span>
+            <div style="height: 200px;color: #A9A9A9">
+                <div class="" id="test">
+                    <span style="font-size: 12px;"><b>IDR &nbsp;&nbsp;{{$productdetail['product_price']}}</b></span>
+                </div>
+                <div class="" id="test">
+                    <span style="font-size: 12px;"><b>Min Order &nbsp;&nbsp;{{$productdetail['minimum_order']}} Pcs</b></span>
+                </div>
+                <div class="" id="test" style="">
+                    <span style="font-size: 12px;"><b>Terjual &nbsp;&nbsp;{{$productdetail['pay_counting']}}</b></span>
+                </div>
+                <div class="" id="test" style="">
+                    <span style="font-size: 12px;"><b>Size &nbsp;&nbsp;{{$productdetail['product_size']}}</b></span>
+                </div>
+
+                <div class="" id="test" style="">
+                    <span style="font-size: 12px;"><b>Qty &nbsp;&nbsp;{{$productdetail['stock']}}</b></span>
+                </div>
+
+                <div class="" id="test" style="">
+                    <span style="font-size: 12px;"><b>Kategori &nbsp;&nbsp;{{$productdetail['product_category']}}</b></span>
+                </div>
+                <div class="" id="test" style="">
+                    <span style="font-size: 12px;"><b>Pemilik &nbsp;&nbsp;{{$productdetail['company_name']}}</b></span>
+                </div>
             </div>
-            <div class="" id="test">
-                <span style="font-size: 12px;"><b>Min Order {{$productdetail['minimum_order']}} Pcs</b></span>
-            </div>
-            <div class="" id="test" style="padding-bottom: 25px">
-                <span style="font-size: 12px;"><b>Terjual {{$productdetail['pay_counting']}}</b></span>
-            </div>
-            <div class="" id="test" style="padding-bottom: 25px">
-                <span style="font-size: 12px;"><b>Size {{$productdetail['product_size']}}</b></span>
-            </div>
+           
 
             <div class="heading1"></div>
 
-            <div class="" id="descriptions" >
+            <div class="" style="height: 50px">
                 <span style="font-size: 12px;">
                     {{$productdetail['product_descriptions']}}
                 </span>
@@ -59,20 +94,43 @@
 
             <div class="" style="padding-top: 20px">
                 <center>
-                    <a href="#">
-                        <i class="fa-solid fa-cart-arrow-down" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
-                    </a>
+                    <table>
+                        <tr>
+                            <td>
+                                {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
+                                <input type="hidden" class="form-control  has-feedback  " value="{{$list['id']}}" id="product_id" name="product_id" required>
+                                <button type="submit" style="background-color: transparent;border-color: transparent;">
+                                    <i class="fa-solid fa-cart-arrow-down menu" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+                                </button>
+                                {!! Form::close() !!}
+                            </td>
 
-                     <a href="#">
-                        {{-- <i class="fa-solid fa-message" style="color: #808080;padding-right: 15px;font-size: 20px"> --}}
-                            Ajukan Pertanyaan
-                        {{-- </i> --}}
+                            <td>
+                                @if($list['wishlist_status']==true)
+                                <a href="#">
+                                    <i class="fa-solid fa-heart" style="color:red;padding-right: 15px;font-size: 20px"></i>
+                                </a>
+                                @else()
+                                {!! Form::open(['url'=>url('/wishlists'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
+                                <input type="hidden" class="form-control  has-feedback " value="{{$list['id']}}" id="product_id" name="product_id" required>
+                                <button type="submit" style="background-color: transparent;border-color: transparent;">
+                                    <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
+                                </button>
+                                {!! Form::close() !!}
+                                @endif()
 
-                    </a>
-               </center>
+                            </td>
+
+                            <td>
+                                {!! Form::open(['url'=>url('#'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+
+                                <button type="submit" class='buttonaddress' field=''>Quotations</button>
+                                {!! Form::close() !!}
+                            </td>
+                        </tr>
+                    </table>
+
+                </center>
             </div>
         </div>
     </div>
