@@ -72,6 +72,12 @@
     cursor: pointer;
     text-align: center;
   }
+
+  #borderimg2 { 
+    border: 10px solid transparent;
+    padding: 15px;
+    border-image: url(border.png) 30 stretch;
+  }
 </style>
 {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
@@ -301,6 +307,15 @@
                       <label class="col-sm-2 control-label">No. Telp</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" name="tel_number" id="idtel_number" placeholder="tel_number" value="{{ $profile['tel_number']}}">
+                      </div>
+                    </div>
+                    <div class="form-group" id="rata">
+                      <label class="col-sm-2 control-label">Foto</label>
+                      <div class="col-sm-5">
+                        <input type="file" class="form-control" name="user_foto" id="iduser_foto">
+                      </div>
+                      <div class="col-sm-5" style="text-align: center;">
+                        <img id="borderimg2" src="{{ url('/files/'.$profile['user_foto']) }}" alt="location" border="0" style="width: 150px" />
                       </div>
                     </div>
                     <div class="form-group">
