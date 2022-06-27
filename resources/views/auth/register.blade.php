@@ -210,9 +210,6 @@ form .user-details .input-box{
                         <input type="text" placeholder=""  name="company" class="form-control has-feedback{{ $errors->has('company') ? ' has-error' : '' }}">
                     </div>
                 </div>
-      {{--           <div class="button">
-                    <input type="submit" value="Register">
-                </div> --}}
                 <div class="form-group button">
                   {{ Form::submit('Register',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:100%;color: white;'])}}
                 </div>
