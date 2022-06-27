@@ -12,34 +12,33 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
 use RealRashid\SweetAlert\Facades\Alert;
+use Validator;
 
 
 class UserRegisterController extends Controller
 {
     public function registered(Request $request)
     {
-        //
-        // return $request->all();
-        // $profile = UserMitra::all();
-        // $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
-        // return $getprodiuctdata;
-        // $cart = new Address;
-        // $cart->name = $request->name;
-        // $cart->user_id = $profile->id;
-        // $cart->company_id = $profile->company_id;
-        // $cart->contact = $request->contact;
-        // $cart->provinsi =$request->provinsi;
-        // $cart->kabupaten = $request->kabupaten;
-        // $cart->kecamatan = $request->kecamatan;
-        // $cart->kelurahan = $request->kelurahan;
-        // $cart->complete_address = $request->komplit;
-        // $cart->patokan = $request->patokan;
-        // $cart->postcode = $request->kodepost;
-        // $cart->primary_address = $request->prmary;
-        // $cart->save();
-        // return $request->all(); 
-        $company = new MstCompany;
-        $company->company_name = $request->company;
+       $validator = Validator::make($request->all(), [
+         'name' => 'required',
+         'phone' => 'required|unique:user_mitra',
+         'email' => 'required|unique:users',
+         'role_id' => 'required',
+         'password' => 'required|min:6',
+         'company' => 'required',
+     ]);
+
+       if ($validator->fails())
+       {
+        $out = [
+            "message" => $validator->messages()->all(),
+        ];
+        Alert::error('Failed', $out['message'][0]);
+        return back();
+    }
+
+    $company = new MstCompany;
+    $company->company_name = $request->company;
         $company->company_logo = '';
         $company->company_code = '';
         $company->save();
@@ -63,16 +62,16 @@ class UserRegisterController extends Controller
         $usermitra->save();
 
         // $message='Berhasil menambahkan alamat';
-
         if ($user) {
             Alert::success('Success', 'Anda berhasil registrasi');
-            return back();
+            // return back();
+            
+            return redirect()->route('login');
         }
         else {
             Alert::error('Failed', 'Registrasi gagal');
             return back();
         }
-
-        return redirect()->route('/logout')->with('success', 'Successfully Add Data Address.');
+        // return redirect()->route('logout')->with('success', 'Successfully Add Data Address.');
     }
 }

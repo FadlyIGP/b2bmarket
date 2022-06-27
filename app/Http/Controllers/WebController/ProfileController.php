@@ -243,7 +243,7 @@ class ProfileController extends Controller
             Alert::error('Failed', 'Failed');
             return back();
         }
-       return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+       // return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
 
    }
 
