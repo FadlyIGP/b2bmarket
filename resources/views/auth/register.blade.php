@@ -175,7 +175,8 @@ form .user-details .input-box{
         <div class="title">Registration</div>
         <div class="content">
             {{-- {!! Form::open(['url'=>route('userregister'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!} --}}
-            <form action="{{url('/reguser')}}" method="POST">
+            {{-- <form action="{{url('/reguser')}}" method="POST"> --}}
+              {!! Form::open(['url'=>url('/reguser'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
                 @csrf
                 <div class="user-details">
                     <div class="input-box">
@@ -191,14 +192,15 @@ form .user-details .input-box{
                         <span class="details">Email</span>
                         <input type="text" placeholder="Enter your email"  name="email">
                     </div>
+
                     <div class="input-box">
-                        <span class="details">Pilih Type</span>
-                        <select name="role_id" id="role_id" form="carform" style="width: 100%">
-                          <option value="2">Buyer</option>
-                          <option value="1">Seller</option>
-                         
-                        </select>
+                      <span class="details">Pilih Type</span>
+                      <select name="role_id" id="role_id" style="width: 100%" class="form-select form-control has-feedback{{ $errors->has('role_id') ? ' has-error' : '' }}" required>
+                        <option value="1">Seller</option>
+                        <option value="2">Buyer</option>
+                      </select>
                     </div>
+
                     <div class="input-box">
                         <span class="details">Password</span>
                         <input type="text" placeholder="Enter your password"  name="password">
@@ -208,9 +210,13 @@ form .user-details .input-box{
                         <input type="text" placeholder=""  name="company">
                     </div>
                 </div>
-                <div class="button">
+      {{--           <div class="button">
                     <input type="submit" value="Register">
+                </div> --}}
+                <div class="form-group button">
+                  {{ Form::submit('Register',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white;'])}}
                 </div>
+                {{ Form::close()}}
             </form>
         </div>
     </div>

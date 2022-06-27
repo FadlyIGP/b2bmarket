@@ -78,6 +78,44 @@
     padding: 15px;
     border-image: url(border.png) 30 stretch;
   }
+
+  .block {
+    display: block;
+    /*width: 50%;*/
+    /*height: 30px;*/
+    border: none;
+    background-color: #FFA500;
+    color: white;
+    /*padding: 14px 28px;*/
+    border-radius: 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+  }
+
+  .block:hover {
+    background-color: #ddd;
+    color: black;
+  }
+
+  .button{
+    border: none;
+    text-align: center;
+    display: inline-block;
+    width: 20%;
+    border-radius: 5px;
+
+  }
+
+  table, tr, td {
+    border: none;
+  }
+
+  .padding1{
+    padding-bottom: 10px;
+  }
+
+
 </style>
 {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
@@ -131,11 +169,11 @@
                   <div class="col-lg-6"> 
                     <h4 style="font-family: 'Helvetica Neue';">
                       <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
-                      All Address&nbsp&nbsp&nbsp
+                      All Address
                     </h4>
                   </div>
                   <div class="col-lg-6" style="display: flex;justify-content: flex-end;padding-right: 10px">
-                    <button type="button" class="btn btn-primary buttonaddress" data-bs-toggle="modal" data-bs-target="#myModal">
+                    <button type="button" class="btn btn-primary block" data-bs-toggle="modal" data-bs-target="#myModal">
                      <i class="fa fa-add">&nbsp Add</i>
                    </button>
                  </div>
@@ -146,19 +184,19 @@
 
 
               @foreach($address_all as $address)
-              <table style="width: 100%">
+              <table style="width: 100%;border: 0;">
                 <tr>
                   <td style="width: 20%;text-align: center;"> {{ $loop->iteration}}</td>
                   <td style="width: 50%;">{{ $address->name}}</td>
                   <td style="width: 30%;">
                     @if($address->primary_address == 1)
-                    <button class="btn btn-primary buttonaddress" style="width: 100px;height: 50px" src="/profiles/updateprimary" disabled>
-                      Main Address
+                    <button class="btn btn-primary block" src="/profiles/updateprimary" disabled>
+                      Utama
                     </button>
                     @else
                     {!! Form::open(['url'=>url('/profiles/updateprimary'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
                     <input type="hidden" class="form-control" id="address_id" name="address_id"  value="{{ $address['id'] }}">
-                    {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
+                    {!! Form::submit('Update', ['class'=>'btn btn-default block']) !!}
                     {!! Form::close() !!}
                     @endif
                   </td>
@@ -187,62 +225,116 @@
                     <input type="hidden" class="form-control" id="id_address" name="id_address"  value="{{ $address_list['id'] }}">
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Nama Jalan</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_name" name="name" placeholder="Nama Jalan" value="{{ $address_list['name'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Nama Jalan</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_name" name="name" placeholder="Nama Jalan" value="{{ $address_list['name'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Contact</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_contact" name="comp_contact" placeholder="Contact" value="{{ $address_list['contact'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Contact</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_contact" name="comp_contact" placeholder="Contact" value="{{ $address_list['contact'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Province</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_prov" name="prov" placeholder="Province" value="{{ $address_list['provinsi'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Province</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_prov" name="prov" placeholder="Province" value="{{ $address_list['provinsi'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">City / Country</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_city" name="city" placeholder="City or Country" value="{{ $address_list['kabupaten'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">City/Country</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_city" name="city" placeholder="City or Country" value="{{ $address_list['kabupaten'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">District</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_district" name="district" placeholder="Distric" value="{{ $address_list['kecamatan'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">District</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_district" name="district" placeholder="Distric" value="{{ $address_list['kecamatan'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Neighborhoods</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_neighborhoods" name="neighborhoods" placeholder="Neighborhoods" value="{{ $address_list['kelurahan'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Neighborhoods</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_neighborhoods" name="neighborhoods" placeholder="Neighborhoods" value="{{ $address_list['kelurahan'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Complete Address</label>
-                  <div class="col-sm-10">
-                    <textarea class="form-control" id="id_compaddr" name="compaddr" placeholder="Complete Address" required>{{ $address_list['complete_address'] }}</textarea>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Complete Address</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <textarea class="form-control" id="id_compaddr" name="compaddr" placeholder="Complete Address" required>{{ $address_list['complete_address'] }}</textarea>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Postal Code</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_postcode" name="postcode" placeholder="Postal Code" value="{{ $address_list['postcode'] }}" required>
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Postal Code</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_postcode" name="postcode" placeholder="Postal Code" value="{{ $address_list['postcode'] }}" required>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group" id="rata">
-                  <label class="col-sm-2 control-label">Remark</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="id_remark" name="remark" placeholder="Remark" value="{{ $address_list['patokan'] }}">
+                <div class="form-group padding1">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="col-lg-2">
+                        <label class="control-label">Remark</label>
+                      </div>
+                      <div class="col-lg-10">
+                        <input type="text" class="form-control" id="id_remark" name="remark" placeholder="Remark" value="{{ $address_list['patokan'] }}">
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-2 col-sm-10">
+                <div class="form-group padding1">
+                  <div class="col-lg-offset-2 col-lg-10">
                     {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
                   </div>
                 </div>
@@ -259,20 +351,32 @@
                       <input type="hidden" class="form-control" id="id_email" name="email" value="{{ $profile->email }}">
                     </div>
                   </div>
-                  <div class="form-group" id="rata">
-                    <label class="col-sm-3 control-label">New Password</label>
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
-                      <span id="errPass1" style="color: red;"></span>
+                  <div class="form-group padding1">
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <label class="control-label">New Password</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" class="form-control" id="password" name="password" placeholder="New Password" onblur="checkLength1(this)" required>
+                          <span id="errPass1" style="color: red;"></span>
+                        </div>
+                      </div>
                     </div>
                   </div>   
-                  <div class="form-group" id="rata">
-                    <label class="col-sm-3 control-label">Confirm Password</label>
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
-                      <span id="errPass2" style="color: red;"></span>
+                  <div class="form-group padding1">
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <label class="control-label">Confirm Password</label>
+                        </div>
+                        <div class="col-sm-9">
+                          <input type="password" class="form-control" id="confirmed" name="confirmed" placeholder="Confirm Password" required>
+                          <span id="errPass2" style="color: red;"></span>
+                        </div>
+                      </div> 
                     </div>
-                  </div>              
+                  </div>             
                   <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
                       {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
@@ -285,41 +389,71 @@
                   {{-- <h3>Tokyo</h3>
                     <p>Tokyo is the capital of Japan.</p> --}}
                     {!! Form::open(['url'=>url('/profiles/changeuser'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off']) !!}
-                    <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label">Email</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="email" id="idemail" placeholder="Email" value="{{ $profile['email']}}" disabled>
+                    <div class="form-group padding1">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <label class="control-label">Email</label>
+                          </div>
+                          <div class="col-sm-10">
+                            <input type="text" class="form-control" name="email" id="idemail" placeholder="Email" value="{{ $profile['email']}}" disabled>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label">Username</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="name" id="idname" placeholder="Name" value="{{ $profile['name']}}">
+                    <div class="form-group padding1">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <label class="control-label">Username</label>
+                          </div>
+                          <div class="col-lg-10">
+                            <input type="text" class="form-control" name="name" id="idname" placeholder="Name" value="{{ $profile['name']}}">
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label">Handphone</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="phone" id="idphone" placeholder="phone" value="{{ $profile['phone']}}">
+                    <div class="form-group padding1">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <label class="control-label">Handphone</label>
+                          </div>
+                          <div class="col-lg-10">
+                            <input type="text" class="form-control" name="phone" id="idphone" placeholder="phone" value="{{ $profile['phone']}}">
+                          </div>
+                        </div> 
                       </div>
                     </div>
-                    <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label">No. Telp</label>
-                      <div class="col-sm-10">
-                        <input type="text" class="form-control" name="tel_number" id="idtel_number" placeholder="tel_number" value="{{ $profile['tel_number']}}">
+                    <div class="form-group padding1">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <label class="control-label">No. Telp</label>
+                          </div>
+                          <div class="col-lg-10">
+                            <input type="text" class="form-control" name="tel_number" id="idtel_number" placeholder="tel_number" value="{{ $profile['tel_number']}}">
+                          </div>
+                        </div> 
                       </div>
                     </div>
-                    <div class="form-group" id="rata">
-                      <label class="col-sm-2 control-label">Foto</label>
-                      <div class="col-sm-5">
-                        <input type="file" class="form-control" name="user_foto" id="iduser_foto">
-                      </div>
-                      <div class="col-sm-5" style="text-align: center;">
-                        <img id="borderimg2" src="{{ url('/files/'.$profile['user_foto']) }}" alt="location" border="0" style="width: 150px" />
+                    <div class="form-group padding1">
+                      <div class="col-lg-12">
+                        <div class="row">
+                          <div class="col-lg-2">
+                            <label class="control-label">Foto</label>
+                          </div>
+                          <div class="col-lg-5">
+                            <input type="file" class="form-control" name="user_foto" id="iduser_foto">
+                          </div>
+                          <div class="col-lg-5" style="text-align: center;">
+                            <img id="borderimg2" src="{{ url('/files/'.$profile['user_foto']) }}" alt="location" border="0" style="width: 150px" />
+                          </div>
+                        </div>
                       </div>
                     </div>
                     <div class="form-group">
-                      <div class="col-sm-offset-2 col-sm-10">
+                      <div class="col-lg-offset-2 col-lg-10">
                         {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
                       </div>
                     </div>
@@ -327,14 +461,11 @@
                   </div>
                 </div>
               </div>
-
             </div>
-
-
           </div>
         </div>
 
-        <div class="col-lg-12" >
+{{--         <div class="col-lg-12" >
           <div class="row">
             <div class="col-lg-4" style="padding-bottom: 20px;">
             </div>
@@ -355,7 +486,7 @@
 
 
           </div>
-        </div>
+        </div> --}}
       </div>
     </div>
   </div>
