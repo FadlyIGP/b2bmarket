@@ -112,6 +112,7 @@
 </head>
 
 <body>
+@include('sweetalert::alert')
     <div class="login-form">
         <br>
         <div class="login-logo">
@@ -161,7 +162,7 @@
         </button>
         {!! Form::close() !!}
         <a href="{{ url('/register') }}" value="" title="" type="button" class="btn btn-block" style="border-radius: 10px;color: white;background: red !important;">
-            <span class="fa fa-btn fa-sign-in"><b>Register</b></span>
+            <span class="fa fa-btn fa-sign-in"><b> Register</b></span>
         </a>
         <!-- <button href="" type="button" class="btn btn-block" style="border-radius: 10px;color: white;background: red !important;">
             <i class="fa fa-btn fa-sign-in"></i> Register
