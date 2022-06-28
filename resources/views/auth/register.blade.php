@@ -190,7 +190,7 @@ form .user-details .input-box{
                     </div>
                     <div class="input-box">
                         <span class="details">Email</span>
-                        <input type="email" placeholder="Enter your email"  name="email" class="form-control has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
+                        <input type="email" placeholder="Enter your email"  name="email" class="form-control has-feedback{{ $errors->has('email') ? ' has-error' : '' }}" required>
                     </div>
 
                     <div class="input-box">
@@ -203,11 +203,11 @@ form .user-details .input-box{
 
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="text" placeholder="Enter your password"  name="password" class="form-control has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">
+                        <input type="text" placeholder="Enter your password"  name="password" class="form-control has-feedback{{ $errors->has('password') ? ' has-error' : '' }}" required>
                     </div>
                     <div class="input-box">
                         <span class="details">Company Name</span>
-                        <input type="text" placeholder=""  name="company" class="form-control has-feedback{{ $errors->has('company') ? ' has-error' : '' }}">
+                        <input type="text" placeholder=""  name="company" class="form-control has-feedback{{ $errors->has('company') ? ' has-error' : '' }}" required>
                     </div>
                 </div>
                 <div class="form-group button">
