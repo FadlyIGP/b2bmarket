@@ -181,16 +181,16 @@ form .user-details .input-box{
                 <div class="user-details">
                     <div class="input-box">
                         <span class="details">Full Name</span>
-                        <input type="text" placeholder="Enter your name"  name="name">
+                        <input type="text" placeholder="Enter your name"  name="name" class="form-control has-feedback{{ $errors->has('name') ? ' has-error' : '' }}" required>
                     </div>
                    
                      <div class="input-box">
                         <span class="details">Phone Number</span>
-                        <input type="text" placeholder="Enter your number" name="phone" >
+                        <input type="number" placeholder="Enter your number" name="phone" class="form-control has-feedback{{ $errors->has('phone') ? ' has-error' : '' }}" required>
                     </div>
                     <div class="input-box">
                         <span class="details">Email</span>
-                        <input type="text" placeholder="Enter your email"  name="email">
+                        <input type="email" placeholder="Enter your email"  name="email" class="form-control has-feedback{{ $errors->has('email') ? ' has-error' : '' }}">
                     </div>
 
                     <div class="input-box">
@@ -203,18 +203,15 @@ form .user-details .input-box{
 
                     <div class="input-box">
                         <span class="details">Password</span>
-                        <input type="text" placeholder="Enter your password"  name="password">
+                        <input type="text" placeholder="Enter your password"  name="password" class="form-control has-feedback{{ $errors->has('password') ? ' has-error' : '' }}">
                     </div>
                     <div class="input-box">
                         <span class="details">Company Name</span>
-                        <input type="text" placeholder=""  name="company">
+                        <input type="text" placeholder=""  name="company" class="form-control has-feedback{{ $errors->has('company') ? ' has-error' : '' }}">
                     </div>
                 </div>
-      {{--           <div class="button">
-                    <input type="submit" value="Register">
-                </div> --}}
                 <div class="form-group button">
-                  {{ Form::submit('Register',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white;'])}}
+                  {{ Form::submit('Register',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:100%;color: white;'])}}
                 </div>
                 {{ Form::close()}}
             </form>
