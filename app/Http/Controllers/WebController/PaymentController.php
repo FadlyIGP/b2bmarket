@@ -209,7 +209,7 @@ class PaymentController extends Controller
         $cart = Cart::where('user_id', $profile->id)->where('status', 1)->delete();
 
         if ($trasactionitem) {
-            Alert::success('Success', 'Pesanan Berhasil dibuta');
+            Alert::success('Success', 'Pesanan Berhasil dibuat');
             return back();
         }
         else {
