@@ -49,16 +49,6 @@
     padding-top: 10px;
   }
 
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-
-  tr:nth-child(even) {
-    background-color: #dddddd;
-  }
-
   .buttonaddress {
     display: block;
     width: 50%;
@@ -102,7 +92,6 @@
     border: none;
     text-align: center;
     display: inline-block;
-    width: 20%;
     border-radius: 5px;
 
   }
@@ -142,14 +131,17 @@
                                 </div>
                                 <div class="heading1"></div>
                                 <div class="list-group list-group-unbordered">
-                                    <div class="list-group-item" style="display: flex;justify-content: space-around;">
-                                      Transaction Finished
-                                       <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_finished }}</a>
-                                    </div>
-                                    <div class="list-group-item" style="display: flex;justify-content: space-around;">
-                                      Transaction Failed 
-                                      <a class="pull-right text-orange text-bold" style="background-color: #e8f5e9;">{{ $count_failed }}</a>
-                                    </div>                
+                                    <table class="table">
+                                        <tr>
+                                            <td>Transaction Finished</td>
+                                            <td>{{ $count_finished }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Transaction Failed </td>
+                                            <td>{{ $count_failed }}</td>
+                                        </tr>
+                                    </table>
+                                       
                                </div> 
                             </div>
                        </div>
@@ -174,18 +166,23 @@
                                 </div>
                             </div>
                             <div class="heading1"></div>
-                            <div style="padding: 0px">
+                            <div style="padding: 10px">
                                 @foreach($address_all as $address)
                                     <table style="width: 100%;border: 0;">
                                         <tr>
                                             <td style="width: 50%;">{{ $address->complete_address}}</td>
                                             <td style="width: 30%;text-align: right;">
                                                 @if($address->primary_address == 1)
-                                                  {!! Form::submit('Primary', ['class'=>'background-color:#FF0000']) !!}
+                                                  <button style="background-color:#FF0000 !important;border:none;border-radius:5px;color:white">
+                                                      primary
+                                                  </button>
                                                 @else
                                                     {!! Form::open(['url'=>url('/profiles/updateprimary'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
                                                         <input type="hidden" class="form-control" id="address_id" name="address_id"  value="{{ $address['id'] }}">
-                                                        {!! Form::submit('Set Primary', ['class'=>'']) !!}
+                                                        <button type="submit" style="background-color:#FF0000 !important;border:none;border-radius:5px;color:white">
+                                                         set primary
+                                                        </button>
+                                                        
                                                     {!! Form::close() !!}
                                                 @endif
                                             </td>
