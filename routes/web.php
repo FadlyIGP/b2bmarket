@@ -18,6 +18,12 @@ use App\Http\Controllers\Auth\{
     LoginController
 };
 
+use App\Http\Controllers\CmsController\{
+    OfferingProductController,
+};
+
+use App\Http\Controllers\MailController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,9 +36,16 @@ use App\Http\Controllers\Auth\{
 |
 */
 
+// Route::get('kirim-email','App\Http\Controllers\MailController@index');
+Route::get('/send_email', [MailController::class, 'index']);
+
 Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
 Auth::routes();
 Route::post('/reguser', [UserRegisterController::class, 'registered'])->name('registered');
+Route::get('/sendemail', [OfferingProductController::class, 'index']);
+
+
+
 // route web
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout']);

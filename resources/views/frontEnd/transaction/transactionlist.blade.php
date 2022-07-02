@@ -6,83 +6,71 @@
 
     /* Style the tab */
           
-        [data-tab-info] {
-            display: none;
-        }
-          
-        .active[data-tab-info] {
-            display: block;
-        }
-          
-        .tab-content {
-            font-size: 30px;
-            font-family: sans-serif;
-            font-weight: bold;
-            color: rgb(82, 75, 75);
-            width: 50%;
-            width: 1000px;
-        }
-          
-        .tabs {
-            font-size: 12px;
-            color: black;
-            display: flex;
-            margin: 0;
-        }
-          
-        .tabs span {
-            /*background: rgb(28, 145, 38);*/
-            padding: 10px;
-            /*border: 1px solid rgb(255, 255, 255);*/
-            width: 20%;
+       /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
 
-        }
-          
-        .tabs span:hover {
-            /*background: #FF4500 ;*/
-            cursor: pointer;
-            color: #FF4500;
-            font-size: 12px;
-            /*border-radius: 10px*/
-            border-bottom: 1px solid #FF4500;
-        }
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+    border-radius: 10px;
 
-        .tab button.active {
-          background-color: #ccc;
-        }
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #FF0000;
+    border-radius: 10px;
+    color: white;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    /*border: 1px solid #ccc;*/
+    border-top: none;
+  }
 
         .line {
           border-bottom: 1px solid #aaa;
           width: 100%
         }
 
-        table{
-            font-size: 12px;
-        }
-        table {
+        .tables {
           border-collapse: collapse;
           border-spacing: 0;
           width: 100%;
+          /*max-width: 1000px;*/
           border: 1px solid #ddd;
-      }
+        }
 
-      th, td {
+        th, td {
           text-align: left;
-          padding: 8px;
-      }
+          padding: 10px;
+          font-size: 10px;
+        }
 
-      tr:nth-child(even){background-color: #f2f2f2}
+        tr:nth-child(even){background-color: #f2f2f2}
 
       .buttonaddress {
           display: block;
-          width: 50%;
+          width: 100%;
           height: 30px;
           border: none;
           background-color: #FF4500;
           color: white;
           /*padding: 14px 28px;*/
           border-radius: 10px;
-          font-size: 12px;
+          font-size: 10px;
           cursor: pointer;
           text-align: center;
       }
@@ -101,20 +89,22 @@
               <div class="row">
                 <div class="col-lg-12" style="padding-bottom: 20px;">
 
-                    <div class="col-md-12" style="border-radius: 10px;border: 1px solid #969696;padding-bottom: 20px;margin-top: 10px">
+                    <div class="col-md-12" style="border-radius: 10px;border: 1px solid #969696;padding-bottom: 70px;margin-top: 10px">
                         <div style="padding-bottom: 20px;padding-left: 10px;padding-top: 10px;">
-                            <div class="tabs">
-                                <span data-tab-value="#tab_1" style="">Semua</span>
-                                <span data-tab-value="#tab_2">Menunggu Pembayaran</span>
-                                <span data-tab-value="#tab_3">Diproses Penjual</span>
-                                <span data-tab-value="#tab_4">Sedang Dikirim</span>
-                                <span data-tab-value="#tab_5">Diterima</span>
+                            <div style="overflow-x:auto;">
+                                <div class="tab">
+                                    <button id="London-tab" class="tablinks" onclick="openCity(event, 'London')">All Orders</button>
+                                    <button id="tab2-tab" class="tablinks" onclick="openCity(event, 'tab2')">Waiting Payments</button>
+                                    <button id="tab3-tab" class="tablinks" onclick="openCity(event, 'tab3')">In Process</button>
+                                    <button id="tab4-tab" class="tablinks" onclick="openCity(event, 'tab4')">Ondelivery</button>
+                                    <button id="tab5-tab" class="tablinks" onclick="openCity(event, 'tab5')">Finish</button>
+                                </div>
                             </div>
                             <div class="line"></div>
                         </div>
                         <div class="container">
-                         <div class="tab-content">
-                            <div class="tabs__tab active" id="tab_1" data-tab-info>
+                         <div class="tab-content" style="width: 100%">
+                            <div class="tabcontent" id="London" data-tab-info>
                                 @if(empty($listpesanan))
                                 <div class="row" style="font-size: 13px">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
@@ -142,58 +132,47 @@
                                 @else()
 
                                 @foreach($listpesanan as $list)
-                                <div class="row" style="">
-                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+                                <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
 
-                                        <table class="" border="1" width="100%">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%">
-                                                        <center>
-                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
-                                                        </center>
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
 
-                                                    </td>
-                                                    <td width="20%">
-                                                        
-                                                       {{$list['product_name']}}
-                                                    </td>
-                                                    <td width="20%">
-                                                        <center>
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
                                                         <b>
-                                                            {{$list['expected_ammount']}}
+                                                            Detail
                                                         </b>
-                                                       </center>
-                                                    </td>
-
-                                                    <td width="20%">
-                                                       {{$list['status']}}
-                                                    </td>
-                                                    <td width="15%">
-                                                     {{--  <a href="{{ url('/transactions', $list['transaction_id']) }}" id="modal1" class="buttonaddress" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        Detail
-                                                      </a>   --}}  
-
-                                                      {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                                      <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        <span style="font-family: 'Helvetica Neue';color: white">
-                                                            <b>
-                                                                Detail
-                                                            </b>
-                                                        </span>
-                                                    </button>
-                                                    {!! Form::close() !!}
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
                                 </div>
                                 @endforeach()
                                 @endif()
                             </div>
-                            <div class="tabs__tab" id="tab_2" data-tab-info>
+                            <div id="tab2" class="tabcontent" data-tab-info>
                                 @if(empty($menunggupembayaran))
                                 <div class="row" style="font-size: 13px">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
@@ -221,55 +200,48 @@
                                 @else()
 
                                 @foreach($menunggupembayaran as $list)
-                                <div class="row" style="">
-                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+                              <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
 
-                                        <table class="" border="1" width="100%">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%">
-                                                        <center>
-                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
-                                                        </center>
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
 
-                                                    </td>
-                                                    <td width="20%">
-                                                        
-                                                       {{$list['product_name']}}
-                                                    </td>
-                                                    <td width="20%">
-                                                        <center>
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
                                                         <b>
-                                                            {{$list['expected_ammount']}}
+                                                            Detail
                                                         </b>
-                                                       </center>
-                                                    </td>
-
-                                                    <td width="20%">
-                                                       {{$list['status']}}
-                                                    </td>
-                                                    <td width="15%">
-                                                     {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                                     <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        <span style="font-family: 'Helvetica Neue';color: white">
-                                                            <b>
-                                                                Detail
-                                                            </b>
-                                                        </span>
-                                                    </button>
-                                                    {!! Form::close() !!}
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
                                 </div>
                                 @endforeach()
                                 @endif()
 
                             </div>
-                            <div class="tabs__tab" id="tab_3" data-tab-info>
+                            <div id="tab3" class="tabcontent" data-tab-info>
                                @if(empty($diprosespenjual))
                                 <div class="row" style="font-size: 13px">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
@@ -297,55 +269,48 @@
                                 @else()
 
                                 @foreach($diprosespenjual as $list)
-                                <div class="row" style="">
-                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+                                <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
 
-                                        <table class="" border="1" width="100%">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%">
-                                                        <center>
-                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
-                                                        </center>
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
 
-                                                    </td>
-                                                    <td width="20%">
-                                                        
-                                                       {{$list['product_name']}}
-                                                    </td>
-                                                    <td width="20%">
-                                                        <center>
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
                                                         <b>
-                                                            {{$list['expected_ammount']}}
+                                                            Detail
                                                         </b>
-                                                       </center>
-                                                    </td>
-
-                                                    <td width="20%">
-                                                       {{$list['status']}}
-                                                    </td>
-                                                    <td width="15%">
-                                                      {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                                      <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        <span style="font-family: 'Helvetica Neue';color: white">
-                                                            <b>
-                                                                Detail
-                                                            </b>
-                                                        </span>
-                                                         </button>
-                                                     {!! Form::close() !!}
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
                                 </div>
                                 @endforeach()
                                 @endif()
 
                             </div>
-                            <div class="tabs__tab" id="tab_4" data-tab-info>
+                            <div id="tab4" class="tabcontent" data-tab-info>
                                @if(empty($sedangdikirim))
                                 <div class="row" style="font-size: 13px">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
@@ -373,55 +338,48 @@
                                 @else()
 
                                 @foreach($sedangdikirim as $list)
-                                <div class="row" style="">
-                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+                                <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
 
-                                        <table class="" border="1" width="100%">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%">
-                                                        <center>
-                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
-                                                        </center>
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
 
-                                                    </td>
-                                                    <td width="20%">
-                                                        
-                                                       {{$list['product_name']}}
-                                                    </td>
-                                                    <td width="20%">
-                                                        <center>
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
                                                         <b>
-                                                            {{$list['expected_ammount']}}
+                                                            Detail
                                                         </b>
-                                                       </center>
-                                                    </td>
-
-                                                    <td width="20%">
-                                                       {{$list['status']}}
-                                                    </td>
-                                                    <td width="15%">
-                                                       {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                                         <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        <span style="font-family: 'Helvetica Neue';color: white">
-                                                            <b>
-                                                                Detail
-                                                            </b>
-                                                        </span>
-                                                        </button>
-                                                        {!! Form::close() !!}
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
                                 </div>
                                 @endforeach()
                                 @endif()
 
                             </div>
-                            <div class="tabs__tab" id="tab_5" data-tab-info>
+                            <div id="tab5" class="tabcontent" data-tab-info>
                                @if(empty($dikirim))
                                 <div class="row" style="font-size: 13px">
                                     <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
@@ -449,49 +407,42 @@
                                 @else()
 
                                 @foreach($dikirim as $list)
-                                <div class="row" style="">
-                                    <div class="col-lg-12 test"  style="overflow-x:auto;">
+                                <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
 
-                                        <table class="" border="1" width="100%">
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%">
-                                                        <center>
-                                                        <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 50%;" />
-                                                        </center>
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
 
-                                                    </td>
-                                                    <td width="20%">
-                                                        
-                                                       {{$list['product_name']}}
-                                                    </td>
-                                                    <td width="20%">
-                                                        <center>
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
                                                         <b>
-                                                            {{$list['expected_ammount']}}
+                                                            Detail
                                                         </b>
-                                                       </center>
-                                                    </td>
-
-                                                    <td width="20%">
-                                                       {{$list['status']}}
-                                                    </td>
-                                                    <td width="15%">
-                                                       {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                                     <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
-                                                        <span style="font-family: 'Helvetica Neue';color: white">
-                                                            <b>
-                                                                Detail
-                                                            </b>
-                                                        </span>
-                                                    </button>
-                                                    {!! Form::close() !!}
-                                                    </td>
-
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
                                 </div>
                                 @endforeach()
                                 @endif()
@@ -510,8 +461,8 @@
 @include('sweetalert::alert')
 
 <!-- Modal Transaction Item -->
-<div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="border-radius: 15px">
+<div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 20px">
+    <div class="modal-dialog" role="document" style="border-radius: 20px">
         <div class="modal-content">
             <div class="modal-header" style="background-color: ">   
                 <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
@@ -535,20 +486,26 @@
 <!-- Scripts -->
 
 <script>
-    const tabs = document.querySelectorAll('[data-tab-value]')
-    const tabInfos = document.querySelectorAll('[data-tab-info]')
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            const target = document
-            .querySelector(tab.dataset.tabValue);
+     function openCity(evt, cityName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+      document.getElementById(cityName).style.display = "block";
+      document.getElementById(cityName + "-tab").classList.add("active");
+      // evt.currentTarget.className += " active";
+    }
 
-            tabInfos.forEach(tabInfo => {
-                tabInfo.classList.remove('active')
-            })
-            target.classList.add('active');
-        })
-    })
+    // Get the element with id="defaultOpen" and click on it
+    document.getElementById("London-tab").click();
+
+
 
 
     $('tbody').on('click','#modal1', function(e){

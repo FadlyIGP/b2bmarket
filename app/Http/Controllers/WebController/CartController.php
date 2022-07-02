@@ -54,8 +54,6 @@ class CartController extends Controller
             
         }
         
-        // return $completeaddress;
-        
         $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
@@ -95,7 +93,7 @@ class CartController extends Controller
                 'product_size'=> $value->product->product_size,
             ];
         }
-
+        // return $listchecked;
         return view('frontEnd.cart.listcart',['listcart'=>$listcart, 'total_price'=>$total_price,'listchecked'=>$listchecked,'completeaddress'=>$completeaddress]);
 
 
@@ -163,16 +161,15 @@ class CartController extends Controller
     public function store(Request $request)
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
-        $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
-        // return $getprodiuctdata;
+        $getproductdata = MstProduct::where('id', $request->product_id)->first();
         $cart = new Cart;
-        $cart->product_id = $getprodiuctdata->id;
-        $cart->product_qty = $getprodiuctdata->minimum_order;
-        $cart->product_price = $getprodiuctdata->product_price;
-        $cart->total_price = $getprodiuctdata->product_price;
+        $cart->product_id = $getproductdata->id;
+        $cart->product_qty = $getproductdata->minimum_order;
+        $cart->product_price = $getproductdata->product_price;
+        $cart->total_price = $getproductdata->product_price * $getproductdata->minimum_order;
         $cart->status = 0;
         $cart->user_id = $profile->id;
-        $cart->company_id = $getprodiuctdata->company_id;
+        $cart->company_id = $getproductdata->company_id;
         $cart->save();
 
         if ($cart) {
@@ -213,9 +210,13 @@ class CartController extends Controller
 
     public function chekedcart(Request $request, $id)
     {
+
+
         $cart = Cart::find($id);
         $cart->status = $request->status;
+        $cart->total_price = $cart->product_qty * $cart->product_price;
         $cart->save();
+
         return redirect()->route('carts.index');
     }
 

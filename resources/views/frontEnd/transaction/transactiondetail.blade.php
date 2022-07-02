@@ -5,7 +5,7 @@
 
 
 </style>
-<table id="" width="100%">
+<table id="" width="100%" class="table">
 	<tbody>
 		@foreach($listpesanan as $list)
 			<tr>		
@@ -22,7 +22,7 @@
 	</tbody>
 </table>
 <div style="padding-bottom: 5px"></div>
-<table width="100%">
+<table width="100%" class="table">
 	<tbody>
 		<tr>
 			<td width="50%">
