@@ -20,6 +20,7 @@ use App\Http\Controllers\Auth\{
 
 use App\Http\Controllers\CmsController\{
     OfferingProductController,
+
 };
 
 use App\Http\Controllers\MailController;
@@ -42,7 +43,6 @@ Route::get('/send_email', [MailController::class, 'index']);
 Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
 Auth::routes();
 Route::post('/reguser', [UserRegisterController::class, 'registered'])->name('registered');
-Route::get('/sendemail', [OfferingProductController::class, 'index']);
 
 
 
@@ -138,4 +138,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('bankaccount/bankcode/edit/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeModify']);
     Route::post('/bankaccount/bankcode/update', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeUpdate']);
     Route::get('bankaccount/bankcode/delete/{id}', [App\Http\Controllers\CmsController\BankAccountController::class, 'bankCodeDelete']);
+
+
+    Route::resource('/offeringproducts', OfferingProductController::class);
+
+
 });

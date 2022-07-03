@@ -20,7 +20,6 @@ class CreateUserAdminTable extends Migration
             $table->string('phone');
             $table->integer('status');
             $table->integer('company_id');
-            $table->integer('address_id');
             $table->timestamps();
         });
     }
