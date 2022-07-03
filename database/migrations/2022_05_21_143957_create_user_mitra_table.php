@@ -21,7 +21,6 @@ class CreateUserMitraTable extends Migration
             $table->string('tel_number');
             $table->integer('status');
             $table->integer('company_id');
-            $table->integer('address_id');
             $table->timestamps();
         });
     }

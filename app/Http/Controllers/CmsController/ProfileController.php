@@ -38,7 +38,8 @@ class ProfileController extends Controller
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $address_list = Address::find($profile->address_id);
+        $address_list = Address::where('user_id',$profile->id)->where('primary_address', 1)->first();
+        // return $address_list;
         $company_list = MstCompany::find($profile->company_id);
 
         $transaction_finished = MstTransaction::where('status', 3);

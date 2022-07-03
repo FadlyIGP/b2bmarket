@@ -4,7 +4,6 @@ namespace App\Http\Controllers\CmsController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use App\Models\MstProduct;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
@@ -13,6 +12,7 @@ use App\Models\StockProduct;
 use App\Models\Wishlist;
 use App\Models\MstCompany;
 use App\Models\UserMitra;
+use App\Models\ProductHistory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +27,38 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->urlimg = env('APP_URL').'/'.'public'.'/'.'files';
+        function productlist($prod_id)
+        {
+            $data = MstProduct::find($prod_id);
+            if ($data) {
+                $productdata = $data;
+            } else {
+                $productdata = null;
+            }
+            return $productdata;
+        }
+
+        function users($user_id)
+        {
+            $data = UserMitra::find($user_id);
+            if ($data) {
+                $usertdata = $data;
+            } else {
+                $usertdata = null;
+            }
+            return $usertdata;
+        }
+
+        function getcompany($id){
+            $company=MstCompany::find($id);
+            return $company->company_name;
+        }
+
+        function prod_image($id){
+            $image=ImgProduct::where('product_id',$id)->first();
+            return $image->img_file;
+        }
+
     }
 
     /**
@@ -37,28 +68,48 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productlist = MstProduct::with('stock', 'image','category')->get();
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $productlist = MstProduct::with('stock', 'image','category')->where('company_id', $profile->company_id)->get();
 
         $productlisting = [];
         foreach ($productlist as $key => $value) {
             $productlisting[] = [
-                "id"                    => Crypt::encryptString($value->id),
-                "product_name"          => $value->product_name,
-                "product_descriptions"  => $value->product_descriptions,
-                "product_size"          => $value->product_size,
-                "product_price"         => 'Rp '.''. number_format($value->product_price),
-                "product_item"          => $value->product_item,
-                "wishlist_status"       => $value->wishlist_status,
-                "company_id"            => $value->company_id,
-                "created_at"            => $value->created_at,
-                "stock"                 => $value->stock->qty,
-                "image"                 => $value->image[0]->img_file,
-                "category"              => $value->category->name,
-                'min_order'             => $value->minimum_order
+                "id"=> Crypt::encryptString($value->id),
+                "product_name"=> $value->product_name,
+                "product_descriptions"=> $value->product_descriptions,
+                "product_size"=> $value->product_size,
+                "product_price"=> 'Rp '.''. number_format($value->product_price),
+                "product_item"=> $value->product_item,
+                "wishlist_status"=> $value->wishlist_status,
+                "company_id"=> $value->company_id,
+                "created_at"=> $value->created_at,
+                "stock"=> $value->stock->qty,
+                "image"=> $value->image[0]->img_file,
+                "category"=> $value->category->name,
+                'min_order'=> $value->minimum_order
             ];
         }
 
-        return view('product.product', ['productlisting' => $productlisting]);
+        $producthistory=ProductHistory::where('company_id', $profile->company_id)->get();
+        $history=[];
+        foreach ($producthistory as $key => $value) {
+            $history[]=[
+                'id'=>$value->id,
+                'buyer_id'=>$value->user_id,
+                'buyer_company'=>getcompany(users($value->user_id)->company_id),
+                'buyer_name'=>users($value->user_id)->name,
+                'product_id'=>$value->product_id,
+                'product_name'=>productlist($value->product_id)->product_name,
+                'product_image'=>prod_image($value->product_id),
+                'company_id'=>$value->company_id,
+                'counting'=>$value->counting,
+                'created_at'=>$value->created_at,
+            ];
+        }
+
+
+        return view('product.product', ['productlisting' => $productlisting,'history'=>$history]);
     }
 
     /**
