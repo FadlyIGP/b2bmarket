@@ -127,8 +127,8 @@ form .input-box span.details{
    margin: 35px 0
  }
  form .button input{
-   height: 100%;
-   width: 100%;
+   height: 40px;
+   width: 40%;
    border-radius: 5px;
    border: none;
    color: #fff;
@@ -168,9 +168,31 @@ form .user-details .input-box{
   }
 }
 
+.buttonaddress {
+  /*display: block;*/
+  height: 40px;
+   width: 40%;
+   border-radius: 5px;
+   border: none;
+   color: #fff;
+   font-size: 18px;
+   font-weight: 500;
+   letter-spacing: 1px;
+   cursor: pointer;
+   transition: all 0.3s ease;
+   background: linear-gradient(135deg, #71b7e6, #9b59b6);
+}
+
+.buttonaddress:hover {
+  background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+  color: white;
+}
+
 </style>
 
 <body>
+@include('sweetalert::alert')
+    
     <div class="container">
         <div class="title">Registration</div>
         <div class="content">
@@ -211,10 +233,14 @@ form .user-details .input-box{
                     </div>
                 </div>
                 <div class="form-group button">
-                  {{ Form::submit('Register',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:100%;color: white;'])}}
+                    <center>
+                     <button class="buttonaddress" onclick="history.go(-1)">
+                         Back 
+                     </button>
+                     {{ Form::submit('Submit',['class'=>'btn btn-default','style'=>''])}}
+                    </center>
+                    {{ Form::close()}}
                 </div>
-                {{ Form::close()}}
-            </form>
         </div>
     </div>
 

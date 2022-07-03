@@ -20,59 +20,67 @@ class UserRegisterController extends Controller
 {
     public function registered(Request $request)
     {
-       $validator = Validator::make($request->all(), [
-         'name' => 'required',
-         'phone' => 'required|unique:user_mitra',
-         'email' => 'required|unique:users',
-         'role_id' => 'required',
-         'password' => 'required|min:6',
-         'company' => 'required',
-     ]);
 
-       if ($validator->fails())
-       {
-        $out = [
-            "message" => $validator->messages()->all(),
-        ];
-        Alert::error('Failed', $out['message'][0]);
-        return back();
-    }
+        try{
+            $validator = Validator::make($request->all(), [
+                 'name' => 'required',
+                 'phone' => 'required|unique:user_mitra',
+                 'email' => 'required|unique:users',
+                 'role_id' => 'required',
+                 'password' => 'required|min:6',
+                 'company' => 'required',
+            ]);
 
-    $company = new MstCompany;
-    $company->company_name = $request->company;
-        $company->company_logo = '';
-        $company->company_code = '';
-        $company->save();
+            if ($validator->fails())
+               {
+                $out = [
+                    "message" => $validator->messages()->all(),
+                ];
+                Alert::error('Failed', $out['message'][0]);
+                return back();
+            }
 
-        $user = new User;
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->role_id = $request->role_id;
-        $user->save();
+            $company = new MstCompany;
+            $company->company_name = $request->company;
+            $company->company_logo = '';
+            $company->company_code = '';
+            $company->save();
 
-        $usermitra = new UserMitra;
-        $usermitra->name = $request->name;
-        $usermitra->email = $request->email;
-        $usermitra->phone = $request->phone;
-        $usermitra->tel_number = $request->phone;
-        $usermitra->status = 1;
-        $usermitra->company_id = $company->id;
-        $usermitra->address_id = 0;
+            $user = new User;
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = Hash::make($request->password);
+            $user->role_id = $request->role_id;
+            $user->save();
 
-        $usermitra->save();
+            $usermitra = new UserMitra;
+            $usermitra->name = $request->name;
+            $usermitra->email = $request->email;
+            $usermitra->phone = $request->phone;
+            $usermitra->tel_number = $request->phone;
+            $usermitra->status = 1;
+            $usermitra->company_id = $company->id;
+            $usermitra->save();
 
-        // $message='Berhasil menambahkan alamat';
-        if ($user) {
-            Alert::success('Success', 'Anda berhasil registrasi');
-            // return back();
-            
-            return redirect()->route('login');
-        }
-        else {
-            Alert::error('Failed', 'Registrasi gagal');
+            if ($user) {
+                Alert::success('Success', 'Anda berhasil registrasi');
+                return redirect()->route('login');
+            }
+            else {
+                Alert::error('Failed', 'Registrasi gagal');
+                return back();
+            }
+
+        }catch (\Exception $e){
+                
+                $response  = [
+                    "status"  => false,
+                    "message" => $e->getMessage(),
+                ];
+
+            Alert::error('Failed', $response['message']);
             return back();
+
         }
-        // return redirect()->route('logout')->with('success', 'Successfully Add Data Address.');
     }
 }
