@@ -9,6 +9,7 @@ use App\Models\UserMitra;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
 use App\Models\Wishlist;
+use App\Models\ProductHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
@@ -194,6 +195,25 @@ class InfoProductController extends Controller
     public function show($id)
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $getcompany=MstProduct::find($id);
+        $checkhistory=ProductHistory::where('user_id',$profile->id)->where('product_id', $id)->first();
+        if ($checkhistory) {
+           $data =ProductHistory::find($checkhistory->id);
+           $data->counting += 1;
+           $data->save();
+        }else{
+           $data = new ProductHistory;
+           $data->product_id = $id;
+           $data->user_id = $profile->id;
+           $data->company_id = $getcompany->company_id;
+           $data->counting = 1;
+           $data->save();
+        }
+
+        $seelcounting=MstProduct::find($id);
+        $seelcounting->see_counting+=1;
+        $seelcounting->save();
+        
         $product = MstProduct::with('stock', 'image', 'category')
             ->where('id', $id)->first();
         $productimage = ImgProduct::where('product_id', $product->id)->get();

@@ -4,13 +4,11 @@ namespace App\Http\Controllers\CmsController;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
-
 use App\Models\MstProduct;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
@@ -24,7 +22,6 @@ use App\Models\MstTransaction;
 use App\Models\TransactionItem;
 use App\Models\MstRekening;
 use App\Models\BankCode;
-
 use Exception;
 use Carbon\Carbon;
 use File;
@@ -38,7 +35,10 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-        $account_list = MstRekening::all();
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+        $account_list = MstRekening::where('company_id', $profile->company_id)->get();
         $bankcode_list = BankCode::all();
 
         return view('bankaccount.bankaccount', ['account_list' => $account_list, 'bankcode_list' => $bankcode_list]);

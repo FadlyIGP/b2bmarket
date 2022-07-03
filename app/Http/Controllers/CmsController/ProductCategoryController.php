@@ -39,13 +39,15 @@ class ProductCategoryController extends Controller
     public function index()
     {
         //
-        $category = ProdCategory::all();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+        $category = ProdCategory::where('company_id', $profile->company_id)->get();
         foreach ($category as $key => $value) {
             $categorylist[]=[
-                'id'            => Crypt::encryptString($value->id),
-                'name'          => $value->name,
-                'company_name'  => gencompany($value->company_id),
-                'created_at'    => $value->created_at,
+                'id'=> Crypt::encryptString($value->id),
+                'name'=> $value->name,
+                'company_name'=> gencompany($value->company_id),
+                'created_at'=> $value->created_at,
             ];
         }
         return view('productcategory.productcategorylist', ['categorylist' => $categorylist]);
@@ -72,11 +74,11 @@ class ProductCategoryController extends Controller
     {
         date_default_timezone_set('Asia/Jakarta'); 
 
-        $profile            = UserMitra::where('email', Auth::user()->email)->first();
-        $productcategory    = new ProdCategory;
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $productcategory= new ProdCategory;
 
-        $productcategory->name          = $request->category_name;
-        $productcategory->company_id    = $profile->company_id;
+        $productcategory->name = $request->category_name;
+        $productcategory->company_id = $profile->company_id;
         $productcategory->save();
 
         return redirect()->route('productcategories.index')->with('success', 'Successfully Add Data.');

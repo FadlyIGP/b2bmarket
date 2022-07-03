@@ -45,7 +45,7 @@
             </li>
 
             <li class="{{request()->is('') ? 'active' : ''}}">
-                <a href="#">
+                <a href="{{ url('/offeringproducts') }}">
                     <i class="fa fa-stumbleupon-circle text-red"></i> <span>Contract</span>
                 </a>
             </li> 

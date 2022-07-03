@@ -50,12 +50,15 @@ class TransactionController extends Controller
         //     }
         // }
         /*End*/
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $transaction = MstTransaction::join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
+        $transaction = MstTransaction::select('mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name',
+                'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 'payment.id as id_payment')
+            ->join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
             ->join('user_mitra', 'user_mitra.id', '=', 'mst_transaction.user_id')
             ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
-            ->get(['mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name',
-                'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 'payment.id as id_payment']);       
+            ->where('mst_transaction.company_id', $profile->company_id)
+            ->get();       
 
         $transactionlist = [];
         foreach ($transaction as $key => $value) {
