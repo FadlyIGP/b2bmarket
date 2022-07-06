@@ -160,7 +160,7 @@ class PaymentController extends Controller
         $trasaction->invoice_number = $this->invoice_number;
         // $trasaction->payment_chanel = $request->payment_method;
         $trasaction->user_id = $profile->id; 
-        $trasaction->company_id = $profile->company_id;  
+        $trasaction->company_id = $chekedcart[0]->company_id;  
         $trasaction->invoice_number = $this->invoice_number;
         $trasaction->status = 0;
         $trasaction->address_id = $address->id;
