@@ -139,21 +139,13 @@
         {!! $errors->first('password', '<p class="help-block">:message</p>') !!}
 
         <div class="checkbox icheck">
-            <label>
+           <!--  <label>
                 {!! Form::checkbox('remember')!!} Remember Me
-            </label>
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <label style="margin-right: ">
-                <a href="#" value="" title="">
-                    <span style="color:orange"><b>Forgot Password?</b></span>
+            </label> -->
+
+            <label style="float: right;">
+                <a href="#" id="idmodalfp" data-target="#modalfp" data-toggle="modal" title="Forgot Password">
+                    <span style="color:red"><b>Forgot Password?</b></span>
                 </a>
             </label>
         </div>
@@ -162,7 +154,7 @@
         </button>
         {!! Form::close() !!}
         <a href="{{ url('/register') }}" value="" title="" type="button" class="btn btn-block" style="border-radius: 10px;color: white;background: red !important;">
-            <span class="fa fa-btn fa-sign-in"><b> Register</b></span>
+            <span class="fa fa-btn fa-registered"><b> Register</b></span>
         </a>
         <!-- <button href="" type="button" class="btn btn-block" style="border-radius: 10px;color: white;background: red !important;">
             <i class="fa fa-btn fa-sign-in"></i> Register
@@ -172,8 +164,88 @@
         </p>
     </div>
 
+    <!-- Modal Payment -->
+    <div class="modal fade" id="modalfp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color: orange;">   
+                    <h5 class="modal-title" style="color: white;">
+                      Forgot Password
+                        <!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <div class="pull-right" style="color: white;">x</div>
+                        </button> -->
+                    </h5>                                
+                </div>
 
+                {!! Form::open(['url'=>url('/forgotpassword'),'method'=>'POST', 'autocomplete'=>'off', 'onsubmit'=>'return validateForm(this)']) !!}
+                <div class="modal-body" id="body-fp">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">       
+                                <input type="email" class="form-control" name="emailfp" id="idemailfp" placeholder="Your Email" required>
+                            </div>
+                            <div class="form-group">                                    
+                                <input type="password" class="form-control" name="newpassfp" id="idnewpassfp" placeholder="New Password" onblur="checkLength1(this)">
+                                <span id="errPass1" style="color: red;"></span>
+                            </div>
+                            <div class="form-group">                                        
+                                <input type="password" class="form-control" name="confirmpassfp" id="idconfirmpassfp" placeholder="Confirm New Password">
+                                <span id="errPass2" style="color: red;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>              
+                
+                <div class="modal-footer">
+                    {!! Form::submit('Update', ['class'=>'btn btn-default','id' => 'updatefp', 'style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
+                    &nbsp;&nbsp;
+                    <!-- &nbsp;&nbsp; -->
+                    <a class="btn btn-default" id="cancelfp" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                        Cancel
+                    </a>
+                </div>      
+                {!! Form::close() !!}           
+            </div>
+        </div>
+    </div>
 
+<script>
+    function validateForm(form){        
+    if (form.newpassfp.value == ""){
+        document.getElementById("errPass1").innerHTML = "Password can't be empty!";
+        form.newpassfp.focus();
+        return false;
+        }
+        else if(form.newpassfp.value.length < 6){
+        document.getElementById("errPass1").innerHTML = "Minimum password must be 6 characters!";
+        form.newpassfp.focus();
+        return false;
+        }
+
+        if (form.confirmpassfp.value == ""){
+        document.getElementById("errPass2").innerHTML = "Password can't be empty!";
+        form.confirmpassfp.focus();
+        return false;
+        }
+
+        var newPass = document.getElementById('idnewpassfp').value;
+        var checkPass = document.getElementById('idconfirmpassfp').value;
+
+        if (checkPass != newPass){
+        document.getElementById("errPass2").innerHTML = "Confirm password does not match!";
+        form.confirmpassfp  .focus();
+        return false;
+        }
+        return true;
+    }
+
+    // On Leave Passwword Baru
+    function checkLength1(el){
+        if (el.value.length >= 6){
+        document.getElementById("errPass1").innerHTML = "";
+        }       
+    }
+</script>
 </body>
 
 </html>

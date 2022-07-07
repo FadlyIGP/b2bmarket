@@ -83,4 +83,20 @@ class UserRegisterController extends Controller
 
         }
     }
+
+    public function forgotpassword(Request $request)
+    {        
+        $user = User::where('email', $request->emailfp)->first();
+        
+        if ($user) {            
+            $user->password = Hash::make($request->newpassfp);
+            $user->save();
+
+            Alert::success('Success', 'Password berhasil diubah.');
+            return redirect()->route('login');
+        }else {            
+            Alert::error('Failed', 'Email tidak ditemukan!');
+            return back();
+        }
+    }
 }
