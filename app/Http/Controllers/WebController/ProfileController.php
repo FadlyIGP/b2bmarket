@@ -84,6 +84,15 @@ class ProfileController extends Controller
        $address->postcode = $request->postcode;
        $address->primary_address = 0;
        $address->save();
+
+        if ($address) {
+            Alert::success('Success', 'Successfully Update Data.');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
        return redirect()->route('profiles.index')->with('success', 'Successfully Add Data Address.');
    }
 
@@ -146,31 +155,40 @@ class ProfileController extends Controller
             return back();
         }
 
-       return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+       // return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
 
     }
 
     public function changePassword(Request $request)
     {
 
-       $validator = Validator::make($request->all(), [
-         'password' => 'required|confirmed|min:6',
-     ]);
+        $validator = Validator::make($request->all(), [
+           'password' => 'required|confirmed|min:6',
+         ]);
 
-       if ($validator->fails()) {
-        $out = [
-            "message" => $validator->messages()->all(),
-        ];
-        Alert::error('Failed', $out['message'][0]);
-        return back();
-    }
+        if ($validator->fails()) {
+            $out = [
+                "message" => $validator->messages()->all(),
+            ];
+            Alert::error('Failed', $out['message'][0]);
+            return back();
+        }
 
-    $user = User::where('email',$request->email)->first();
-    $user->password = Hash::make($request->new_pass);
-    $user->save();
+        $user = User::where('email',$request->email)->first();
+        $user->password = Hash::make($request->new_pass);
+        $user->save();
+
+        if ($user) {
+            Alert::success('Success', 'Successfully Update Data.');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
 
 
-    return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+        // return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
     }
 
     public function changeUser(Request $request)
@@ -215,10 +233,11 @@ class ProfileController extends Controller
             return back();
         }
 
-        return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
+        // return redirect()->route('profiles.index')->with('success', 'Successfully Update Data.');
     }
 
-    public function updatePrimary(Request $request){
+    public function updatePrimary(Request $request)
+    {
         // return $request->all();
        $profile=UserMitra::where('email', Auth::user()->email)->first();
        $address_all=Address::where('user_id', $profile->id)

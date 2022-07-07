@@ -119,7 +119,20 @@ Add Product
                                         </div>
                                     </div>
                                 </div>
-                                <div class="box-body col-md-4">     {{-- kanan --}}
+                                <div class="box-body col-md-4">   
+
+                                 <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Price Coret:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control has-feedback" value="" id="price_coret" name="price_coret" required>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  {{-- kanan --}}
                                      <div class="form-group" id="frm-add-data">
                                         <div class="col-md-12" >
                                             <div class="col-md-12 field_wrapper" >

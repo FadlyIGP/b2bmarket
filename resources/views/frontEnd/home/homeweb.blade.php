@@ -64,7 +64,7 @@
         <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
             <div class="col-lg-3">
                 <div class="div">
-                    <h4><a style="color: #424242;" href="#">Terlaris</a></h4>
+                    <h4><a style="color: #424242;" href="#">Best Seller</a></h4>
                 </div>
                 <div class="heading1"></div>
             </div>
@@ -79,19 +79,19 @@
                         <center>
                             <div class="product-rating">
                                 <i class="fa fa-star" style="color: red"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star" style="color: red"></i>
+                                <i class="fa fa-star" style="color: red"></i>
+                                <i class="fa fa-star" style="color: red"></i>
                                 <i class="fa fa-star"></i>
                             </div>
                         </center>
                         <div class="heading1"></div>
                         <div style="display: flex;">
                             <div class="" id="test">
-                                <span style="color: #ed2114; font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                                <span style="color: #ed2114; font-size: 12px;"><b> {{ $list['product_price'] }}</b></span>
                             </div>
                             <div class="" id="test">
-                                <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
+                                <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['price_coret'] }}</b></span>
                             </div>
                         </div>
                         <div style="display: flex;">
@@ -159,7 +159,7 @@
         <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
             <div class="col-lg-3">
                 <div class="div">
-                    <h4><a style="color: #424242;" href="#">Terbaru</a></h4>
+                    <h4><a style="color: #424242;" href="#">Latest</a></h4>
                 </div>
                 <div class="heading1"></div>
             </div>
@@ -174,19 +174,19 @@
                             <center>
                                 <div class="product-rating">
                                     <i class="fa fa-star" style="color: red"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star" style="color: red"></i>
+                                    <i class="fa fa-star" style="color: red"></i>
+                                    <i class="fa fa-star" style="color: red"></i>
+                                    <i class="fa fa-star" style="color: red"></i>
                                 </div>
                             </center>
                             <div class="heading1"></div>
                             <div style="display: flex;">
                                 <div class="" id="test">
-                                    <span style="font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                                    <span style="font-size: 12px;"><b> {{ $list['product_price'] }}</b></span>
                                 </div>
                                 <div class="" id="test">
-                                    <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
+                                    <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['price_coret'] }}</b></span>
                                 </div>
                             </div>
                             <div style="display: flex;">

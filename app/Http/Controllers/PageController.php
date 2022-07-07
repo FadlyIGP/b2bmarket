@@ -29,34 +29,11 @@ class PageController extends Controller
     }
     public function homepage()
     {
-         // *PRODUCT RANDOM* 
-        $random = MstProduct::with('stock', 'image')
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-
-        $productrandom = [];
-        foreach ($random as $key => $value) {
-            $productrandom[] = [
-                "id" => $value->id,
-                "product_name" => $value->product_name,
-                "product_descriptions" => $value->product_descriptions,
-                "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
-                "product_item" => $value->product_item,
-                "wishlist_status" => $value->wishlist_status,
-                "company_id" => $value->company_id,
-                "created_at" => $value->created_at,
-                "stock" => $value->stock->qty,
-                "image" => $value->image[0]->img_file,
-                "min_order" => $value->minimum_order,
-                
-
-            ];
-        }
 
         // **NEW PRODUCT**
         $productlist = MstProduct::with('stock', 'image','category')
+            ->inRandomOrder()
+            ->limit(8)
             ->orderBy('created_at', 'DESC')
             ->get();
 
@@ -67,7 +44,7 @@ class PageController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" =>'Rp'.' '.number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -77,6 +54,7 @@ class PageController extends Controller
                 "product_category" => $value->category->name,
                 "pay_counting" => pay_counting($value->pay_counting),
                 "min_order" => $value->minimum_order,
+                "price_coret" => 'Rp'.' '. number_format((float)$value->price_coret, 0, ',', '.'),
 
 
             ];
@@ -84,6 +62,8 @@ class PageController extends Controller
 
         // **PRODUCT TERLARIS
         $productmaxpay = MstProduct::with('stock', 'image','category')
+             ->inRandomOrder()
+            ->limit(8)
             ->orderBy('pay_counting', 'DESC')
             ->get();
 
@@ -94,7 +74,7 @@ class PageController extends Controller
                 "product_name" => $value->product_name,
                 "product_descriptions" => $value->product_descriptions,
                 "product_size" => $value->product_size,
-                "product_price" =>'Rp'. number_format((float)$value->product_price, 0, ',', '.'),
+                "product_price" =>'Rp'.' '. number_format((float)$value->product_price, 0, ',', '.'),
                 "product_item" => $value->product_item,
                 "wishlist_status" => $value->wishlist_status,
                 "company_id" => $value->company_id,
@@ -104,12 +84,12 @@ class PageController extends Controller
                 "product_category" => $value->category->name,
                 "pay_counting" => pay_counting($value->pay_counting),
                 "min_order" => $value->minimum_order,
-
+                "price_coret" => 'Rp'.' '. number_format((float)$value->price_coret, 0, ',', '.'),
 
             ];
         }
 
-        return view('welcome',['productrandom' => $productrandom,'productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
+        return view('welcome',['productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
         // return view('frontEnd.home.homeweb', ['productrandom' => $productrandom,'productlisting'=>$productlisting,'product_max_pay'=>$product_max_pay]);
     }
 }
