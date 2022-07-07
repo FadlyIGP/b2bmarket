@@ -79,8 +79,10 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
+        // return $request->all();
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $getwishlist = MstProduct::where('id', $request->product_id)->first();
+
         $wishlist = new Wishlist;
         $wishlist->product_id = $getwishlist->id;
         $wishlist->status = 1;

@@ -23,7 +23,8 @@ class MstProduct extends Model
         'product_price',
         'product_item',
         'wishlist_status',
-        'company_id'
+        'company_id',
+        'price_coret'
     ];
 
     public function stock() 
