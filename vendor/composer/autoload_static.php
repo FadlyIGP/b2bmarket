@@ -619,6 +619,7 @@ class ComposerStaticInitf7dded7613c9526572c91b4f69fd1500
         'App\\Models\\MstTransaction' => __DIR__ . '/../..' . '/app/Models/MstTransaction.php',
         'App\\Models\\Payment' => __DIR__ . '/../..' . '/app/Models/Payment.php',
         'App\\Models\\ProdCategory' => __DIR__ . '/../..' . '/app/Models/ProdCategory.php',
+        'App\\Models\\ProductHistory' => __DIR__ . '/../..' . '/app/Models/ProductHistory.php',
         'App\\Models\\ProductOffering' => __DIR__ . '/../..' . '/app/Models/ProductOffering.php',
         'App\\Models\\Roles' => __DIR__ . '/../..' . '/app/Models/Roles.php',
         'App\\Models\\StockProduct' => __DIR__ . '/../..' . '/app/Models/StockProduct.php',

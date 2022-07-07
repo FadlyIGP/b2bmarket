@@ -54,30 +54,82 @@
           <div class="service-item" >
             <h4 style="font-family: 'Helvetica Neue';">{{$productdetail['product_name']}}</h4>
             <div class="heading1"></div>
-            <div style="height: 200px;color: #A9A9A9">
-                <div class="" id="test">
-                    <span style="font-size: 12px;"><b>IDR &nbsp;&nbsp;{{$productdetail['product_price']}}</b></span>
-                </div>
-                <div class="" id="test">
-                    <span style="font-size: 12px;"><b>Min Order &nbsp;&nbsp;{{$productdetail['minimum_order']}} Pcs</b></span>
-                </div>
-                <div class="" id="test" style="">
-                    <span style="font-size: 12px;"><b>Terjual &nbsp;&nbsp;{{$productdetail['pay_counting']}}</b></span>
-                </div>
-                <div class="" id="test" style="">
-                    <span style="font-size: 12px;"><b>Size &nbsp;&nbsp;{{$productdetail['product_size']}}</b></span>
-                </div>
 
-                <div class="" id="test" style="">
-                    <span style="font-size: 12px;"><b>Qty &nbsp;&nbsp;{{$productdetail['stock']}}</b></span>
-                </div>
+            <div style="height: 200px;color: #A9A9A9;padding: 10px" class="col-lg-12">
+               <table width="60%" style="font-size: 13px;">
+                    <tr>
+                       <td width="10%">
+                          Price 
+                       </td>
+                       <td width="30%">
+                           <span><b>{{$productdetail['product_price']}}</b></span>
+                       </td>
+                    </tr>
+                    <tr>
+                       <td>
+                          Min Order  
+                       </td>
+                       <td>
+                         <span ><b>{{$productdetail['minimum_order']}} Pcs</b></span>
+                           
+                       </td>
+                    </tr>
+                    <tr>
+                       <td>
+                          Sold
+                       </td>
+                       <td>
+                          <span style="font-size: 12px;">
+                            <b>{{$productdetail['pay_counting']}} Pcs</b>
+                          </span>
+                       </td>
+                    </tr>
 
-                <div class="" id="test" style="">
-                    <span style="font-size: 12px;"><b>Kategori &nbsp;&nbsp;{{$productdetail['product_category']}}</b></span>
-                </div>
-                <div class="" id="test" style="">
-                    <span style="font-size: 12px;"><b>Pemilik &nbsp;&nbsp;{{$productdetail['company_name']}}</b></span>
-                </div>
+                    <tr>
+                       <td>
+                          Size  
+                       </td>
+                       <td>
+                          <span style="font-size: 12px;">
+                            <b>{{$productdetail['product_size']}}</b>
+                          </span>
+                       </td>
+                    </tr>
+
+                    <tr>
+                       <td>
+                          Qty  
+                       </td>
+                       <td>
+                            <span style="font-size: 12px;">
+                                <b>{{$productdetail['stock']}}</b>
+                            </span>
+                          
+                       </td>
+                    </tr>
+
+                    <tr>
+                       <td>
+                          Category  
+                       </td>
+                       <td>
+                            <span style="font-size: 12px;">
+                                <b>{{$productdetail['product_category']}}</b>
+                            </span>
+                       </td>
+                    </tr>
+
+                    <tr>
+                       <td>
+                          Owner  
+                       </td>
+                       <td width="30%">
+                            <span style="font-size: 12px;">
+                                <b>{{$productdetail['company_name']}}</b>
+                            </span>
+                       </td>
+                    </tr>
+               </table>
             </div>
            
 
@@ -98,7 +150,7 @@
                         <tr>
                             <td>
                                 {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
-                                <input type="hidden" class="form-control  has-feedback  " value="{{$list['id']}}" id="product_id" name="product_id" required>
+                                <input type="hidden" class="form-control  has-feedback  " value="{{$productdetail['id']}}" id="product_id" name="product_id" required>
                                 <button type="submit" style="background-color: transparent;border-color: transparent;">
                                     <i class="fa-solid fa-cart-arrow-down menu" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
                                 </button>
@@ -106,13 +158,13 @@
                             </td>
 
                             <td>
-                                @if($list['wishlist_status']==true)
+                                @if($productdetail['wishlist_status']==true)
                                 <a href="#">
                                     <i class="fa-solid fa-heart" style="color:red;padding-right: 15px;font-size: 20px"></i>
                                 </a>
                                 @else()
                                 {!! Form::open(['url'=>url('/wishlists'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
-                                <input type="hidden" class="form-control  has-feedback " value="{{$list['id']}}" id="product_id" name="product_id" required>
+                                <input type="hidden" class="form-control  has-feedback " value="{{$productdetail['id']}}" id="product_id" name="product_id" required>
                                 <button type="submit" style="background-color: transparent;border-color: transparent;">
                                     <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
                                 </button>
@@ -121,12 +173,12 @@
 
                             </td>
 
-                            <td>
+                           {{--  <td>
                                 {!! Form::open(['url'=>url('#'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
 
                                 <button type="submit" class='buttonaddress' field=''>Quotations</button>
                                 {!! Form::close() !!}
-                            </td>
+                            </td> --}}
                         </tr>
                     </table>
 

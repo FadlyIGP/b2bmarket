@@ -223,7 +223,7 @@ class InfoProductController extends Controller
             "product_name" => $product->product_name,
             "product_descriptions" => $product->product_descriptions,
             "product_size" => $product->product_size,
-            "product_price" => 'Rp' . number_format((float)$product->product_price, 0, ',', '.'),
+            "product_price" => 'Rp' .' '. number_format((float)$product->product_price, 0, ',', '.'),
             "product_item" => $product->product_item,
             "wishlist_status" => getwishlist([$profile->id, $product->id]),
             "company_id" => $product->company_id,
@@ -235,7 +235,6 @@ class InfoProductController extends Controller
             "minimum_order" => $product->minimum_order,
             "company_name" => getcompany($product->company_id),
         ];
-
 
         return view('frontEnd.home.productdetail', ['productdetail' => $productdetail, 'productimage' => $productimage]);
     }

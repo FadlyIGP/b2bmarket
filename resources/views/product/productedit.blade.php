@@ -38,7 +38,7 @@ Modify Product
                                                 {!! Form::label('Product Descriptions:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    {!! Form::textarea('prod_desc', ($productlisting['product_descriptions']), ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:50px' ]) !!}
+                                                    {!! Form::textarea('prod_desc', ($productlisting['product_descriptions']), ['class'=>'form-control ','required','placeholder' => '','style'=>'width:40%','style'=>'height:100px' ]) !!}
                                                     </span>
                                                 </div>
                                             </div>
@@ -123,7 +123,20 @@ Modify Product
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>    
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Price Coret:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control has-feedback" value="{{ $productlisting['price_coret'] }}" id="price_coret" name="price_coret" required>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                     
                                 </div>
                             </div>
                         </div>

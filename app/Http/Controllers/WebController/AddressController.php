@@ -24,39 +24,6 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
-        // try {
-           // $client = new \GuzzleHttp\Client();
-           // $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi';
-           // $request = $client->get($url);
-           // $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', ['debug' => true]);
-
-            $client = new \GuzzleHttp\Client();
-            $responseprovinsi = $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-            ]);
-            //provinsidetail https://dev.farizdotid.com/api/daerahindonesia/provinsi/32
-           $dataprovinsi = json_decode($responseprovinsi->getBody(), true);
-           $provinsi= $dataprovinsi;
-
-
-            $responseprovinsi = $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-            ]);
-            //provinsidetail https://dev.farizdotid.com/api/daerahindonesia/provinsi/32
-            $dataprovinsi = json_decode($responseprovinsi->getBody(), true);
-            $provinsi= $dataprovinsi;
-
-           // return $provinsi;
-
-        //    $responsedata = [
-        //     'message' =>"Status"." ".$data['status']
-        // ];
-
          
     }
 
@@ -96,7 +63,7 @@ class AddressController extends Controller
         $cart->postcode = $request->kodepost;
         $cart->primary_address = $request->prmary;
         $cart->save();
-        $message='Berhasil menambahkan alamat';
+        $message='Succes add new address';
 
         return \Redirect::back()->withErrors(['message' => $message]);
       
