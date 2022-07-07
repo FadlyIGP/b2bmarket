@@ -43,7 +43,7 @@ Route::get('/send_email', [MailController::class, 'index']);
 Route::get('/', [App\Http\Controllers\PageController::class, 'homepage'])->name('homepage');
 Auth::routes();
 Route::post('/reguser', [UserRegisterController::class, 'registered'])->name('registered');
-
+Route::post('/forgotpassword', [UserRegisterController::class, 'forgotpassword'])->name('forgotpassword');
 
 
 // route web

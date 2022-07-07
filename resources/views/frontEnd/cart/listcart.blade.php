@@ -228,7 +228,7 @@ input.qtyminus { width:25px; height:25px;}
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-lg-6" style="margin-top: -50px">
+                        <div class="col-lg-6" style="margin-top: -50px">                          
                             <table class="" width="100%">
                                 <tbody>
                                    <td width="40%" style="color:orange">
@@ -237,12 +237,20 @@ input.qtyminus { width:25px; height:25px;}
                                     <td width="50%">
 
                                         <form id='myform' method='GET' action='' style="border-color: transparent;">
-                                            <button data-id="{{ $list['id'] }}" type="button" class='qtyminus button' field='quantity' id="reload_data">-</button>
+                                            <input type="hidden" name="minorder" id="idminorder" value="{{ $list['min_order'] }}">
+                                            @if($list['status']==1)                                              
+                                              <button data-id="{{ $list['id'] }}" type="button" class='qtyminus button' field='quantity' id="reload_data" >-</button>
 
-                                            <input id="textbox0" type='text' name='quantity' value='{{ $list['product_qty'] }}' class='qty input' onkeypress="return onlyNumeric(event)" />
+                                              <input type='text' id="textbox0" name='quantity' value="{{ $list['product_qty'] }}" class='qty input' onkeypress="return onlyNumeric(event)" disabled>
 
-                                            <button data-id="{{ $list['id'] }}" type="button" class='qtyplus button' field='quantity'>+</button>
+                                              <button data-id="{{ $list['id'] }}" type="button" class='qtyplus button' field='quantity'>+</button>
+                                            @else
+                                              <button data-id="{{ $list['id'] }}" type="button" class='qtyminus button' field='quantity' id="reload_data" disabled>-</button>
 
+                                              <input id="textbox0" type='text' name='quantity' value="{{ $list['product_qty'] }}" class='qty input' onkeypress="return onlyNumeric(event)" disabled />
+
+                                              <button data-id="{{ $list['id'] }}" type="button" class='qtyplus button' field='quantity' disabled>+</button>
+                                            @endif
                                         </form>
 
                                     </td>
@@ -355,6 +363,7 @@ input.qtyminus { width:25px; height:25px;}
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
+
         // This button will increment the value
         $('.qtyplus').click(function(e){
             // Stop acting like a button
@@ -427,6 +436,14 @@ input.qtyminus { width:25px; height:25px;}
                 });
             }, 200)
 
+            // var inputqty = $(this).siblings('input[name='+fieldName+']').val()           
+            // var minorder = document.getElementById('idminorder').value;
+
+            // if(minorder < inputqty){
+            //   console.log(minorder+inputqty);
+            //   $(".qtyminus").attr('data-id').disabled = false;
+            // }
+
         });
 
         // This button will decrement the value till 1
@@ -435,7 +452,8 @@ input.qtyminus { width:25px; height:25px;}
             e.preventDefault();
             // Get the field name
             fieldName = $(this).attr('field');
-            // Get its current value
+            // Get its current value            
+
             var currentVal = parseInt($(this).siblings('input[name='+fieldName+']').val());
             // If it isn't undefined or its greater than 0
             if (!isNaN(currentVal) && currentVal > 0) {
@@ -506,7 +524,15 @@ input.qtyminus { width:25px; height:25px;}
 
             }, 200)
 
+            // var inputqty = $(this).siblings('input[name='+fieldName+']').val()           
+            // var minorder = document.getElementById('idminorder').value;
+
+            // if(minorder == inputqty){
+            //   console.log(minorder+inputqty);
+            //   $(".qtyminus").prop('disabled', true);
+            // }
         });
+            
     });
 
 

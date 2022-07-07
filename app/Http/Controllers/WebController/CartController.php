@@ -91,6 +91,7 @@ class CartController extends Controller
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
+                'min_order' => $value->product->minimum_order
             ];
         }
         // return $listchecked;
