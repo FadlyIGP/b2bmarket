@@ -91,6 +91,7 @@ class CartController extends Controller
                 'product_name'=> $value->product->product_name,
                 'product_descriptions'=> $value->product->product_descriptions,
                 'product_size'=> $value->product->product_size,
+                'min_order' => $value->product->minimum_order
             ];
         }
         // return $listchecked;
@@ -162,6 +163,7 @@ class CartController extends Controller
     {
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $getproductdata = MstProduct::where('id', $request->product_id)->first();
+
         $cart = new Cart;
         $cart->product_id = $getproductdata->id;
         $cart->product_qty = $getproductdata->minimum_order;
@@ -201,10 +203,24 @@ class CartController extends Controller
     public function updateqty(Request $request, $id)
     {
         $cart = Cart::find($id);
-        $updatetotalprice=$cart->product_price * $request->param0;
-        $cart->product_qty = $request->param0;
-        $cart->total_price = $updatetotalprice;
-        $cart->save();
+        $getproductdata=MstProduct::find($cart->product_id);
+        $getqty=StockProduct::where('product_id', $cart->product_id)->first();
+
+        if ($getproductdata->minimum_order > $request->param0) {
+            $cart = Cart::find($id);
+
+        } elseif ($getqty->qty < $request->param0) {
+           $cart = Cart::find($id);
+        }else {
+           $cart = Cart::find($id);
+           $updatetotalprice=$cart->product_price * $request->param0;
+           $cart->product_qty = $request->param0;
+           $cart->total_price = $updatetotalprice;
+           $cart->save(); 
+        }
+        
+
+      
         return redirect()->route('carts.index');
     }
 
