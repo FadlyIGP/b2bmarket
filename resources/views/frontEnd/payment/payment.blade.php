@@ -140,6 +140,12 @@
         border-top: none;
     }
 
+    #rata{
+        display: flex;
+        align-items:center;
+        padding-top: 10px;
+    }
+
     /*div+div {
   border: 1px solid #969696;
 }*/
@@ -161,7 +167,7 @@
                             <div style="padding-bottom: 20px;padding-left: 10px;padding-top: 10px;">
                                 <span style="">
                                     <img src="https://i.ibb.co/5sFK9qT/location.png" alt="location" border="0" style="width: 30px" />
-                                    Alamat Pengiriman
+                                    Shipping Address
                                 </span>
                                 <div class="line"></div>
                             </div>
@@ -176,8 +182,14 @@
                                 </span>
                                 @else()
                                 <span style="">
-                                    Alamat belim ditambahkan
+                                    Please add your address to continue your orders ..!
                                 </span>
+                                {!! Form::open(['url'=>url('#'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
+
+                                <button type="button" class="buttonaddress" data-bs-toggle="modal" data-bs-target="#myModal">
+                                   <span>Add address</span>
+                                </button>
+                                {!! Form::close() !!}
                                 @endif()
 
                             </div>
@@ -258,7 +270,7 @@
                             <div style="width: 97%;background-color: #FF4500;">
                                 <h4 style="font-family: 'Helvetica Neue';color: white;padding-top: 10px;padding-bottom: 10px">
                                     <center>
-                                        Buat Pesanan
+                                        Create New Orders
                                     </center>
                                 </h4>
                             </div>
@@ -298,7 +310,7 @@
                                 </div>
 
                                 <span>
-                                    <h5 style="font-family: 'Helvetica Neue';">Rangkuman pesanan</h5>
+                                    <h5 style="font-family: 'Helvetica Neue';">Order Summary</h5>
                                 </span>
                                 <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';color: #778899">
                                     <span> Subtotal ({{$countqty}} Items)</span>
@@ -306,8 +318,8 @@
                                 </div>
 
                                 <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';color: #778899">
-                                    <span> Ongkos Kirim</span>
-                                    <span> Rp 0</span>
+                                    <span> Shipping Cost</span>
+                                    <span> Free</span>
                                 </div>
                                 <div class="" style="margin-top: 10px;font-family: 'Helvetica Neue';">
                                     <table width="50%">
@@ -322,18 +334,18 @@
                                                     <input type="text" style="border:none;color: orange;position:absolute;margin-top:0px" name="" value="{{$total_price}}" readonly>
                                                 </span>
                                             </td>
-
                                         </tr>
                                     </table>
-
-
-
                                 </div>
 
                                 <div style="margin-top: 10px;padding-bottom: 20px">
-                                    <button type="submit" class='block' style="width: 98%;font-family: 'Helvetica Neue';">
-                                        Buat Pesanan
+                                    @if(empty($address))
+                                   
+                                    @else()
+                                     <button type="submit" class='block' style="width: 98%;font-family: 'Helvetica Neue';">
+                                        Submit
                                     </button>
+                                    @endif()
                                 </div>
                                 {!! Form::close() !!}
                             </div>
@@ -344,6 +356,91 @@
         </div>
     </div>
 </div>
+
+
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Address</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          {!! Form::open(['url'=>url('/profiles/'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Address Owner</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="name" placeholder="Address Owner" id="name" required>
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Contact</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="contact" placeholder="Contact" id="contact">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">provinsi</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="provinsi" placeholder="provinsi" id="provinsi">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kabupaten</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kabupaten" placeholder="kabupaten" id="kabupaten">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kecamatan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kecamatan" placeholder="kecamatan" id="kecamatan">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kelurahan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kelurahan" placeholder="kelurahan" id="kelurahan">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Complete Address</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="complete_address" placeholder="complete_address" id="complete_address">
+            </div>
+          </div> 
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">patokan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="patokan" placeholder="patokan" id="patokan">
+            </div>
+          </div> 
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">postcode</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="postcode" placeholder="postcode" id="postcode">
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="form-group">
+            {{ Form::submit('Simpan',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white;'])}}
+          </div>
+          {{ Form::close()}}
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
 
 <!-- Scripts -->
 

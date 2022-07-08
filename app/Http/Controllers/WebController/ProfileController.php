@@ -37,8 +37,10 @@ class ProfileController extends Controller
         $profile=UserMitra::where('email', Auth::user()->email)->first();
        
         $address_list=Address::where('user_id', $profile->id)
-        ->where('primary_address',1)
-        ->first();
+                    ->where('primary_address',1)
+                    ->first();
+        // return $address_list;
+
         $company_list=MstCompany::find($profile->company_id);
         $transaction_finished = MstTransaction::where('status',3)->where('user_id',  $profile->id)->get();
         $count_finished = $transaction_finished->count();
@@ -82,7 +84,7 @@ class ProfileController extends Controller
        $address->complete_address = $request->complete_address;
        $address->patokan = $request->patokan;
        $address->postcode = $request->postcode;
-       $address->primary_address = 0;
+       $address->primary_address = 1;
        $address->save();
 
         if ($address) {
@@ -135,17 +137,18 @@ class ProfileController extends Controller
         // return $request->all();
        date_default_timezone_set('Asia/Jakarta'); 
        $MstAddress = Address::find($request->id_address);
-       $MstAddress->name               = $request->name;
-       $MstAddress->contact            = $request->comp_contact;
-       $MstAddress->provinsi           = $request->prov;
-       $MstAddress->kabupaten          = $request->city;
-       $MstAddress->kecamatan          = $request->district;
-       $MstAddress->kelurahan          = $request->neighborhoods;
-       $MstAddress->complete_address   = $request->compaddr;
-       $MstAddress->postcode           = $request->postcode;
-       $MstAddress->patokan            = $request->remark;
-       $MstAddress->primary_address    = 1;
+       $MstAddress->name = $request->name;
+       $MstAddress->contact = $request->comp_contact;
+       $MstAddress->provinsi = $request->prov;
+       $MstAddress->kabupaten = $request->city;
+       $MstAddress->kecamatan = $request->district;
+       $MstAddress->kelurahan = $request->neighborhoods;
+       $MstAddress->complete_address = $request->compaddr;
+       $MstAddress->postcode = $request->postcode;
+       $MstAddress->patokan = $request->remark;
+       $MstAddress->primary_address = 1;
        $MstAddress->save();
+
        if ($MstAddress) {
             Alert::success('Success', 'Successfully Update Data.');
             return back();

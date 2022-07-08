@@ -111,6 +111,11 @@ table tr {
     overflow: hidden;
  } 
 
+ #rata{
+    display: flex;
+    align-items:center;
+    padding-top: 10px;
+ }
 
 /*.input{
 
@@ -127,6 +132,7 @@ input.qtyminus { width:25px; height:25px;}
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
+@include('sweetalert::alert')
 
 <div id="" class="services section ">
   <div class="container">
@@ -145,7 +151,7 @@ input.qtyminus { width:25px; height:25px;}
                     <span style="font-family: 'Helvetica Neue';color: #FF4500">
                         <h2>
                             <b>
-                                Keranjang Masih Kosong
+                                Cart is Empty
                             </b>
                         </h2>
                     </span>
@@ -155,11 +161,10 @@ input.qtyminus { width:25px; height:25px;}
                         <span style="font-family: 'Helvetica Neue';color: orange">
                             <h2>
                                 <b>
-                                    Yuk Belanja..!
+                                    Continue Shopping..!
                                 </b>
                             </h2>
                             <i class="fa-brands fa-golang" style="font-size: 60px;margin-top: 0px;color: #7CFC00"></i>
-
                         </span>
                     </button>
                     {!! Form::close() !!}
@@ -285,12 +290,14 @@ input.qtyminus { width:25px; height:25px;}
             <div class="" id="" style="height: auto;padding-bottom: 10px">
                 @if(empty($completeaddress))
                     <span style="font-size: 12px;">
-                        Alamat Belum ditambahkan
+                        Please add your address
                     </span>
-                {!! Form::open(['url'=>url('/address/create/'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
+                    {!! Form::open(['url'=>url('#'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
 
-                    <button type="submit" class='buttonaddress' field=''>Tambah Alamat</button>
-                {!! Form::close() !!}
+                    <button type="button" class="buttonaddress" data-bs-toggle="modal" data-bs-target="#myModal">
+                     <span>Add address</span>
+                    </button>
+                   {!! Form::close() !!}
                 @else()
                  <span style="font-size: 12px;">
                     {{$completeaddress}}
@@ -359,7 +366,89 @@ input.qtyminus { width:25px; height:25px;}
 
 </div>
 
-<!-- Scripts -->
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Add Address</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+
+        <!-- Modal body -->
+        <div class="modal-body">
+          {!! Form::open(['url'=>url('/profiles/'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Address Owner</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="name" placeholder="Address Owner" id="name" required>
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Contact</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="contact" placeholder="Contact" id="contact">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">provinsi</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="provinsi" placeholder="provinsi" id="provinsi">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kabupaten</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kabupaten" placeholder="kabupaten" id="kabupaten">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kecamatan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kecamatan" placeholder="kecamatan" id="kecamatan">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">kelurahan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="kelurahan" placeholder="kelurahan" id="kelurahan">
+            </div>
+          </div>
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">Complete Address</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="complete_address" placeholder="complete_address" id="complete_address">
+            </div>
+          </div> 
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">patokan</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="patokan" placeholder="patokan" id="patokan">
+            </div>
+          </div> 
+          <div class="form-group" id="rata">
+            <label class="col-sm-3 control-label">postcode</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control" name="postcode" placeholder="postcode" id="postcode">
+            </div>
+          </div>
+          
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="form-group">
+            {{ Form::submit('Submit',['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white;'])}}
+          </div>
+          {{ Form::close()}}
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     jQuery(document).ready(function(){
