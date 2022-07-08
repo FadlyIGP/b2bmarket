@@ -167,7 +167,10 @@
                             </div>
                             <div class="heading1"></div>
                             <div style="padding: 10px">
-                                @foreach($address_all as $address)
+                                @if(empty($address_all))
+
+                                @else()
+                                    @foreach($address_all as $address)
                                     <table style="width: 100%;border: 0;">
                                         <tr>
                                             <td style="width: 50%;">{{ $address->complete_address}}</td>
@@ -189,6 +192,8 @@
                                         </tr>
                                     </table>
                                 @endforeach
+                                @endif()
+                               
                             </div>
                             </div>
                        </div>
@@ -205,6 +210,135 @@
                             <div id="London" class="tabcontent">
                                 <div class="row">
                                     <div class="col-lg-12">
+
+                                        @if(empty($address_list))
+
+                                        {!! Form::open(['url'=>url('/address'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
+                                        <div class="row">
+                                      
+                                          <div class="form-group">                    
+                                              <div class="col-sm-10">
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Address owner</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="name" name="name" placeholder="Address Owner" value="" required>
+                                                    <input type="hidden" class="form-control" name="prmary"  id="prmary" required value="1">
+
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Contact</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="contact" name="contact" placeholder="Contact" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Province</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="provinsi" name="provinsi" placeholder="Province" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">City/Country</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="kabupaten" name="kabupaten" placeholder="City or Country" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">District</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="kecamatan" name="kecamatan" placeholder="Distric" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Neighborhoods</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="kelurahan" name="kelurahan" placeholder="Neighborhoods" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Complete Address</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <textarea class="form-control" id="komplit" name="komplit" placeholder="Complete Address" required></textarea>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Postal Code</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="kodepost" name="kodepost" placeholder="Postal Code" value="" required>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-12">
+                                                <div class="row">
+                                                  <div class="col-lg-2">
+                                                    <label class="control-label">Remark</label>
+                                                  </div>
+                                                  <div class="col-lg-10">
+                                                    <input type="text" class="form-control" id="patokan" name="patokan" placeholder="Remark" value="">
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </div>
+                                            <div class="form-group padding1">
+                                              <div class="col-lg-offset-2 col-lg-10">
+                                                {!! Form::submit('Submit', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
+                                              </div>
+                                            </div>
+                                        </div>
+                                       
+                                        {!! Form::close() !!}
+                                        @else()
                                         {!! Form::open(['url'=>url('/profiles/updateaddress'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
                                         <div class="row">
                                       
@@ -326,12 +460,10 @@
                                                 {!! Form::submit('Update', ['class'=>'btn btn-default','style'=>'background-color:#fb8c00;border-radius:5px;width:80px;color: white']) !!}
                                               </div>
                                             </div>
-
-
                                         </div>
-
                                        
                                         {!! Form::close() !!}
+                                        @endif()
 
                                     </div>
                                 </div>
@@ -489,9 +621,9 @@
         <div class="modal-body">
           {!! Form::open(['url'=>url('/profiles/'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
           <div class="form-group" id="rata">
-            <label class="col-sm-3 control-label">Nama jalan</label>
+            <label class="col-sm-3 control-label">Address Owner</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" name="name" placeholder="Nama Jalan" id="name" required>
+              <input type="text" class="form-control" name="name" placeholder="Address Owner" id="name" required>
             </div>
           </div>
           <div class="form-group" id="rata">
