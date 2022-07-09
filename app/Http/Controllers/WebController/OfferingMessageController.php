@@ -84,7 +84,7 @@ class OfferingMessageController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
         $data=ProductOffering::where('buyer_id', $profile->id)->get();
-
+        $listdata=[];
         foreach ($data as $key => $value) {
             $listdata[]=[
                 'id'=> $value->id,
