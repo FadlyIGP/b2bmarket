@@ -6,7 +6,7 @@ Offering Product
 
 @section('breadcrumb')
 @parent
-<li><a href="{{ url('/productcategories') }}">Offerinf Product</a></li>
+<li><a href="{{ url('/productcategories') }}">Offering Product</a></li>
 <li class="active">Offering</li>
 @endsection
 @section('content')
@@ -27,7 +27,19 @@ Offering Product
                                                 {!! Form::label('Title:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
+                                                    <input type="text" class="form-control  has-feedback  " value="" id="title" name="title" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Deskripsi:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    <input type="text" class="form-control  has-feedback  " value="" id="descriptions" name="descriptions" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -39,11 +51,24 @@ Offering Product
                                                 {!! Form::label('Select Product:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
+                                                    {{-- <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required> --}}
+                                                    {!! Form::select('product_id', App\Models\MstProduct::pluck('product_name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+                                   {{--  <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Select Buyer:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    {!! Form::select('buyer_id', App\Models\UserMitra::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> --}}
 
                                    
                                 </div>
@@ -56,7 +81,7 @@ Offering Product
                                                 {!! Form::label('Offering Price:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
+                                                    <input type="number" class="form-control  has-feedback  " value="" id="price_offering" name="price_offering" required>
                                                 </div>
                                             </div>
                                         </div>
@@ -65,16 +90,27 @@ Offering Product
                                     <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
-                                                {!! Form::label('Mitra:', '') !!}
+                                                {!! Form::label('Quotation Price:', '') !!}
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                                    <input type="text" class="form-control  has-feedback  " value="" id="category_name" name="category_name" required>
+                                                    <input type="number" class="form-control  has-feedback  " value="" id="price_quotation" name="price_quotation" required>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
-                                     
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <div class="col-md-12">
+                                                {!! Form::label('Select Buyer:', '') !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
+                                                    {!! Form::select('buyer_id', App\Models\UserMitra::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} 
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

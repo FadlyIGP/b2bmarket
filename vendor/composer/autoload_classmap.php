@@ -62,6 +62,7 @@ return array(
     'App\\Models\\MstTransaction' => $baseDir . '/app/Models/MstTransaction.php',
     'App\\Models\\Payment' => $baseDir . '/app/Models/Payment.php',
     'App\\Models\\ProdCategory' => $baseDir . '/app/Models/ProdCategory.php',
+    'App\\Models\\ProductHistory' => $baseDir . '/app/Models/ProductHistory.php',
     'App\\Models\\ProductOffering' => $baseDir . '/app/Models/ProductOffering.php',
     'App\\Models\\Roles' => $baseDir . '/app/Models/Roles.php',
     'App\\Models\\StockProduct' => $baseDir . '/app/Models/StockProduct.php',
