@@ -98,6 +98,7 @@
                                     <button id="tab3-tab" class="tablinks" onclick="openCity(event, 'tab3')">In Process</button>
                                     <button id="tab4-tab" class="tablinks" onclick="openCity(event, 'tab4')">Ondelivery</button>
                                     <button id="tab5-tab" class="tablinks" onclick="openCity(event, 'tab5')">Finish</button>
+                                    <button id="tab6-tab" class="tablinks" onclick="openCity(event, 'tab6')">Cancel Order</button>
                                 </div>
                             </div>
                             <div class="line"></div>
@@ -445,6 +446,78 @@
                                     </table>
                                 </div>
                                 @endforeach()
+
+
+                                
+                                @endif()
+
+                            </div>
+                            <div id="tab6" class="tabcontent" data-tab-info>
+                               @if(empty($dibatalkan))
+                                <div class="row" style="font-size: 13px">
+                                    <div class="col-lg-12 test"  style="overflow-x:auto;padding-top: 30px;padding-bottom: 50px">
+                                        <center>
+                                            <div style="padding-bottom: 20px">
+                                                <span>Belum Ada Pesanan</span>
+                                            </div>
+
+                                             <div>
+                                                {!! Form::open(['url'=>url('/index2'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                    <button style="background-color: transparent;border-color: #FF4500;border-radius: 10px" type="submit">
+                                                        <span style="font-family: 'Helvetica Neue';color: #FF4500;font-size: 12px">
+                                                                <b>
+                                                                    Lanjutkan Belanja
+                                                                </b>
+                                                        </span>
+                                                    </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </center>
+                                      
+                                    </div>
+                                </div>
+
+                                @else()
+
+                                @foreach($dibatalkan as $list)
+                                <div style="overflow-x:auto;">
+                                    <table class="tables" border="1">
+                                        <tr style="">
+                                            <td style="width: 10%">
+                                                <left>
+                                                    <img src="{{ url('/files/'.$list['product_image']) }}" alt="defaultlogo" border="0" style="width: 60px;" />
+                                                </left>
+                                            </td>
+
+                                            <td style="width: 20%;size: 12px;" >
+                                                <left>
+                                                  {{$list['product_name']}}
+                                              </left>
+                                            </td>
+
+                                            <td style="width: 25%">
+                                              {{$list['expected_ammount']}}
+                                            </td>
+
+                                            <td style="width: 20%">
+                                              {{$list['status']}}
+                                            </td>
+                                            <td style="width: 10%">
+                                             {!! Form::open(['url'=>url('/transactions',$list['transaction_id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                                 <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['transaction_id'] }}" title="View Detail">
+                                                    <span style="font-family: 'Helvetica Neue';color: white">
+                                                        <b>
+                                                            Detail
+                                                        </b>
+                                                    </span>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </td>
+                                        </tr>
+                                       
+                                    </table>
+                                </div>
+                                @endforeach()                                
                                 @endif()
 
                             </div>
@@ -464,18 +537,17 @@
 <div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 20px">
     <div class="modal-dialog" role="document" style="border-radius: 20px">
         <div class="modal-content">
-            <div class="modal-header" style="background-color: ">   
+            <div class="modal-header">   
                 <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
                    <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
                     Items
-                </span>    
+                </span>                    
             </div>
             <div class="modal-body" id="body-item">
                 <!--Include showitem.blade.php here -->
             </div>              
             <div class="modal-footer"> 
-
-                <a class="btn btn-default buttonaddress" id="hide" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                <a class="btn btn-default buttonaddress" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
                     Close
                 </a>
             </div> 

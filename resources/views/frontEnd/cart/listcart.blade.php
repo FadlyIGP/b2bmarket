@@ -88,10 +88,28 @@ table tr {
   text-align: center;
 }
 
+.bayar-disbaled{
+  display: block;
+  width: 50%;
+  height: 30px;
+  border: none;
+  background-color: #ddd;
+  color: #FFA500;
+  /*padding: 14px 28px;*/
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
 .block:hover {
   background-color: #ddd;
-  color: black;
+  color: #FFA500;
+  border-color: #FFA500;
+  border-style: solid;
+  border-width: 1px;
 }
+
 .button{
   border: none;
   text-align: center;
@@ -348,7 +366,11 @@ input.qtyminus { width:25px; height:25px;}
                 <div style="margin-top: 10px;padding-bottom: 10px">
 
                  <form id="" method='GET' action='{{ url('/payments/') }}' style="border-color: transparent;">
-                    <button type="submit" class='block'>Bayar</button>
+                    @if(empty($listchecked))
+                      <button type="submit" class='bayar-disbaled' disabled="disabled">Bayar</button>
+                    @else
+                       <button type="submit" class='block'>Bayar</button>
+                    @endif
                     {{-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Large Modal</button> --}}
 
                   {{--   <button class="btn btn-secondary mt-4 detail-btn btn-xs btn-info" data-toggle="modal" data-target="#myModal" data-id="">Bayar</button> --}}

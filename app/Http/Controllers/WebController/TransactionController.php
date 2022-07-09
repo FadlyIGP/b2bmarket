@@ -57,7 +57,7 @@ class TransactionController extends Controller
            }elseif($status==3) {
                $statuspayment='Received';
            }elseif($status==99){
-               $statuspayment='Cancle';
+               $statuspayment='Cancel';
            }else{
                $statuspayment='Unknown';
            }
@@ -77,82 +77,138 @@ class TransactionController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
         $payment = Payment::with(['transaction','transactionitem'])->where('user_id', $profile->id)->orderBy('created_at','DESC')->get();
+
         // return $payment;
         $listpesanan=[];
         foreach ($payment as $key => $value) {
-           $listpesanan[]=[
-            "transaction_id"=> $value->transaction_id,
-            "user_id"=> $value->user_id,
-            "currency"=> $value->currency,
-            "bank_code"=> $value->bank_code,
-            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "paid_at"=> $value->paid_at,
-            "payment_chanel"=> $value->payment_chanel,
-            "status"=> getstatus($value->status),
-            "created_at"=> $value->created_at,
-            "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment_method,
-            "payment_picture"=> $value->payment_picture,
-            "invoice_number"=> $value->transaction->invoice_number,
-            "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> getimage($value->transactionitem->product_id),
-            "product_name"=> $value->transactionitem->product_name,
+            if ($value->status == 0){
+                $stat = "Waiting Payment";    
+            }else if ($value->status == 1){
+                $stat = "In Process";
+            }else if ($value->status == 2){
+                if ($value->transaction->status == 2) {
+                    $stat = "On Delivery";
+                }else if ($value->transaction->status == 3){
+                    $stat = "Received";
+                }else {
+                    $stat = "In Process";
+                }
+            }else if ($value->status == 99){
+                $stat = "Cancel";
+            }else {
+                $stat = "Unknown";
+            }
+           
 
-           ];
+            $listpesanan[]=[
+                "transaction_id"=> $value->transaction_id,
+                "user_id"=> $value->user_id,
+                "currency"=> $value->currency,
+                "bank_code"=> $value->bank_code,
+                "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                "paid_at"=> $value->paid_at,
+                "payment_chanel"=> $value->payment_chanel,                
+                "status"=> $stat,                    
+                "created_at"=> $value->created_at,
+                "updated_at"=> $value->updated_at,
+                "payment_method"=> $value->payment_method,
+                "payment_picture"=> $value->payment_picture,
+                "invoice_number"=> $value->transaction->invoice_number,
+                "product_id"=> $value->transactionitem->product_id,
+                "product_image"=> getimage($value->transactionitem->product_id),
+                "product_name"=> $value->transactionitem->product_name,
+            ];
         }
 
         $paymentwaiting = Payment::with(['transaction','transactionitem'])
                   ->where('user_id', $profile->id)
                   ->where('status',0)
                   ->orderBy('created_at','DESC')->get();
+
         $menunggupembayaran=[];
         foreach ($paymentwaiting as $key => $value) {
-           $menunggupembayaran[]=[
-            "transaction_id"=> $value->transaction_id,
-            "user_id"=> $value->user_id,
-            "currency"=> $value->currency,
-            "bank_code"=> $value->bank_code,
-            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "paid_at"=> $value->paid_at,
-            "payment_chanel"=> $value->payment_chanel,
-            "status"=> getstatus($value->status),
-            "created_at"=> $value->created_at,
-            "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment_method,
-            "payment_picture"=> $value->payment_picture,
-            "invoice_number"=> $value->transaction->invoice_number,
-            "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> getimage($value->transactionitem->product_id),
-            "product_name"=> $value->transactionitem->product_name,
-
-           ];
+            $menunggupembayaran[]=[
+                "transaction_id"=> $value->transaction_id,
+                "user_id"=> $value->user_id,
+                "currency"=> $value->currency,
+                "bank_code"=> $value->bank_code,
+                "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                "paid_at"=> $value->paid_at,
+                "payment_chanel"=> $value->payment_chanel,
+                "status"=> getstatus($value->status),
+                "created_at"=> $value->created_at,
+                "updated_at"=> $value->updated_at,
+                "payment_method"=> $value->payment_method,
+                "payment_picture"=> $value->payment_picture,
+                "invoice_number"=> $value->transaction->invoice_number,
+                "product_id"=> $value->transactionitem->product_id,
+                "product_image"=> getimage($value->transactionitem->product_id),
+                "product_name"=> $value->transactionitem->product_name,
+            ];
         }
 
         $paymentproses = Payment::with(['transaction','transactionitem'])
                    ->where('user_id', $profile->id)
-                   ->where('status', 1)
+                   ->whereBetween('status', [1,2])
                    ->orderBy('created_at','DESC')->get();
+
         $diprosespenjual=[];
         foreach ($paymentproses as $key => $value) {
-           $diprosespenjual[]=[
-            "transaction_id"=> $value->transaction_id,
-            "user_id"=> $value->user_id,
-            "currency"=> $value->currency,
-            "bank_code"=> $value->bank_code,
-            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "paid_at"=> $value->paid_at,
-            "payment_chanel"=> $value->payment_chanel,
-            "status"=> getstatus($value->status),
-            "created_at"=> $value->created_at,
-            "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment_method,
-            "payment_picture"=> $value->payment_picture,
-            "invoice_number"=> $value->transaction->invoice_number,
-            "product_id"=> $value->transactionitem->product_id,
-            "product_image"=> getimage($value->transactionitem->product_id),
-            "product_name"=> $value->transactionitem->product_name,
+            if ($value->status == 0){
+                $stat = "Waiting Payment";    
+            }else if ($value->status == 1){
+                $stat = "In Process";
+            }else if ($value->status == 2){
+                if ($value->transaction->status == 1) {
+                    $stat = "In Process";
+                }
+            }else if ($value->status == 99){
+                $stat = "Cancel";
+            }else {
+                $stat = "Unknown";
+            }
 
-           ];
+            if ($value->status == 1){
+                $diprosespenjual[]=[
+                    "transaction_id"=> $value->transaction_id,
+                    "user_id"=> $value->user_id,
+                    "currency"=> $value->currency,
+                    "bank_code"=> $value->bank_code,
+                    "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                    "paid_at"=> $value->paid_at,
+                    "payment_chanel"=> $value->payment_chanel,
+                    "status"=> $stat,
+                    "created_at"=> $value->created_at,
+                    "updated_at"=> $value->updated_at,
+                    "payment_method"=> $value->payment_method,
+                    "payment_picture"=> $value->payment_picture,
+                    "invoice_number"=> $value->transaction->invoice_number,
+                    "product_id"=> $value->transactionitem->product_id,
+                    "product_image"=> getimage($value->transactionitem->product_id),
+                    "product_name"=> $value->transactionitem->product_name,
+                ];
+            }else if($value->status == 2){
+                if ($value->transaction->status == 1) {
+                    $diprosespenjual[]=[
+                        "transaction_id"=> $value->transaction_id,
+                        "user_id"=> $value->user_id,
+                        "currency"=> $value->currency,
+                        "bank_code"=> $value->bank_code,
+                        "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                        "paid_at"=> $value->paid_at,
+                        "payment_chanel"=> $value->payment_chanel,
+                        "status"=> $stat,
+                        "created_at"=> $value->created_at,
+                        "updated_at"=> $value->updated_at,
+                        "payment_method"=> $value->payment_method,
+                        "payment_picture"=> $value->payment_picture,
+                        "invoice_number"=> $value->transaction->invoice_number,
+                        "product_id"=> $value->transactionitem->product_id,
+                        "product_image"=> getimage($value->transactionitem->product_id),
+                        "product_name"=> $value->transactionitem->product_name,
+                    ];
+                }
+            }            
         }
 
         // return $paymentproses;
@@ -193,27 +249,54 @@ class TransactionController extends Controller
 
         $dikirim=[];
         foreach ($diterima as $key => $value) {
-           $dikirim[]=[
-            "transaction_id"=> $value->id,
-            "user_id"=> $value->user_id,
-            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-            "currency"=> $value->payment->payment,
-            "bank_code"=> $value->payment->bank_code,
-            "paid_at"=> $value->payment->paid_at,
-            "payment_chanel"=> $value->payment->payment_chanel,
-            "status"=> getstatus($value->status),
-            "created_at"=> $value->created_at,
-            "updated_at"=> $value->updated_at,
-            "payment_method"=> $value->payment->payment_method,
-            "payment_picture"=> $value->payment->payment_picture,
-            "invoice_number"=> $value->invoice_number,
-            "product_id"=> $value->item[0]->product_id,
-            "product_image"=> getimage($value->item[0]->product_id),
-            "product_name"=> $value->item[0]->product_name,
-
-           ];
+            $dikirim[]=[
+                "transaction_id"=> $value->id,
+                "user_id"=> $value->user_id,
+                "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                "currency"=> $value->payment->payment,
+                "bank_code"=> $value->payment->bank_code,
+                "paid_at"=> $value->payment->paid_at,
+                "payment_chanel"=> $value->payment->payment_chanel,
+                "status"=> getstatus($value->status),
+                "created_at"=> $value->created_at,
+                "updated_at"=> $value->updated_at,
+                "payment_method"=> $value->payment->payment_method,
+                "payment_picture"=> $value->payment->payment_picture,
+                "invoice_number"=> $value->invoice_number,
+                "product_id"=> $value->item[0]->product_id,
+                "product_image"=> getimage($value->item[0]->product_id),
+                "product_name"=> $value->item[0]->product_name,
+            ];
         }
-        return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim,]);
+
+        $cancel = MstTransaction::with(['payment','item'])
+                   ->where('user_id', $profile->id)
+                   ->where('status', 99)
+                   ->orderBy('created_at','DESC')->get();        
+
+        $cancel_list=[];
+        foreach ($cancel as $key => $value) {
+            $cancel_list[]=[
+                "transaction_id"=> $value->id,
+                "user_id"=> $value->user_id,
+                "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                "currency"=> $value->payment->payment,
+                "bank_code"=> $value->payment->bank_code,
+                "paid_at"=> $value->payment->paid_at,
+                "payment_chanel"=> $value->payment->payment_chanel,
+                "status"=> getstatus($value->status),
+                "created_at"=> $value->created_at,
+                "updated_at"=> $value->updated_at,
+                "payment_method"=> $value->payment->payment_method,
+                "payment_picture"=> $value->payment->payment_picture,
+                "invoice_number"=> $value->invoice_number,
+                "product_id"=> $value->item[0]->product_id,
+                "product_image"=> getimage($value->item[0]->product_id),
+                "product_name"=> $value->item[0]->product_name,
+            ];
+        }
+
+        return view('frontEnd.transaction.transactionlist',['listpesanan'=>$listpesanan,'menunggupembayaran'=>$menunggupembayaran,'diprosespenjual'=>$diprosespenjual,'sedangdikirim'=>$sedangdikirim,'dikirim'=>$dikirim, 'dibatalkan' => $cancel_list]);
     }
 
     /**
@@ -234,6 +317,9 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta');
+        $date=Carbon::now()->format('Y-m-d H:i:s');
+
         if ($request->hasFile('transfer_img')) {
 
            $image = $request->file('transfer_img');
@@ -243,6 +329,7 @@ class TransactionController extends Controller
            $tr_image = Payment::where('transaction_id',$request->tr_id)->first();
            $tr_image->payment_picture = $image_name;
            $tr_image->status = 1;
+           $tr_image->paid_at = $date;
            $tr_image->save();
           
         }else {
@@ -276,10 +363,18 @@ class TransactionController extends Controller
                     ->where('id', $id)
                     ->orderBy('created_at','DESC')
                     ->first();
+
+        $paid_at = $payment['payment']['paid_at'];
+
+        $get_transaction = TransactionItem::where('transaction_id', $id)->first();
+        $get_product = MstProduct::where('id', $get_transaction->product_id)->first();
+        $get_company_seller = MstCompany::where('id', $get_product->company_id)->first();  
+        $get_company_seller_name = $get_company_seller->company_name;              
+
         if ($payment->payment_chanel=='tunai') {
              $getrek ='';
         } else {
-            $getrek = MstRekening::where('company_id', $payment->company_id)->where('bank_code',$payment->payment->bank_code)
+            $getrek = MstRekening::where('company_id', $get_company_seller->id)->where('bank_code',$payment->payment->bank_code)
             ->first();
         }
 
@@ -297,9 +392,7 @@ class TransactionController extends Controller
 
         $expected_ammount='Rp '. number_format((float)$payment->expected_ammount, 0, ',', '.');
 
-        return view('frontEnd.transaction.transactiondetail', ['listpesanan' => $listpesanan,'payment'=>$payment,'getrek'=>$getrek,'expected_ammount'=>$expected_ammount]);       
-
-
+        return view('frontEnd.transaction.transactiondetail', ['listpesanan' => $listpesanan,'payment'=>$payment,'getrek'=>$getrek,'expected_ammount'=>$expected_ammount, 'seller_company' => $get_company_seller_name, 'paid_at' => $paid_at]);
     }
 
     /**
