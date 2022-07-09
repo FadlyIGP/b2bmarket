@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\MstCompany;
 use App\Models\MstTransaction;
+use App\Models\StockProduct;
 use App\Models\TransactionItem;
 use App\Models\TransactionHistory;
 use App\Models\UserMitra;
@@ -52,12 +53,11 @@ class TransactionController extends Controller
         /*End*/
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $transaction = MstTransaction::select('mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name',
-                'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 'payment.id as id_payment')
+        $transaction = MstTransaction::select('mst_transaction.id', 'mst_transaction.invoice_number', 'user_mitra.name', 'mst_company.company_name', 'mst_transaction.status', 'mst_transaction.expected_ammount', 'mst_transaction.created_at', 'payment.id as id_payment')
             ->join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
             ->join('user_mitra', 'user_mitra.id', '=', 'mst_transaction.user_id')
             ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
-            ->where('mst_transaction.company_id', $profile->company_id)
+            // ->where('mst_transaction.company_id', $profile->company_id)
             ->get();       
 
         $transactionlist = [];
@@ -272,6 +272,15 @@ class TransactionController extends Controller
         $msttransaction->status = 99; /*Cancel Order*/
         $msttransaction->cancel_reason = $request->cancelreason;
         $msttransaction->save();
+
+        $TransactionItem = TransactionItem::where('transaction_id', $request->recidtrans)->get();
+
+        foreach ($TransactionItem as $key => $value) {
+            /*Update Stock Product*/
+           $StockProduct = StockProduct::where('product_id', $value->product_id)->first();
+           $StockProduct->qty = $StockProduct->qty + $value->product_qty;
+           $StockProduct->save();
+        }
 
         $TransactionHist = new TransactionHistory;
         $TransactionHist->transaction_id    = $request->recidtrans;

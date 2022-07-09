@@ -153,6 +153,7 @@ class PaymentController extends Controller
         }
       
         $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $company = MstCompany::where('id', $profile->company_id)->first();
         $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
         $chekedcart = Cart::with('product','image')->where('user_id', $profile->id)->where('status', 1)->get();
 
@@ -160,7 +161,8 @@ class PaymentController extends Controller
         $trasaction->invoice_number = $this->invoice_number;
         // $trasaction->payment_chanel = $request->payment_method;
         $trasaction->user_id = $profile->id; 
-        $trasaction->company_id = $chekedcart[0]->company_id;  
+        // $trasaction->company_id = $chekedcart[0]->company_id;  
+        $trasaction->company_id = $company->id;
         $trasaction->invoice_number = $this->invoice_number;
         $trasaction->status = 0;
         $trasaction->address_id = $address->id;
@@ -199,6 +201,11 @@ class PaymentController extends Controller
 
         foreach ($dataitems as $key => $value) {
            TransactionItem::create($value);
+
+           /*Update Stock Product*/
+           $StockProduct = StockProduct::where('product_id', $value['product_id'])->first();
+           $StockProduct->qty = $StockProduct->qty - $value['product_qty'];
+           $StockProduct->save();
         }
 
         $trasactionitem = new TransactionHistory();  

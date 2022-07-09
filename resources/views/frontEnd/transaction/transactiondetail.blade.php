@@ -57,6 +57,22 @@
 			   {{$getrek->rek_number}} 
 			</td>
 		</tr>
+        <tr>
+            <td width="50%">
+                Account Bank Name
+            </td>
+            <td width="50%">
+               {{$seller_company}} 
+            </td>
+        </tr>
+        <tr>
+            <td width="50%">
+                Paid Date
+            </td>
+            <td width="50%">
+               {{$paid_at}} 
+            </td>
+        </tr>
         @endif()
 	</tbody>
 </table>
@@ -103,4 +119,10 @@
         Note: Harap siapkan uang sebesar  {{$expected_ammount}} ....
     </span>
 @endif()
+
+<!-- <div class="modal-footer"> 
+    <a class="btn btn-default buttonaddress" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+        Close
+    </a>
+</div>  -->
 
