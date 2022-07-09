@@ -128,150 +128,68 @@ List Products
                                   <td width="5%">{{$list['counting']}} x</td>
 
                                   <td width="10%">
-                                    {!! Form::open(['url'=>url('/products/edit_history',$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
-                                    <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['id'] }}" data-target="#exampleModal" title="View Send Offering">
+{{--                                     {!! Form::open(['url'=>url('/products/edit_history',$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                    <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Send Offering">
                                       <span style="font-family: 'Helvetica Neue';color: white">
                                         <b>
                                           Send Offering
                                         </b>
                                       </span>
                                     </button>
-                                    {{-- {!! Form::open() !!} --}}
-                                    {{-- <a href="{{ url('/products/edit_history',$list['id']) }}" title="Modify Bank" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal"> --}}
+                                     {!! Form::close()!!} --}}
 
-                                     {{--  <span>Send Offering</span>
-                                    </a> --}}
+                                     {!! Form::open(['url'=>url('/products/edit_history',$list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:0px']) !!}
+                                     <button class="buttonaddress" id="modal1" data-toggle="modal" data-id="{{ $list['id'] }}" title="View Detail">
+                                      <span style="font-family: 'Helvetica Neue';color: white">
+                                        <b>
+                                          Send Offering
+                                        </b>
+                                      </span>
+                                    </button>
+                                    {!! Form::close() !!}
 
-                                    {!! Form::close()!!}
-                                  </td>
-                                </tr>
-                                @endforeach()
-                              </tbody>
-                            </table>    
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Create Offering</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="box-body">
-                          {{-- {!! Form::open(['url'=>url('/edit_history'),'method'=>'POST', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!} --}}
-
-                          {!! Form::open(['url'=>url('/products/update_history', $list['id']), 'method'=>'PUT', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off']) !!}
-
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <div class="col-md-12">
-                                <div class="col-md-12">
-                                  <div class="row">
-                                    <div class="col-md-3">
-                                      {!! Form::label('Title:', '') !!}
-                                    </div>
-                                    <div class="col-md-9">
-                                      <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                        <input type="hidden" class="form-control  has-feedback  " id="id" name="id" value="{{$list['id']}}">
-                                        {{-- <input type="text" class="form-control  has-feedback  " id="buyer_id" name="buyer_id" value="{{$list['buyer_id']}}"> --}}
-                                        <input type="text" class="form-control  has-feedback  " value="" id="title" name="title" required>
-                                      </div>    
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <div class="col-md-12">
-                                <div class="col-md-12">
-                                  <div class="row">
-                                    <div class="col-md-3">
-                                      {!! Form::label('Deskripsi:', '') !!}
-                                    </div>
-                                    <div class="col-md-9">
-                                      <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                        <input type="text" class="form-control  has-feedback  " value="" id="descriptions" name="descriptions" required>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <div class="col-md-12">
-                                <div class="col-md-12">
-                                  <div class="row">
-                                    <div class="col-md-3">
-                                      {!! Form::label('Offering Price:', '') !!}
-                                    </div>
-                                    <div class="col-md-9">
-                                      <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                        <input type="number" class="form-control  has-feedback  " value="" id="price_offering" name="price_offering" required>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <div class="col-md-12">
-                                <div class="col-md-12">
-                                  <div class="row">
-                                    <div class="col-md-3">
-                                      {!! Form::label('Quotation Price:', '') !!}
-                                    </div>
-                                    <div class="col-md-9">
-                                      <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
-                                        <input type="number" class="form-control  has-feedback  " value="" id="price_quotation" name="price_quotation" required>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="form-group">
-                              <div class="col-md-12">
-                                <div class="col-md-12">
-                                 {{-- <button type="button" href="{{ url('/offeringproducts/add_offer')}}" class="btn btn-warning">Send</button> --}}
-
-                                 {!! Form::submit('Send', ['class'=>'btn btn-default','style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
-
-                                 {{-- <button type="button" href="{{ url('/products/history_edit',$list['id']) }}" class="btn btn-warning">Send</button> --}}
-                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                               </div>
-                             </div>
+                                   </td>
+                                 </tr>
+                                 @endforeach()
+                               </tbody>
+                             </table>    
                            </div>
                          </div>
-                     {!! Form::close() !!}
                        </div>
                      </div>
                    </div>
                  </div>
                </div>
-             </div>
 
 
-              @endsection
+               @endsection
 
-              @push('scripts')
-              <script>
+               <!-- Modal Transaction Item -->
+               <div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border-radius: 20px">
+                <div class="modal-dialog" role="document" style="border-radius: 20px">
+                  <div class="modal-content">
+                    <div class="modal-header" style="background-color: ">   
+                      <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
+                       <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
+                       Create Offering
+                     </span>    
+                   </div>
+                   <div class="modal-body" id="body-item">
+                    <!--Include showitem.blade.php here -->
+                  </div>              
+                  <div class="modal-footer"> 
+
+                    <a class="btn btn-default buttonaddress" id="hide" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                      Close
+                    </a>
+                  </div> 
+                </div>
+              </div>
+            </div>
+
+               @push('scripts')
+               <script>
   //**datatable**//
   $(document).ready( function () {
     $('#table_id').DataTable({
@@ -321,19 +239,19 @@ List Products
 
 <script>
   $('tbody').on('click','#modal1', function(e){
-        e.preventDefault();
+    e.preventDefault();
 
-        const id = $(this).attr('data-id');
-        $.ajax({
-            url: '/products/edit_history/' + id,                     
-            dataType: 'html',
-            success: function(response){
-                $('#body-item').html(response);
-            }
-        });
-
-        $('#detailItem').modal('show');
-
+    const id = $(this).attr('data-id');
+    $.ajax({
+      url: '/products/edit_history/' + id,                     
+      dataType: 'html',
+      success: function(response){
+        $('#body-item').html(response);
+      }
     });
+
+    $('#detailItem').modal('show');
+
+  });
 </script>
 @endpush
