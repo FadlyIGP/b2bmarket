@@ -201,7 +201,7 @@
     <title>JualinAja</title>
 
     <!-- Bootstrap core CSS -->
-    <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+    <!-- <link type="text/css" rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}"> -->
 
     <link href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
 
