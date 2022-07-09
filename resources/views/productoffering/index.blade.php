@@ -71,7 +71,7 @@ List Contract
         <div class="modal-content">
             <div class="modal-header" style="background-color: #00c0ef">   
                 <h4 class="modal-title" style="color: white;">
-                  <i class="fa fa-list"></i> Transaction Item
+                  <i class="fa fa-list"></i>Update Price
                     <!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <div class="pull-right" style="color: white;">x</div>
                     </button> -->
