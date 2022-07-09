@@ -53,7 +53,11 @@
                 <p>Date &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ date("d/m/Y", strtotime($list['created_at'])) }}</p>
                 <p>Method &nbsp;: {{ $list['payment_method'] }}</p>
                 @if ($list['payment_method'] == 'transfer')
-                    <p>Paid At &nbsp;&nbsp; : {{ date("d/m/Y H:m:s", strtotime($list['paid_at'])) }}</p>
+                    @if ($list['paid_at'] != NULL)
+                        <p>Paid At &nbsp;&nbsp; : {{ date("d/m/Y H:m:s", strtotime($list['paid_at'])) }}</p>
+                    @else
+                        <p>Paid At &nbsp;&nbsp; : </p>
+                    @endif
                 @else
                     <p>Paid At &nbsp;&nbsp; : </p>
                 @endif
