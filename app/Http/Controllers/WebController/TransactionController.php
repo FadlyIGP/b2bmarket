@@ -47,17 +47,17 @@ class TransactionController extends Controller
 
         function getstatus($status){
            if ($status==0) {
-               $statuspayment='Menunggu Pembayaran';
+               $statuspayment='Waiting Payment';
            } elseif($status==1) {
-               $statuspayment='Diproses Penjual';
+               $statuspayment='In Process';
                
            }elseif($status==2) {
-               $statuspayment='Sedang Dikirim';
+               $statuspayment='On Delivery';
                
            }elseif($status==3) {
-               $statuspayment='Diterima';
+               $statuspayment='Received';
            }elseif($status==99){
-               $statuspayment='Dibatalkan';
+               $statuspayment='Cancle';
            }else{
                $statuspayment='Unknown';
            }
@@ -234,6 +234,9 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+        date_default_timezone_set('Asia/Jakarta');
+        $date=Carbon::now()->format('Y-m-d H:i:s');
+
         if ($request->hasFile('transfer_img')) {
 
            $image = $request->file('transfer_img');
@@ -243,6 +246,7 @@ class TransactionController extends Controller
            $tr_image = Payment::where('transaction_id',$request->tr_id)->first();
            $tr_image->payment_picture = $image_name;
            $tr_image->status = 1;
+           $tr_image->paid_at = $date;
            $tr_image->save();
           
         }else {

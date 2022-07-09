@@ -5,7 +5,6 @@ namespace App\Http\Controllers\WebController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MstProduct;
-use App\Models\Cart;
 use App\Models\UserMitra;
 use App\Models\ImgProduct;
 use App\Models\MstCompany;
@@ -13,6 +12,8 @@ use App\Models\Address;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 use GuzzleHttp\Client;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 
 class AddressController extends Controller
@@ -24,39 +25,6 @@ class AddressController extends Controller
      */
     public function index()
     {
-        //
-        // try {
-           // $client = new \GuzzleHttp\Client();
-           // $url = 'https://dev.farizdotid.com/api/daerahindonesia/provinsi';
-           // $request = $client->get($url);
-           // $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', ['debug' => true]);
-
-            $client = new \GuzzleHttp\Client();
-            $responseprovinsi = $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-            ]);
-            //provinsidetail https://dev.farizdotid.com/api/daerahindonesia/provinsi/32
-           $dataprovinsi = json_decode($responseprovinsi->getBody(), true);
-           $provinsi= $dataprovinsi;
-
-
-            $responseprovinsi = $client->request('GET', 'https://dev.farizdotid.com/api/daerahindonesia/provinsi', [
-                    'headers' => [
-                        'Accept' => 'application/json'
-                    ]
-            ]);
-            //provinsidetail https://dev.farizdotid.com/api/daerahindonesia/provinsi/32
-            $dataprovinsi = json_decode($responseprovinsi->getBody(), true);
-            $provinsi= $dataprovinsi;
-
-           // return $provinsi;
-
-        //    $responsedata = [
-        //     'message' =>"Status"." ".$data['status']
-        // ];
-
          
     }
 
@@ -82,23 +50,32 @@ class AddressController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         // $getprodiuctdata = MstProduct::where('id', $request->product_id)->first();
         // return $getprodiuctdata;
-        $cart = new Address;
-        $cart->name = $request->name;
-        $cart->user_id = $profile->id;
-        $cart->company_id = $profile->company_id;
-        $cart->contact = $request->contact;
-        $cart->provinsi =$request->provinsi;
-        $cart->kabupaten = $request->kabupaten;
-        $cart->kecamatan = $request->kecamatan;
-        $cart->kelurahan = $request->kelurahan;
-        $cart->complete_address = $request->komplit;
-        $cart->patokan = $request->patokan;
-        $cart->postcode = $request->kodepost;
-        $cart->primary_address = $request->prmary;
-        $cart->save();
-        $message='Berhasil menambahkan alamat';
+        $address = new Address;
+        $address->name = $request->name;
+        $address->user_id = $profile->id;
+        $address->company_id = $profile->company_id;
+        $address->contact = $request->contact;
+        $address->provinsi =$request->provinsi;
+        $address->kabupaten = $request->kabupaten;
+        $address->kecamatan = $request->kecamatan;
+        $address->kelurahan = $request->kelurahan;
+        $address->complete_address = $request->komplit;
+        $address->patokan = $request->patokan;
+        $address->postcode = $request->kodepost;
+        $address->primary_address = $request->prmary;
+        $address->save();
+        $message='Succes add new address';
 
-        return \Redirect::back()->withErrors(['message' => $message]);
+        if ($address) {
+            Alert::success('Success', 'Successfully add address.');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
+
+        // return \Redirect::back()->withErrors(['message' => $message]);
       
     }
 

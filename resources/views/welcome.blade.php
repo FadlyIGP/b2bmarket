@@ -274,7 +274,7 @@ a.menu:hover {
     <div class="col-lg-12 align-self-center show-up header-text">
       <div class="row">
         <div style="overflow-x:auto;">
-          <table class="table" width="100%">
+          {{-- <table class="table" width="100%">
             <tr>
               <td width="25%" style="font-size: 12px">
                 <a href="#"  style="color: black">
@@ -301,7 +301,7 @@ a.menu:hover {
 
               </td>
             </tr>
-          </table>
+          </table> --}}
         </div>
       </div>
     </div>
@@ -314,7 +314,7 @@ a.menu:hover {
     <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
      <div class="col-lg-6">
       <div class="div">
-        <h4><a style="color: #424242;" href="#">Terlaris</a></h4>
+        <h4><a style="color: #424242;" href="#">Best Seller</a></h4>
       </div>
       <div class="heading1"></div>
     </div>
@@ -329,16 +329,16 @@ a.menu:hover {
         <center>
          <div class="product-rating">
           <i class="fa fa-star" style="color: red"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star" style="color: red"></i>
           <i class="fa fa-star"></i>
         </div>
       </center>
       <div class="heading1"></div>
       <div style="display: flex;">
         <div class="" id="test">
-          <span style="color: #ed2114; font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+          <span style="color: #ed2114; font-size: 12px;"><b> {{ $list['product_price'] }}</b></span>
         </div>
         <div class="" id="test">
           <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
@@ -382,7 +382,7 @@ a.menu:hover {
     <div class="about-us" style="padding-bottom: 15px;margin-top: -10px;">
      <div class="col-lg-6">
       <div class="div">
-        <h4><a style="color: #424242;" href="#">Terbaru</a></h4>
+        <h4><a style="color: #424242;" href="#">Latest</a></h4>
       </div>
       <div class="heading1"></div>
     </div>
@@ -397,16 +397,16 @@ a.menu:hover {
         <center>
          <div class="product-rating">
           <i class="fa fa-star" style="color: red"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
-          <i class="fa fa-star"></i>
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star" style="color: red"></i>
+          <i class="fa fa-star" style="color: red"></i>
           <i class="fa fa-star"></i>
         </div>
       </center>
       <div class="heading1"></div>
       <div style="display: flex;">
         <div class="" id="test">
-          <span style="color: #ed2114;font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+          <span style="color: #ed2114;font-size: 12px;"><b> {{ $list['product_price'] }}</b></span>
         </div>
         <div class="" id="test">
           <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>

@@ -147,6 +147,7 @@ class ProductController extends Controller
         $mstprodcuct->wishlist_status       = 0;
         $mstprodcuct->company_id            = $profile->company_id;
         $mstprodcuct->minimum_order         = $request->min_order;
+        $mstprodcuct->price_coret           = $request->price_coret;
         $mstprodcuct->save();
 
         $productstock = new StockProduct;
@@ -186,17 +187,18 @@ class ProductController extends Controller
         $productlisting = [];
         foreach ($productlist as $key => $value) {
             $productlisting[] = [
-                "id"                    => $value->id,
-                "product_name"          => $value->product_name,
-                "product_descriptions"  => $value->product_descriptions,
-                "product_size"          => $value->product_size,
-                "product_price"         => $value->product_price,
-                "product_item"          => $value->product_item,
-                "wishlist_status"       => $value->wishlist_status,
-                "company_id"            => $value->company_id,
-                "created_at"            => $value->created_at,
-                "stock"                 => $value->stock->qty,
-                "image"                 => $this->urlimg . $value->image[0]->img_file,
+                "id" => $value->id,
+                "product_name" => $value->product_name,
+                "product_descriptions" => $value->product_descriptions,
+                "product_size"=> $value->product_size,
+                "product_price"=> $value->product_price,
+                "product_item"=> $value->product_item,
+                "wishlist_status"=> $value->wishlist_status,
+                "company_id"=> $value->company_id,
+                "created_at"=> $value->created_at,
+                "price_coret"=> $value->price_coret,
+                "stock"=> $value->stock->qty,
+                "image"=> $this->urlimg . $value->image[0]->img_file,
             ];
         }
         return view('product.product', ['productlisting' => $productlisting]);
@@ -220,19 +222,20 @@ class ProductController extends Controller
         $category_list = ProdCategory::all();
 
         $productlisting = [
-            "id"                    => $productlist->id,
-            "product_name"          => $productlist->product_name,
-            "product_descriptions"  => $productlist->product_descriptions,
-            "product_size"          => $productlist->product_size,
-            "product_price"         => $productlist->product_price,
-            "product_item"          => $productlist->product_item,
-            "id_category"           => $productlist->product_category_id,
-            "product_category"      => $category_name,
-            'min_order'             => $productlist->minimum_order,
-            "wishlist_status"       => $productlist->wishlist_status,
-            "company_id"            => $productlist->company_id,
-            "created_at"            => $productlist->created_at,
-            "stock"                 => $productlist->stock->qty,
+            "id"=> $productlist->id,
+            "product_name"=> $productlist->product_name,
+            "product_descriptions"=> $productlist->product_descriptions,
+            "product_size"=> $productlist->product_size,
+            "product_price"=> $productlist->product_price,
+            "product_item"=> $productlist->product_item,
+            "id_category"=> $productlist->product_category_id,
+            "product_category"=> $category_name,
+            "min_order" => $productlist->minimum_order,
+            "wishlist_status"=> $productlist->wishlist_status,
+            "company_id"=> $productlist->company_id,
+            "created_at"=> $productlist->created_at,
+            "price_coret"=> $productlist->price_coret,
+            "stock"=> $productlist->stock->qty,
             // "image" => $this->urlimg.$value->image[0]->img_file,
         ];        
 
@@ -253,13 +256,14 @@ class ProductController extends Controller
 
         // $id = base64_decode($id);
         $mstprodcuct = MstProduct::find($id);
-        $mstprodcuct->product_name          = $request->prod_name;
-        $mstprodcuct->product_descriptions  = $request->prod_desc;
-        $mstprodcuct->product_size          = $request->prod_size;
-        $mstprodcuct->product_price         = $request->prod_price;
-        $mstprodcuct->product_item          = $request->prod_item;
-        $mstprodcuct->product_category_id   = $request->prod_category;
-        $mstprodcuct->minimum_order         = $request->min_order;
+        $mstprodcuct->product_name = $request->prod_name;
+        $mstprodcuct->product_descriptions = $request->prod_desc;
+        $mstprodcuct->product_size = $request->prod_size;
+        $mstprodcuct->product_price = $request->prod_price;
+        $mstprodcuct->product_item = $request->prod_item;
+        $mstprodcuct->product_category_id = $request->prod_category;
+        $mstprodcuct->minimum_order = $request->min_order;
+        $mstprodcuct->price_coret = $request->price_coret;
         $mstprodcuct->save();
 
         $productstock = StockProduct::where('product_id', $id)->first();
