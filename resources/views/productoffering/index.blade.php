@@ -15,7 +15,7 @@ List Contract
 	<div class="col-lg-12">
 		<div class="box">
 			<div class="box-header with-border">
-				<a href="{{ url('#') }}" class="btn btn-primary btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Create</a>
+				<a href="{{ url('/offeringproducts/create') }}" class="btn btn-primary btn-xs btn-flat" style="border-radius: 5px"><i class="fa fa-plus-circle"></i>&nbsp; Create</a>
 			</div>
 			<div class="box-body table-responsive">
 				<table class="table table-bordered table-hover" id="table_id" style="width: 100%">
@@ -35,8 +35,8 @@ List Contract
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
                             @foreach($listdata as $list)
+						<tr>
 							<td width="4%"></td>
 							<td>{{$list['title']}}</td>
 							<td>{{$list['buyer_company']}}</td>
@@ -52,8 +52,8 @@ List Contract
                             {{-- <td>{{$list['price_offering']}}</td> --}}
                             {{-- <td>{{$list['price_quotation']}}</td> --}}
                             <td><button>More</button> </td>
-                            @endforeach()
 						</tr>
+                            @endforeach()
 					</tbody>
 				</table>
 			</div>
