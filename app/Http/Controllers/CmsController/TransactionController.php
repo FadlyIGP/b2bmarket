@@ -180,6 +180,12 @@ class TransactionController extends Controller
         $msttransaction->status = $request->radiostat;
         $msttransaction->save();        
 
+        $TransactionHist = new TransactionHistory;
+        $TransactionHist->transaction_id    = $request->idtrans;
+        $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
+        $TransactionHist->status            = 2;
+        $TransactionHist->save();
+
         return redirect()->route('transaction.index')->with('success', 'Successfully Update Status.');
     }    
 
@@ -193,8 +199,9 @@ class TransactionController extends Controller
                 'user_mitra.name', 'mst_company.company_name', 'user_mitra.phone', 
                 'user_mitra.tel_number', 'payment.payment_method', 'payment.payment_picture',
                 'payment.bank_code', 'payment.account_number', 'payment.expected_ammount', 
-                'payment.paid_at', 'payment.created_at', 'payment.currency',
-                'payment.status', 'payment.expiration_date', 'user_mitra.email']);
+                'payment.paid_at', 'payment.created_at', 'payment.currency', 
+                'payment.status', 'payment.expiration_date', 'user_mitra.email',
+                'mst_transaction.status as trans_status']);
 
         if ($payment['status'] == 0){
             $status = 'Waiting Payment';
@@ -224,7 +231,8 @@ class TransactionController extends Controller
             'currency'          => $payment['currency'],
             'status'            => $status,
             'expiration_date'   => $payment['expiration_date'],
-            'buyer_email'       => $payment['email']
+            'buyer_email'       => $payment['email'],
+            'trans_status'      => $payment->trans_status
         ];
        
         return view('transaction.viewpayment', ['payment_list' => $payment_list]);       
@@ -246,14 +254,37 @@ class TransactionController extends Controller
             $TransactionHist = new TransactionHistory;
             $TransactionHist->transaction_id    = $request->recidtrans;
             $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
-            $TransactionHist->status            = 2;
+            $TransactionHist->status            = 1;
             $TransactionHist->save();
 
             return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Success Payment.');
-        }else if ($request->methodpay == 'tunai') {
+        }else if ($request->methodpay == 'tunai') {            
             $msttransaction = MstTransaction::find($request->recidtrans);
-            $msttransaction->status = 1; /*Proccessing*/
-            $msttransaction->save();
+
+            if ($msttransaction->status == 2) {
+                $payment = Payment::find($request->recidpay);
+                $payment->status    = 2; /*Success Payment*/
+                $payment->paid_at   = date("Y-m-d H:m:s");
+                $payment->save();     
+
+                $msttransaction->status = 3; /*Finished*/
+                $msttransaction->save();
+
+                $TransactionHist = new TransactionHistory;
+                $TransactionHist->transaction_id    = $request->recidtrans;
+                $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
+                $TransactionHist->status            = 3;
+                $TransactionHist->save();
+            }else{
+                $msttransaction->status = 1; /*Proccessing*/
+                $msttransaction->save();
+
+                $TransactionHist = new TransactionHistory;
+                $TransactionHist->transaction_id    = $request->recidtrans;
+                $TransactionHist->transaction_date  = date("Y-m-d H:m:s");
+                $TransactionHist->status            = 1;
+                $TransactionHist->save();
+            }            
            
             return redirect()->route('transaction.index')->with('success', 'Successfully Update Status To Proccessing Order.');
         }

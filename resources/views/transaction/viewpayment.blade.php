@@ -13,10 +13,17 @@
           	<input type="text" class="form-control" name="acctno" id="idacctno" value="{{ $payment_list['account_number'] }}" readonly>
         </div> 
         @endif
-        <div class="form-group">          
-          	<label>Bank Name</label>          
-          	<input type="text" class="form-control" name="bankname" id="idbankname" value="{{ $payment_list['bank_code'] }}" readonly>
-        </div> 
+        @if ($payment_list['payment_method'] == "transfer")
+          <div class="form-group">          
+            	<label>Bank Name</label>          
+            	<input type="text" class="form-control" name="bankname" id="idbankname" value="{{ $payment_list['bank_code'] }}" readonly>
+          </div> 
+        @else
+          <div class="form-group">          
+              <label>Bank Name</label>          
+              <input type="text" class="form-control" name="bankname" id="idbankname" value="-" readonly>
+          </div>
+        @endif
         <div class="form-group">          
           	<label>Expected Amount</label>          
           	<input type="text" class="form-control text-bold" name="amount" id="idamount" value="Rp {{ $payment_list['amount'] }}" style="background: #00c0ef;" readonly>
@@ -45,11 +52,11 @@
         </div>  
         @if ($payment_list['payment_method'] == 'transfer')
         <div class="form-group">                    	
-          	<img src="{{ url('/paymentpicture/'.$payment_list['payment_picture']) }}" alt="image" style="width: 100%;">  
+          	<img src="{{ url('/paymentpicture/'.$payment_list['payment_picture']) }}" alt="Image Payment Invoice" style="width: 100%;">  
         </div>    
         @elseif ($payment_list['payment_method'] == 'tunai')  
         <div class="form-group">                      
-            <img src="{{ url('/paymentpicture/method-tunai.jfif') }}" alt="image" style="width: 100%;">  
+            <img src="{{ url('/paymentpicture/method-tunai.jfif') }}" alt="Image Payment Invoice" style="width: 100%;">  
         </div> 
         @endif       
 	</div>
@@ -64,12 +71,22 @@
     <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:170px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Payment & Order</a>
     @endif
 	@else
-		{!! Form::submit('Processing Order', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;']) !!}
-		<!-- <a href="{{ url('/payment/payupdatestatus/cancelled', $payment_list['id']) }}" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:170px;color: white;" onclick="return confirm('Are you sure want to Cancel Payment and Order with Invoice {{ $payment_list['invoice'] }} ?')">Cancel Payment & Order</a> -->
-    <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:100px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Order</a>
+    @if ($payment_list['trans_status'] == 2)
+      {!! Form::submit('Payment Success', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;']) !!}
+  		{!! Form::submit('Processing Order', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#605ca8;border-radius:5px;width:120px;color: white;', 'disabled']) !!}
+      <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:100px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Order</a>
+    @elseif ($payment_list['trans_status'] == 3 OR $payment_list['trans_status'] == 99)
+      {!! Form::submit('Payment Success', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;', 'disabled']) !!}
+      {!! Form::submit('Processing Order', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#605ca8;border-radius:5px;width:120px;color: white;', 'disabled']) !!}
+      <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:100px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}" disabled>Cancel Order</a>    
+    @else
+      {!! Form::submit('Payment Success', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;', 'disabled']) !!}
+      {!! Form::submit('Processing Order', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#605ca8;border-radius:5px;width:120px;color: white;']) !!}
+      <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:100px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Order</a>
+    @endif
 	@endif
     <a class="btn btn-default" id="clearradio" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
-        Cancel
+        Back
     </a>
 </div> 	        
 {!! Form::close() !!}
