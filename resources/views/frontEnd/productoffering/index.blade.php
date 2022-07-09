@@ -57,7 +57,7 @@ table tr {
 
 .buttonaddress {
   display: block;
-  width: 50%;
+  width: 30%;
   height: 30px;
   border: none;
   background-color: #FF4500;
@@ -117,20 +117,10 @@ table tr {
     padding-top: 10px;
  }
 
-/*.input{
-
-}*/
-
-
-input.qtyplus { width:25px; height:25px;}
-input.qtyminus { width:25px; height:25px;}
-
 
 </style>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
 
 @include('sweetalert::alert')
 
@@ -155,14 +145,10 @@ input.qtyminus { width:25px; height:25px;}
 
                         <div class="col-md-12" style="height: 40px;margin-left: 10px;margin-top: 10px">
                         <span style="padding-top:30px">
-                            
                             {{$list['title']}}
-
                         </span>
                         </div>
-                         {{-- <td> --}}
-
-                                        {{-- </td> --}}
+                        
                         <div class="line"></div>
                     </div>
                     <div class="row" style="padding: 10px">
@@ -173,6 +159,7 @@ input.qtyminus { width:25px; height:25px;}
                                     <th width="20%">Product</th>
                                     <th width="10%">Price Offering</th>
                                     <th width="20%">Price Quotation</th>
+                                    <th width="10%">Status</th>
                                     <th width="20%">Action</th>
 
                                 </thead>
@@ -184,7 +171,7 @@ input.qtyminus { width:25px; height:25px;}
                                              <left>
                                         </td>
                                         <td>
-                                           Rp {{$list['product_name']}}
+                                           {{$list['product_name']}}
                                               
                                         </td>
                                        
@@ -194,16 +181,22 @@ input.qtyminus { width:25px; height:25px;}
                                         <td>
                                             {{$list['price_quotation']}}
                                         </td>
+                                         <td>
+                                            {{$list['approval_seller']}}
+                                        </td>
 
                                         <td>
-                                            {!! Form::open(['url'=>url('#'),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
 
-                                                <button type="button" class="buttonaddress" data-bs-toggle="modal" data-bs-target="#myModal">
-                                                    <span>Ajukan</span>
+                                            <button id="modalupdatestat" data-id="{{$list['id']}}" type="button" class="buttonaddress" data-bs-toggle="modal" data-bs-target="#myModal" title="ajukan">
+                                                    <i class="fa-solid fa-money-bill-transfer"></i>
+                                            </button>
+
+                                             {!! Form::open(['url'=>url('offeringprice', $list['id']),'method'=>'GET', 'files'=>'true', 'class'=>'form-horizontal', 'autocomplete'=>'off','style'=>'margin-top:10px']) !!}
+
+                                                <button type="submit" class="buttonaddress" title="Setuju dan lanjutkan belanja">
+                                                    <i class="fa-solid fa-check"></i>
                                                 </button>
                                             {!! Form::close() !!}
-
-                                            
                                         </td>
 
                                     </tr>
@@ -231,17 +224,18 @@ input.qtyminus { width:25px; height:25px;}
 
         <!-- Modal Header -->
         <div class="modal-header">
-          <h4 class="modal-title">Add Address</h4>
+          <h4 class="modal-title">Ajukan Harga</h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
         <!-- Modal body -->
         <div class="modal-body">
-          {!! Form::open(['url'=>url('/profiles/'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
+          {!! Form::open(['url'=>url('/offeringprice/'),'method'=>'POST','files'=>'true','class'=>'form-horizontal','autocomplete'=>'off'])!!}
           <div class="form-group" id="rata">
-            <label class="col-sm-3 control-label">Address Owner</label>
+            <label class="col-sm-3 control-label">Price Quotation</label>
             <div class="col-sm-9">
-              <input type="text" class="form-control" name="name" placeholder="Address Owner" id="name" required>
+              <input type="hidden" name="id" id="recid">
+              <input type="text" class="form-control" name="price_quotation" placeholder="Ajukan Harga" id="price_quotation" required>
             </div>
           </div>
           
@@ -261,7 +255,15 @@ input.qtyminus { width:25px; height:25px;}
 </div>
 
 <script type="text/javascript">
- 
+
+    /* Show Id Transaction */
+    $('tbody').on('click','#modalupdatestat', function(e){
+        e.preventDefault();
+
+        const id = $(this).attr('data-id');
+        document.getElementById('recid').value = id;
+    });
+
 </script>
 
 @endsection  

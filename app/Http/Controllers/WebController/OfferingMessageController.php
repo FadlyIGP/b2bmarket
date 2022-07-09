@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProductOffering;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
+use App\Models\Cart;
 use App\Models\MstProduct;
 use App\Models\User;
 use App\Models\MstCompany;
@@ -13,6 +14,8 @@ use App\Models\UserMitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class OfferingMessageController extends Controller
 {
@@ -55,6 +58,20 @@ class OfferingMessageController extends Controller
             $category=ProdCategory::find($id);
             return $category;
         }
+
+        function statusapproval($status){
+           if ($status==null) {
+               $status='on proggress';
+           } elseif($status==1) {
+               $status='Deal';
+           }else{
+               $status='Un approved';
+
+           }
+
+           return $status;
+           
+        }
     }
     /**
      * Display a listing of the resource.
@@ -86,7 +103,7 @@ class OfferingMessageController extends Controller
                 'price_offering'=> $value->price_offering,
                 'price_quotation'=> $value->price_quotation,
                 'approval_buyer'=> $value->approval_buyer,
-                'approval_seller'=> $value->approval_seller,
+                'approval_seller'=> statusapproval($value->approval_seller),
                 'created_at'=> $value->created_at,
             ];
         }
@@ -113,6 +130,18 @@ class OfferingMessageController extends Controller
     public function store(Request $request)
     {
         //
+        $data=ProductOffering::find($request->id);
+        $data->price_quotation=$request->price_quotation;
+        $data->save();
+
+        if ($data) {
+            Alert::success('Success', 'Success Submit');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
     }
 
     /**
@@ -123,7 +152,37 @@ class OfferingMessageController extends Controller
      */
     public function show($id)
     {
-        //
+
+        $data=ProductOffering::find($id);
+        $data->approval_buyer=1;
+        $data->save();
+
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $getproductdata = MstProduct::where('id', $data->product_id)->first();
+        $getproductoffering=ProductOffering::find($id);
+
+
+        $cart = new Cart;
+        $cart->product_id = $getproductdata->id;
+        $cart->product_qty = $getproductdata->minimum_order;
+        $cart->product_price = $getproductoffering->price_offering;
+        $cart->total_price = $getproductoffering->price_offering * $getproductdata->minimum_order;
+        $cart->status = 0;
+        $cart->user_id = $profile->id;
+        $cart->company_id = $getproductdata->company_id;
+        $cart->save();
+
+        if ($data) {
+            Alert::success('Success', 'Offering has approved');
+            // return back();
+            return redirect()->route('carts.index');
+
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
+
     }
 
     /**
@@ -135,6 +194,18 @@ class OfferingMessageController extends Controller
     public function edit($id)
     {
         //
+         $data=ProductOffering::find($request->id);
+         $data->price_quotation=$request->price_quotation;
+         $data->save();
+
+        if ($data) {
+            Alert::success('Success', 'Success Submit');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
     }
 
     /**
@@ -147,6 +218,7 @@ class OfferingMessageController extends Controller
     public function update(Request $request, $id)
     {
         //
+
     }
 
     /**
