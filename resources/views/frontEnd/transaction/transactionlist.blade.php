@@ -96,7 +96,7 @@
                                     <button id="London-tab" class="tablinks" onclick="openCity(event, 'London')">All Orders</button>
                                     <button id="tab2-tab" class="tablinks" onclick="openCity(event, 'tab2')">Waiting Payments</button>
                                     <button id="tab3-tab" class="tablinks" onclick="openCity(event, 'tab3')">In Process</button>
-                                    <button id="tab4-tab" class="tablinks" onclick="openCity(event, 'tab4')">Ondelivery</button>
+                                    <button id="tab4-tab" class="tablinks" onclick="openCity(event, 'tab4')">On Delivery</button>
                                     <button id="tab5-tab" class="tablinks" onclick="openCity(event, 'tab5')">Finish</button>
                                     <button id="tab6-tab" class="tablinks" onclick="openCity(event, 'tab6')">Cancel Order</button>
                                 </div>

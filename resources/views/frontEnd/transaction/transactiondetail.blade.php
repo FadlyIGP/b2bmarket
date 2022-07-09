@@ -65,14 +65,45 @@
                {{$seller_company}} 
             </td>
         </tr>
-        <tr>
-            <td width="50%">
-                Paid Date
-            </td>
-            <td width="50%">
-               {{$paid_at}} 
-            </td>
-        </tr>
+            @if ($payment->status == 99)
+                <tr>
+                    <td width="50%">
+                        Cancel Date
+                    </td>
+                    <td width="50%">
+                       {{$payment->updated_at}} 
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td width="50%">
+                        Paid Date
+                    </td>
+                    <td width="50%">
+                       {{$paid_at}} 
+                    </td>
+                </tr>
+            @endif        
+        @else
+            @if ($payment->status == 99)
+                <tr>
+                    <td width="50%">
+                        Cancel Date
+                    </td>
+                    <td width="50%">
+                       {{$payment->updated_at}} 
+                    </td>
+                </tr>
+            @else
+                <tr>
+                    <td width="50%">
+                        Paid Date
+                    </td>
+                    <td width="50%">
+                       {{$paid_at}} 
+                    </td>
+                </tr>
+            @endif
         @endif()
 	</tbody>
 </table>
@@ -117,7 +148,7 @@
 @else()
     <span style="color:#FF0000;font-family: 'Helvetica Neue';">
         Note: Harap siapkan uang sebesar  {{$expected_ammount}} ....
-    </span>
+    </span>    
 @endif()
 
 <!-- <div class="modal-footer"> 
