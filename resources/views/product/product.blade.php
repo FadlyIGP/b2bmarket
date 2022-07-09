@@ -171,8 +171,8 @@ List Products
                   <div class="modal-content">
                     <div class="modal-header" style="background-color: ">   
                       <span class="modal-title" style="color:;font-family: 'Helvetica Neue'"> 
-                       <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;"> 
-                       Create Offering
+                       {{-- <img src="{{ asset('assets/images/online-shopping.png') }}" alt="Back to homepage" routerlink="main" class="responsive" tabindex="0" ng-reflect-router-link="main" style="width: 10%;">  --}}
+                       Send Offering Product
                      </span>    
                    </div>
                    <div class="modal-body" id="body-item">
