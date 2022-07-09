@@ -11,6 +11,7 @@ use App\Http\Controllers\WebController\{
     WishlistController,
     PaymentController,
     TransactionController,
+    OfferingMessageController,
 };
 
 use App\Http\Controllers\Auth\{
@@ -78,6 +79,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/payments', PaymentController::class);
     // transactions
     Route::resource('/transactions', TransactionController::class);
+    // message
+    Route::resource('/offeringprice', OfferingMessageController::class);
+
+    
 
 });
 
