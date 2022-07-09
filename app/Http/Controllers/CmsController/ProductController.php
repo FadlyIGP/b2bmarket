@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MstProduct;
 use App\Models\ProdCategory;
+use App\Models\ProductOffering;
 use App\Models\ImgProduct;
 use App\Models\User;
 use App\Models\StockProduct;
@@ -107,6 +108,7 @@ class ProductController extends Controller
                 'created_at'=>$value->created_at,
             ];
         }
+        // return $history;
 
 
         return view('product.product', ['productlisting' => $productlisting,'history'=>$history]);
@@ -371,4 +373,45 @@ class ProductController extends Controller
 
         // return view('product.product', ['productlisting' => $productlisting]);
     }
+
+    public function edit_history($id){
+        $producthistory = ProductHistory::where('id', $id)->first();
+        return $producthistory; 
+
+        $productlist=[];
+        foreach ($producthistory as $key => $value) {
+            $productlist[]=[
+                "id"           => $producthistory->id,
+                "buyer_id"     => $producthistory->user_id,
+                "product_id"   => $producthistory->product_id
+            ];
+        }  
+
+
+        return view('product.product', ['productlist'=>$productlist]);      
+
+        // return dd($productlisting->toJson(200, [], JSON_UNESCAPED_SLASHES));
+        // return view('product.productedit', ['productlisting' => $productlisting, 'category_list' => $category_list]);
+    }
+
+    public function update_history(Request $request, $id){
+     $profile = UserMitra::where('email', Auth::user()->email)->first();
+     $history = ProductHistory::where('id', $id)->get();
+       // return $history;
+
+     $mstprodoffer = new ProductOffering;
+     $mstprodoffer->title         = $request->title;
+     $mstprodoffer->descriptions  = $request->descriptions;
+     $mstprodoffer->buyer_id      = $history->user_id;    
+     $mstprodoffer->company_id    = $profile->company_id;
+     $mstprodoffer->product_id    = $history->product_id;    
+     $mstprodoffer->price_offering   = $request->price_offering;
+     $mstprodoffer->price_quotation  = $request->price_quotation;
+     $mstprodoffer->save();
+       // return $mstprodoffer;
+
+     return redirect()->route('products.index')->with('success', 'Successfully Update Data Offering.');
+
+ }
+
 }

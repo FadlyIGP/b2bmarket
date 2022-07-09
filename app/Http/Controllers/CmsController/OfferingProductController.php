@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CmsController;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductOffering;
+use App\Models\ProductHistory;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
 use App\Models\MstProduct;
@@ -58,7 +59,7 @@ class OfferingProductController extends Controller
             return $category;
         }
     }
-     
+
     /**
      * Display a listing of the resource.
      *
@@ -71,6 +72,7 @@ class OfferingProductController extends Controller
 
         $data=ProductOffering::where('company_id', $profile->company_id)->get();
 
+        $listdata=[];
         foreach ($data as $key => $value) {
             $listdata[]=[
                 'id'=> $value->id,
@@ -106,12 +108,13 @@ class OfferingProductController extends Controller
      */
     public function create()
     {
-        $productlist=MstProduct::where('company_id', $company_id)->get();
-        $mitra=UserMitra::all();
+     $profile = UserMitra::where('email', Auth::user()->email)->first();
+     $productlist=MstProduct::where('company_id', $profile->company_id)->get();
+     $mitra=UserMitra::all();
 
 
-        return view('productoffering.create',['productlist'=>$productlist,'mitra'=>$mitra]);
-    }
+     return view('productoffering.create',['productlist'=>$productlist,'mitra'=>$mitra]);
+ }
 
     /**
      * Store a newly created resource in storage.
@@ -121,8 +124,21 @@ class OfferingProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+       date_default_timezone_set('Asia/Jakarta'); 
+       $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+       $mstprodoffer = new ProductOffering;
+       $mstprodoffer->title          = $request->title;
+       $mstprodoffer->descriptions  = $request->descriptions;
+       $mstprodoffer->buyer_id          = $request->buyer_id;
+       $mstprodoffer->company_id         = $profile->company_id;
+       $mstprodoffer->product_id          = $request->product_id;
+       $mstprodoffer->price_offering   = $request->price_offering;
+       $mstprodoffer->price_quotation       = $request->price_quotation;
+       $mstprodoffer->save();
+
+       return redirect()->route('offeringproducts.index')->with('success', 'Successfully Add Data.');
+   }
 
     /**
      * Display the specified resource.
