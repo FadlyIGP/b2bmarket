@@ -228,6 +228,8 @@ class CartController extends Controller
     {
 
         $cart = Cart::find($id);
+
+        /* Move To Klik Payment
         if ($request->status==1) {
             $updateqty=StockProduct::where('product_id', $cart->product_id)->first();
             $updateqty->qty -= $cart->product_qty;
@@ -237,7 +239,7 @@ class CartController extends Controller
             $updateqty->qty += $cart->product_qty;
             $updateqty->save();
         }
-        
+        */
          $cart = Cart::find($id);
          $cart->status = $request->status;
          $cart->total_price = $cart->product_qty * $cart->product_price;
