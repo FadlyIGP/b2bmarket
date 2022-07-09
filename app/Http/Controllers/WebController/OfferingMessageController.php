@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\CmsController;
+namespace App\Http\Controllers\WebController;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProductOffering;
-use App\Models\ProductHistory;
 use App\Models\ProdCategory;
 use App\Models\ImgProduct;
+use App\Models\Cart;
 use App\Models\MstProduct;
 use App\Models\User;
 use App\Models\MstCompany;
@@ -17,8 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 
 
-
-class OfferingProductController extends Controller
+class OfferingMessageController extends Controller
 {
 
     public function __construct()
@@ -59,8 +58,21 @@ class OfferingProductController extends Controller
             $category=ProdCategory::find($id);
             return $category;
         }
-    }
 
+        function statusapproval($status){
+           if ($status==null) {
+               $status='on proggress';
+           } elseif($status==1) {
+               $status='Deal';
+           }else{
+               $status='Un approved';
+
+           }
+
+           return $status;
+           
+        }
+    }
     /**
      * Display a listing of the resource.
      *
@@ -71,9 +83,8 @@ class OfferingProductController extends Controller
 
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
-        $data=ProductOffering::where('company_id', $profile->company_id)->get();
+        $data=ProductOffering::where('buyer_id', $profile->id)->get();
 
-        $listdata=[];
         foreach ($data as $key => $value) {
             $listdata[]=[
                 'id'=> $value->id,
@@ -92,14 +103,12 @@ class OfferingProductController extends Controller
                 'price_offering'=> $value->price_offering,
                 'price_quotation'=> $value->price_quotation,
                 'approval_buyer'=> $value->approval_buyer,
-                'approval_seller'=> $value->approval_seller,
+                'approval_seller'=> statusapproval($value->approval_seller),
                 'created_at'=> $value->created_at,
             ];
         }
         // return $listdata;
-        return view('productoffering.index', ['listdata' => $listdata]);
-
-
+        return view('frontEnd.productoffering.index', ['listdata' => $listdata]);
     }
 
     /**
@@ -109,13 +118,8 @@ class OfferingProductController extends Controller
      */
     public function create()
     {
-     $profile = UserMitra::where('email', Auth::user()->email)->first();
-     $productlist=MstProduct::where('company_id', $profile->company_id)->get();
-     $mitra=UserMitra::all();
-
-
-     return view('productoffering.create',['productlist'=>$productlist,'mitra'=>$mitra]);
- }
+        //
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -125,30 +129,20 @@ class OfferingProductController extends Controller
      */
     public function store(Request $request)
     {
-       date_default_timezone_set('Asia/Jakarta'); 
-       $profile = UserMitra::where('email', Auth::user()->email)->first();
+        //
+        $data=ProductOffering::find($request->id);
+        $data->price_quotation=$request->price_quotation;
+        $data->save();
 
-       $mstprodoffer = new ProductOffering;
-       $mstprodoffer->title = $request->title;
-       $mstprodoffer->descriptions = $request->descriptions;
-       $mstprodoffer->buyer_id = $request->buyer_id;
-       $mstprodoffer->company_id = $profile->company_id;
-       $mstprodoffer->product_id = $request->product_id;
-       $mstprodoffer->price_offering = $request->price_offering;
-       // $mstprodoffer->price_quotation       = $request->price_quotation;
-       $mstprodoffer->save();
-
-        if ($mstprodoffer) {
-            Alert::success('Success', 'Success add data');
+        if ($data) {
+            Alert::success('Success', 'Success Submit');
             return back();
         }
         else {
             Alert::error('Failed', 'Failed');
             return back();
         }
-
-       return redirect()->route('offeringproducts.index')->with('success', 'Successfully Add Data.');
-   }
+    }
 
     /**
      * Display the specified resource.
@@ -158,31 +152,36 @@ class OfferingProductController extends Controller
      */
     public function show($id)
     {
-        
-        $value= ProductOffering::find($id);
 
-        $listdata=[
-                'id'=> $value->id,
-                'title'=> $value->title,
-                'descriptions'=> $value->descriptions,
-                'buyer_id'=> $value->buyer_id,
-                'buyer_name'=> users($value->buyer_id)->name,
-                'buyer_company'=> getcompany(users($value->buyer_id)->company_id),
-                'company_id'=> $value->company_id,
-                'company_name'=> getcompany($value->company_id),
-                'product_id'=> $value->product_id,
-                'product_name'=> productlist($value->product_id)->product_name,
-                'product_category'=>prod_category(productlist($value->product_id)->product_category_id)->name,
-                'product_image'=> prod_image($value->product_id),
-                'product_price'=> productlist($value->product_id)->product_price,
-                'price_offering'=> $value->price_offering,
-                'price_quotation'=> $value->price_quotation,
-                'approval_buyer'=> $value->approval_buyer,
-                'approval_seller'=> $value->approval_seller,
-                'created_at'=> $value->created_at,
-            ];
+        $data=ProductOffering::find($id);
+        $data->approval_buyer=1;
+        $data->save();
 
-       return view('productoffering.detail',['listdata'=>$listdata]);
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $getproductdata = MstProduct::where('id', $data->product_id)->first();
+        $getproductoffering=ProductOffering::find($id);
+
+
+        $cart = new Cart;
+        $cart->product_id = $getproductdata->id;
+        $cart->product_qty = $getproductdata->minimum_order;
+        $cart->product_price = $getproductoffering->price_offering;
+        $cart->total_price = $getproductoffering->price_offering * $getproductdata->minimum_order;
+        $cart->status = 0;
+        $cart->user_id = $profile->id;
+        $cart->company_id = $getproductdata->company_id;
+        $cart->save();
+
+        if ($data) {
+            Alert::success('Success', 'Offering has approved');
+            // return back();
+            return redirect()->route('carts.index');
+
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
 
     }
 
@@ -195,6 +194,18 @@ class OfferingProductController extends Controller
     public function edit($id)
     {
         //
+         $data=ProductOffering::find($request->id);
+         $data->price_quotation=$request->price_quotation;
+         $data->save();
+
+        if ($data) {
+            Alert::success('Success', 'Success Submit');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
     }
 
     /**
@@ -207,36 +218,6 @@ class OfferingProductController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $value= ProductOffering::find($id);
-        $value->price_quotation=$request->price_quotation;
-        $value->save();
-
-         if ($value) {
-            Alert::success('Success', 'Success update proce');
-            return back();
-        }
-        else {
-            Alert::error('Failed', 'Failed');
-            return back();
-        }
-
-    }
-
-    public function approved(Request $request, $id)
-    {
-        //
-        $value= ProductOffering::find($id);
-        $value->approval_seller=1;
-        $value->save();
-
-         if ($value) {
-            Alert::success('Success', 'Data approved');
-            return back();
-        }
-        else {
-            Alert::error('Failed', 'Failed');
-            return back();
-        }
 
     }
 

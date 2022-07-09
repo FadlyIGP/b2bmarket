@@ -87,7 +87,7 @@ Offering Product
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                   {{--  <div class="form-group">
                                         <div class="col-md-12">
                                             <div class="col-md-12">
                                                 {!! Form::label('Quotation Price:', '') !!}
@@ -97,7 +97,7 @@ Offering Product
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <div class="col-md-12">
