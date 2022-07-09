@@ -25,14 +25,14 @@ class ProductOffering extends Model
 
     ];
 
-    // public function user() 
-    // {
-    //     return $this->hasOne(UserMitra::class, 'id','buyer_id');
-    // }
+    public function user() 
+    {
+        return $this->hasOne(UserMitra::class, 'id','buyer_id');
+    }
 
-    // public function product() 
-    // {
-    //     return $this->hasOne(MstProduct::class, 'id','product_id');
-    // }
+    public function product() 
+    {
+        return $this->hasOne(MstProduct::class, 'id','product_id');
+    }
 }
 
