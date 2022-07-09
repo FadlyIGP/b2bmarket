@@ -371,25 +371,6 @@ class ProductController extends Controller
     }
 
     public function edit_history($id){
-        // $producthistory=ProductHistory::where('company_id', $profile->company_id)->get();
-
-        // $history=[];
-        // foreach ($producthistory as $key => $value) {
-        //     $history[]=[
-        //         'id'=>$value->id,
-        //         'buyer_id'=>$value->user_id,
-        //         'buyer_company'=>getcompany(users($value->user_id)->company_id),
-        //         'buyer_name'=>users($value->user_id)->name,
-        //         'product_id'=>$value->product_id,
-        //         'product_name'=>productlist($value->product_id)->product_name,
-        //         'product_image'=>prod_image($value->product_id),
-        //         'company_id'=>$value->company_id,
-        //         'counting'=>$value->counting,
-        //         'created_at'=>$value->created_at,
-        //     ];
-        // }  
-
-
         $producthistory = ProductHistory::where('id', $id)->first();
         return $producthistory; 
 

@@ -91,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('products/edit/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit']);
     Route::get('products/delete/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'destroy']);
 
-    Route::get('products/edit_history', [App\Http\Controllers\CmsController\ProductController::class, 'edit_history']);
+    Route::get('products/edit_history/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'edit_history']);
     Route::put('products/update_history/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'update_history']);
 
     // Route::get('products/edit/image/{id}', [App\Http\Controllers\CmsController\ProductController::class, 'editImage']);
