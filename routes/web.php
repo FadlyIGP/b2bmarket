@@ -150,5 +150,6 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::resource('/offeringproducts', OfferingProductController::class);
+    Route::get('/approved/{id}', [OfferingProductController::class, 'approved']);
 
 });

@@ -10,6 +10,7 @@ List Contract
 @endsection
 
 @section('content')
+@include('sweetalert::alert')
 
 <div class="row">
 	<div class="col-lg-12">
@@ -24,12 +25,11 @@ List Contract
 							<th width="4%">No</th>
 							<th scope="col">Title</th>
 							<th scope="col">Mitra</th>
-							<th scope="col">Created_at</th>
 							<th scope="col">Product Name</th>
                             <th scope="col">Product Image</th>
-                            <th scope="col">Product Price</th>
-                            {{-- <th scope="col">Price Offering</th> --}}
-                            {{-- <th scope="col">Price Quotation</th> --}}
+                            {{-- <th scope="col">Product Price</th> --}}
+                            <th scope="col">Price Offering</th>
+                            <th scope="col">Price Quotation</th>
                             <th scope="col">Action</th>
 
 						</tr>
@@ -40,7 +40,6 @@ List Contract
 							<td width="4%"></td>
 							<td>{{$list['title']}}</td>
 							<td>{{$list['buyer_company']}}</td>
-							<td>{{$list['created_at']}}</td>
 							<td>{{$list['product_name']}}</td>
                             <td width="20%">
                                  <center>
@@ -48,10 +47,15 @@ List Contract
                                 </center>
 
                             </td>
-                            <td>{{$list['product_price']}}</td>
+                            <td>{{$list['price_offering']}}</td>
                             {{-- <td>{{$list['price_offering']}}</td> --}}
-                            {{-- <td>{{$list['price_quotation']}}</td> --}}
-                            <td><button>More</button> </td>
+                            <td>{{$list['price_quotation']}}</td>
+                            <td>
+                                <a href="#" id="modal1" class="btn btn-xs btn-info" data-toggle="modal" data-id="{{ $list['id'] }}" title="Update price">
+                                   <i class="fa fa-money"></i>
+                                </a>
+
+                             </td>
 						</tr>
                             @endforeach()
 					</tbody>
@@ -59,6 +63,30 @@ List Contract
 			</div>
 		</div>
 	</div>
+</div>
+
+<!-- Modal Transaction Item -->
+<div class="modal fade" id="detailItem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00c0ef">   
+                <h4 class="modal-title" style="color: white;">
+                  <i class="fa fa-list"></i> Transaction Item
+                    <!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <div class="pull-right" style="color: white;">x</div>
+                    </button> -->
+                </h4>                                
+            </div>
+            <div class="modal-body" id="body-item">
+                <!--Include showitem.blade.php here -->
+            </div>              
+            <div class="modal-footer">              
+                <a class="btn btn-default" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Back
+                </a>
+            </div> 
+        </div>
+    </div>
 </div>
 
 @endsection
@@ -82,6 +110,22 @@ List Contract
 		});
 
 	});
+
+    /* Show Modal Detail Item Transaction */
+    $('tbody').on('click','#modal1', function(e){
+        e.preventDefault();
+
+        const id = $(this).attr('data-id');
+        $.ajax({
+            url: 'offeringproducts/' + id,                     
+            dataType: 'html',
+            success: function(response){
+                $('#body-item').html(response);
+            }
+        });
+
+        $('#detailItem').modal('show');
+    });
 </script>
 
 <script>

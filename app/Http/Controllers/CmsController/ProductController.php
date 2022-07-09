@@ -374,25 +374,27 @@ class ProductController extends Controller
         // return view('product.product', ['productlisting' => $productlisting]);
     }
 
-    public function edit_history($id){
+    public function edit_history($id)
+    {
+
         $producthistory = ProductHistory::where('id', $id)->first();
-        // return $producthistory; 
 
         $productlist=[];
-        // foreach ($producthistory as $key => $value) {
-            $productlist=[
-                "id"           => $producthistory->id,
-                "buyer_id"     => $producthistory->user_id,
-                "product_id"   => $producthistory->product_id
-            ];
-            // return $productlist;
-        // }  
 
+        $productlist=[
+                "id"=> $producthistory->id,
+                "buyer_id" => $producthistory->user_id,
+                "buyer_name" => users($producthistory->user_id)->name,
+                "product_id" => $producthistory->product_id,
+                "product_name" => productlist($producthistory->product_id)->product_name,
+                "product_price" => productlist($producthistory->product_id)->product_price,
+
+
+        ];
 
         return view('product.productdetail', ['productlist'=>$productlist]);      
 
-        // return dd($productlisting->toJson(200, [], JSON_UNESCAPED_SLASHES));
-        // return view('product.productedit', ['productlisting' => $productlisting, 'category_list' => $category_list]);
+      
     }
 
     public function update_history(Request $request, $id){

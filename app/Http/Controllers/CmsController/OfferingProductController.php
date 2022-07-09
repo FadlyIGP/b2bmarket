@@ -14,6 +14,7 @@ use App\Models\UserMitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 
@@ -128,14 +129,23 @@ class OfferingProductController extends Controller
        $profile = UserMitra::where('email', Auth::user()->email)->first();
 
        $mstprodoffer = new ProductOffering;
-       $mstprodoffer->title          = $request->title;
-       $mstprodoffer->descriptions  = $request->descriptions;
-       $mstprodoffer->buyer_id          = $request->buyer_id;
-       $mstprodoffer->company_id         = $profile->company_id;
-       $mstprodoffer->product_id          = $request->product_id;
-       $mstprodoffer->price_offering   = $request->price_offering;
-       $mstprodoffer->price_quotation       = $request->price_quotation;
+       $mstprodoffer->title = $request->title;
+       $mstprodoffer->descriptions = $request->descriptions;
+       $mstprodoffer->buyer_id = $request->buyer_id;
+       $mstprodoffer->company_id = $profile->company_id;
+       $mstprodoffer->product_id = $request->product_id;
+       $mstprodoffer->price_offering = $request->price_offering;
+       // $mstprodoffer->price_quotation       = $request->price_quotation;
        $mstprodoffer->save();
+
+        if ($mstprodoffer) {
+            Alert::success('Success', 'Success add data');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
 
        return redirect()->route('offeringproducts.index')->with('success', 'Successfully Add Data.');
    }
@@ -148,7 +158,32 @@ class OfferingProductController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $value= ProductOffering::find($id);
+
+        $listdata=[
+                'id'=> $value->id,
+                'title'=> $value->title,
+                'descriptions'=> $value->descriptions,
+                'buyer_id'=> $value->buyer_id,
+                'buyer_name'=> users($value->buyer_id)->name,
+                'buyer_company'=> getcompany(users($value->buyer_id)->company_id),
+                'company_id'=> $value->company_id,
+                'company_name'=> getcompany($value->company_id),
+                'product_id'=> $value->product_id,
+                'product_name'=> productlist($value->product_id)->product_name,
+                'product_category'=>prod_category(productlist($value->product_id)->product_category_id)->name,
+                'product_image'=> prod_image($value->product_id),
+                'product_price'=> productlist($value->product_id)->product_price,
+                'price_offering'=> $value->price_offering,
+                'price_quotation'=> $value->price_quotation,
+                'approval_buyer'=> $value->approval_buyer,
+                'approval_seller'=> $value->approval_seller,
+                'created_at'=> $value->created_at,
+            ];
+
+       return view('productoffering.detail',['listdata'=>$listdata]);
+
     }
 
     /**
@@ -172,6 +207,37 @@ class OfferingProductController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $value= ProductOffering::find($id);
+        $value->price_quotation=$request->price_quotation;
+        $value->save();
+
+         if ($value) {
+            Alert::success('Success', 'Success update proce');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
+
+    }
+
+    public function approved(Request $request, $id)
+    {
+        //
+        $value= ProductOffering::find($id);
+        $value->approval_seller=1;
+        $value->save();
+
+         if ($value) {
+            Alert::success('Success', 'Data approved');
+            return back();
+        }
+        else {
+            Alert::error('Failed', 'Failed');
+            return back();
+        }
+
     }
 
     /**
