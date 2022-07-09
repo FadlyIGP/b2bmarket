@@ -81,23 +81,43 @@ class TransactionController extends Controller
         // return $payment;
         $listpesanan=[];
         foreach ($payment as $key => $value) {
-            if ($value->status == 0){
-                $stat = "Waiting Payment";    
-            }else if ($value->status == 1){
-                $stat = "In Process";
-            }else if ($value->status == 2){
-                if ($value->transaction->status == 2) {
-                    $stat = "On Delivery";
-                }else if ($value->transaction->status == 3){
-                    $stat = "Received";
-                }else {
+            if ($value->payment_method == 'transfer'){
+                if ($value->status == 0){
+                    $stat = "Waiting Payment";    
+                }else if ($value->status == 1){
                     $stat = "In Process";
+                }else if ($value->status == 2){
+                    if ($value->transaction->status == 2) {
+                        $stat = "On Delivery";
+                    }else if ($value->transaction->status == 3){
+                        $stat = "Received";
+                    }else {
+                        $stat = "In Process";
+                    }
+                }else if ($value->status == 99){
+                    $stat = "Cancel";
+                }else {
+                    $stat = "Unknown";
                 }
-            }else if ($value->status == 99){
-                $stat = "Cancel";
             }else {
-                $stat = "Unknown";
-            }
+                if ($value->status == 0){                     
+                    if ($value->transaction->status == 0) {
+                        $stat = "Waiting Payment"; 
+                    }else if ($value->transaction->status == 2) {
+                        $stat = "On Delivery";
+                    }else if ($value->transaction->status == 3){
+                        $stat = "Received";
+                    }else {
+                        $stat = "In Process";
+                    }  
+                }else if ($value->status == 2){
+                    $stat = "Received";
+                }else if ($value->status == 99){
+                    $stat = "Cancel";
+                }else {
+                    $stat = "Unknown";
+                }
+            }            
            
 
             $listpesanan[]=[
@@ -126,50 +146,9 @@ class TransactionController extends Controller
                   ->orderBy('created_at','DESC')->get();
 
         $menunggupembayaran=[];
-        foreach ($paymentwaiting as $key => $value) {
-            $menunggupembayaran[]=[
-                "transaction_id"=> $value->transaction_id,
-                "user_id"=> $value->user_id,
-                "currency"=> $value->currency,
-                "bank_code"=> $value->bank_code,
-                "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
-                "paid_at"=> $value->paid_at,
-                "payment_chanel"=> $value->payment_chanel,
-                "status"=> getstatus($value->status),
-                "created_at"=> $value->created_at,
-                "updated_at"=> $value->updated_at,
-                "payment_method"=> $value->payment_method,
-                "payment_picture"=> $value->payment_picture,
-                "invoice_number"=> $value->transaction->invoice_number,
-                "product_id"=> $value->transactionitem->product_id,
-                "product_image"=> getimage($value->transactionitem->product_id),
-                "product_name"=> $value->transactionitem->product_name,
-            ];
-        }
-
-        $paymentproses = Payment::with(['transaction','transactionitem'])
-                   ->where('user_id', $profile->id)
-                   ->whereBetween('status', [1,2])
-                   ->orderBy('created_at','DESC')->get();
-
-        $diprosespenjual=[];
-        foreach ($paymentproses as $key => $value) {
-            if ($value->status == 0){
-                $stat = "Waiting Payment";    
-            }else if ($value->status == 1){
-                $stat = "In Process";
-            }else if ($value->status == 2){
-                if ($value->transaction->status == 1) {
-                    $stat = "In Process";
-                }
-            }else if ($value->status == 99){
-                $stat = "Cancel";
-            }else {
-                $stat = "Unknown";
-            }
-
-            if ($value->status == 1){
-                $diprosespenjual[]=[
+        foreach ($paymentwaiting as $key => $value) {            
+            if ($value->payment_method == 'transfer') {
+                $menunggupembayaran[]=[
                     "transaction_id"=> $value->transaction_id,
                     "user_id"=> $value->user_id,
                     "currency"=> $value->currency,
@@ -177,7 +156,7 @@ class TransactionController extends Controller
                     "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
                     "paid_at"=> $value->paid_at,
                     "payment_chanel"=> $value->payment_chanel,
-                    "status"=> $stat,
+                    "status"=> getstatus($value->status),
                     "created_at"=> $value->created_at,
                     "updated_at"=> $value->updated_at,
                     "payment_method"=> $value->payment_method,
@@ -187,8 +166,63 @@ class TransactionController extends Controller
                     "product_image"=> getimage($value->transactionitem->product_id),
                     "product_name"=> $value->transactionitem->product_name,
                 ];
-            }else if($value->status == 2){
-                if ($value->transaction->status == 1) {
+            }else {
+                if ($value->status == 0){
+                    if ($value->transaction->status == 0){
+                        $menunggupembayaran[]=[
+                            "transaction_id"=> $value->transaction_id,
+                            "user_id"=> $value->user_id,
+                            "currency"=> $value->currency,
+                            "bank_code"=> $value->bank_code,
+                            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                            "paid_at"=> $value->paid_at,
+                            "payment_chanel"=> $value->payment_chanel,
+                            "status"=> getstatus($value->status),
+                            "created_at"=> $value->created_at,
+                            "updated_at"=> $value->updated_at,
+                            "payment_method"=> $value->payment_method,
+                            "payment_picture"=> $value->payment_picture,
+                            "invoice_number"=> $value->transaction->invoice_number,
+                            "product_id"=> $value->transactionitem->product_id,
+                            "product_image"=> getimage($value->transactionitem->product_id),
+                            "product_name"=> $value->transactionitem->product_name,
+                        ];
+                    }
+                }
+            }            
+        }
+
+        $paymentproses = Payment::with(['transaction','transactionitem'])
+                   ->where('user_id', $profile->id)
+                   ->whereBetween('status', [0,2])
+                   ->orderBy('created_at','DESC')->get();
+
+        $diprosespenjual=[];
+        foreach ($paymentproses as $key => $value) {
+            if ($value->payment_method == "transfer"){
+                if ($value->status == 0){
+                    $stat = "Waiting Payment";    
+                }else if ($value->status == 1){
+                    $stat = "In Process";
+                }else if ($value->status == 2){
+                    if ($value->transaction->status == 1) {
+                        $stat = "In Process";
+                    }
+                }else if ($value->status == 99){
+                    $stat = "Cancel";
+                }else {
+                    $stat = "Unknown";
+                }
+            }else {
+                if ($value->status == 0){                    
+                    if ($value->transaction->status == 1) {
+                        $stat = "In Process";
+                    }  
+                }
+            }            
+
+            if ($value->payment_method == "transfer"){
+                if ($value->status == 1){
                     $diprosespenjual[]=[
                         "transaction_id"=> $value->transaction_id,
                         "user_id"=> $value->user_id,
@@ -207,8 +241,52 @@ class TransactionController extends Controller
                         "product_image"=> getimage($value->transactionitem->product_id),
                         "product_name"=> $value->transactionitem->product_name,
                     ];
+                }else if($value->status == 2){
+                    if ($value->transaction->status == 1) {
+                        $diprosespenjual[]=[
+                            "transaction_id"=> $value->transaction_id,
+                            "user_id"=> $value->user_id,
+                            "currency"=> $value->currency,
+                            "bank_code"=> $value->bank_code,
+                            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                            "paid_at"=> $value->paid_at,
+                            "payment_chanel"=> $value->payment_chanel,
+                            "status"=> $stat,
+                            "created_at"=> $value->created_at,
+                            "updated_at"=> $value->updated_at,
+                            "payment_method"=> $value->payment_method,
+                            "payment_picture"=> $value->payment_picture,
+                            "invoice_number"=> $value->transaction->invoice_number,
+                            "product_id"=> $value->transactionitem->product_id,
+                            "product_image"=> getimage($value->transactionitem->product_id),
+                            "product_name"=> $value->transactionitem->product_name,
+                        ];
+                    }
+                }      
+            }else {
+                if ($value->status == 0){                    
+                    if ($value->transaction->status == 1) {
+                        $diprosespenjual[]=[
+                            "transaction_id"=> $value->transaction_id,
+                            "user_id"=> $value->user_id,
+                            "currency"=> $value->currency,
+                            "bank_code"=> $value->bank_code,
+                            "expected_ammount"=>'Rp '. number_format((float)$value->expected_ammount, 0, ',', '.'),
+                            "paid_at"=> $value->paid_at,
+                            "payment_chanel"=> $value->payment_chanel,
+                            "status"=> $stat,
+                            "created_at"=> $value->created_at,
+                            "updated_at"=> $value->updated_at,
+                            "payment_method"=> $value->payment_method,
+                            "payment_picture"=> $value->payment_picture,
+                            "invoice_number"=> $value->transaction->invoice_number,
+                            "product_id"=> $value->transactionitem->product_id,
+                            "product_image"=> getimage($value->transactionitem->product_id),
+                            "product_name"=> $value->transactionitem->product_name,
+                        ];
+                    }  
                 }
-            }            
+            }      
         }
 
         // return $paymentproses;
@@ -415,7 +493,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        date_default_timezone_set('Asia/Jakarta');
         $date=Carbon::now()->format('Y-m-d H:i:s');
         $trasaction = MstTransaction::find($id);  
         $trasaction->status = 3;
