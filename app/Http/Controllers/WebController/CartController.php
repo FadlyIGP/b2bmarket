@@ -54,7 +54,7 @@ class CartController extends Controller
             
         }
         
-        $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->get();
+        $cartlistbyuserid=Cart::with('image','product')->where('user_id', $profile->id)->orderBy('created_at', 'DESC')->get();
         $chekedcart=Cart::with('product')->where('user_id', $profile->id)->where('status', 1)->get();
 
         $totalcheked=[];

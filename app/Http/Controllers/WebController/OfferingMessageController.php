@@ -165,8 +165,8 @@ class OfferingMessageController extends Controller
         $cart = new Cart;
         $cart->product_id = $getproductdata->id;
         $cart->product_qty = $getproductdata->minimum_order;
-        $cart->product_price = $getproductoffering->price_offering;
-        $cart->total_price = $getproductoffering->price_offering * $getproductdata->minimum_order;
+        $cart->product_price = $getproductoffering->price_quotation;
+        $cart->total_price = $getproductoffering->price_quotation * $getproductdata->minimum_order;
         $cart->status = 0;
         $cart->user_id = $profile->id;
         $cart->company_id = $getproductdata->company_id;

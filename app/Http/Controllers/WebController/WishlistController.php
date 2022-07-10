@@ -42,6 +42,7 @@ class WishlistController extends Controller
         foreach ($cartlistbyuserid as $key => $value) {
             $listcart[]=[
                 "id" => $value->id,
+                "product_id"=>$value->product_id,
                 "product_name" => $value->product->product_name,
                 "product_descriptions" => $value->product->product_descriptions,
                 "product_size" => $value->product->product_size,
@@ -57,6 +58,7 @@ class WishlistController extends Controller
             ];
         }
 
+        // return $listcart;
         return view('frontEnd.wishlist.wishlist',['listcart'=>$listcart]);
 
     }
