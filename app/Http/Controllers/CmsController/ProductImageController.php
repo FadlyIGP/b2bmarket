@@ -129,7 +129,7 @@ class ProductImageController extends Controller
         $tmep_product   = MstProduct::find($id_prod);
         $product_name   = $tmep_product->product_name;
 
-        return view('product.Modifyproductimage', ['image_list' => $image_list, 'id_prod' => $id_prod, 'product_name' => $product_name]);
+        return view('product.modifyproductimage', ['image_list' => $image_list, 'id_prod' => $id_prod, 'product_name' => $product_name]);
     }
 
     /**
