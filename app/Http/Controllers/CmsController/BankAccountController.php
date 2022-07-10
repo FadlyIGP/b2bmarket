@@ -35,11 +35,11 @@ class BankAccountController extends Controller
      */
     public function index()
     {
-
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
         $account_list = MstRekening::where('company_id', $profile->company_id)->get();
-        $bankcode_list = BankCode::all();
+
+        $bankcode_list = BankCode::where('company_id', $profile->company_id)->get();        
 
         return view('bankaccount.bankaccount', ['account_list' => $account_list, 'bankcode_list' => $bankcode_list]);
     }
@@ -51,7 +51,8 @@ class BankAccountController extends Controller
      */
     public function create()
     {
-        $bankcode_list = BankCode::all();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $bankcode_list = BankCode::where('company_id', $profile->company_id)->get();
 
         return view('bankaccount.createbankaccount', ['bankcode_list' => $bankcode_list]);
     }
@@ -96,8 +97,10 @@ class BankAccountController extends Controller
      */
     public function edit($id)
     {
-        $account_list = MstRekening::find($id);
-        $bankcode_list = BankCode::all();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+        $account_list  = MstRekening::find($id);
+        $bankcode_list = BankCode::where('company_id', $profile->company_id)->get();
 
         return view('bankaccount.modifybankaccount', ['account_list' => $account_list, 'bankcode_list' => $bankcode_list]);
     }
@@ -142,6 +145,8 @@ class BankAccountController extends Controller
 
     public function bankCodeStore(Request $request)
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
         date_default_timezone_set('Asia/Jakarta');
 
         $request->validate([
@@ -157,6 +162,7 @@ class BankAccountController extends Controller
         $BankCode = New BankCode;        
         $BankCode->bank_code    = $request->bankcode;
         $BankCode->bank_image   = $imageName;
+        $BankCode->company_id   = $profile->company_id;
         $BankCode->save();
 
         return redirect()->route('bankaccount.index')->with('success', 'Successfully Add Bank Code.');
@@ -164,6 +170,7 @@ class BankAccountController extends Controller
 
     public function bankCodeModify($id)
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
         $bankcode_list = BankCode::find($id);
         return view('bankaccount.modifybankcode', ['bankcode_list' => $bankcode_list]);
     }

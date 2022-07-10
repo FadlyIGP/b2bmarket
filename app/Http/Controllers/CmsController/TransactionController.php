@@ -57,7 +57,7 @@ class TransactionController extends Controller
             ->join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
             ->join('user_mitra', 'user_mitra.id', '=', 'mst_transaction.user_id')
             ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
-            // ->where('mst_transaction.company_id', $profile->company_id)
+            ->where('mst_transaction.seller_company_id', $profile->company_id)
             ->get();       
 
         $transactionlist = [];

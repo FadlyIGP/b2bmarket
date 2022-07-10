@@ -63,7 +63,11 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="{{ url('/getprofile') }}" class="btn btn-default btn-flat">Profile</a>
+                                @if(empty(\Session::get('check_address')))
+                                    <a href="#" id="idmodalPA" data-target="#modalPA" data-toggle="modal" title="Add Primary Address" class="btn btn-default btn-flat">Profile</a>
+                                @else
+                                    <a href="{{ url('/getprofile') }}" class="btn btn-default btn-flat">Profile</a>
+                                @endif
                             </div>
                             <div class="pull-right">
                                 <a href="{{ url('/logout') }}" class="btn btn-default btn-flat"
@@ -80,9 +84,77 @@
 <form action="#" method="post" id="logout-form" style="display: none;">
     @csrf
 </form>
-@push('scripts')
 
+<!-- Modal Add Primary Address -->
+<div class="modal fade" id="modalPA" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: orange;">   
+                <h4 class="modal-title" style="color: white;">
+                  <i class="fa fa-home"> Add Primary Address</i>
+                    <!-- <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <div class="pull-right" style="color: white;">x</div>
+                    </button> -->
+                </h4>                                
+            </div>
+
+            {!! Form::open(['url'=>url('/getprofile/create/primaryaddress'),'method'=>'POST', 'autocomplete'=>'off', 'onsubmit'=>'return validateForm(this)']) !!}
+            <div class="modal-body" id="body-PA">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="addr_own" id="idaddr_own" placeholder="Address Ownwer" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="contact" id="idcontact" placeholder="Contact" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="prov" id="idprov" placeholder="Province" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="city" id="idcity" placeholder="City / Country" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="district" id="iddistrict" placeholder="District" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="neighborhoods" id="idneighborhoods" placeholder="Neighborhoods" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="complete_addr" id="idcomplete_addr" placeholder="Complete Address" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="postcode" id="idpostcode" placeholder="Postal Code" onkeypress="return onlyNumeric(event)" required>
+                        </div>
+                        <div class="form-group">       
+                            <input type="text" class="form-control" name="remark" id="idremark" placeholder="Remark" required>
+                        </div>
+                    </div>
+                </div>
+            </div>              
+            
+            <div class="modal-footer">
+                {!! Form::submit('Send', ['class'=>'btn btn-default','id' => 'updatefp', 'style'=>'background-color:#32CD32;border-radius:5px;width:80px;color: white']) !!}
+                &nbsp;&nbsp;
+                <!-- &nbsp;&nbsp; -->
+                <a class="btn btn-default" id="cancelfp" data-dismiss="modal" aria-label="Close" style="border-radius: 5px;width:80px;background-color:#FF0000;color: white">
+                    Cancel
+                </a>
+            </div>      
+            {!! Form::close() !!}           
+        </div>
+    </div>
+</div>
+
+@push('scripts')
 <script type="text/javascript">
-       
+    /* PAPUL => function for numeric input only whne keyboard pressed */
+    function onlyNumeric(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57)){
+            return false;
+        }       
+        return true;
+    }
 </script>
 @endpush

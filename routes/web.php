@@ -136,6 +136,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/getprofile/updateaddress', [App\Http\Controllers\CmsController\ProfileController::class, 'updateAddress']);
     Route::post('/getprofile/updateuser', [App\Http\Controllers\CmsController\ProfileController::class, 'updateUser']);
     Route::post('/getprofile/changepassword', [App\Http\Controllers\CmsController\ProfileController::class, 'changePassword']);
+    Route::post('/getprofile/create/primaryaddress', [App\Http\Controllers\CmsController\ProfileController::class, 'createprimaryaddress']);
 
     // Bank Account
     Route::resource('/bankaccount', App\Http\Controllers\CmsController\BankAccountController::class);

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddPaidToProductHistoryTable extends Migration
+class AddSellerCompanyIdToMstTransaction extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddPaidToProductHistoryTable extends Migration
      */
     public function up()
     {
-        Schema::table('product_history', function (Blueprint $table) {
-            $table->integer('company_id');
+        Schema::table('mst_transaction', function (Blueprint $table) {
+            $table->integer('seller_company_id');
         });
     }
 
@@ -25,7 +25,7 @@ class AddPaidToProductHistoryTable extends Migration
      */
     public function down()
     {
-        Schema::table('product_history', function (Blueprint $table) {
+        Schema::table('mst_transaction', function (Blueprint $table) {
             //
         });
     }

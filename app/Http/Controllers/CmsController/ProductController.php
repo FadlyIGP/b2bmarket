@@ -121,7 +121,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('product.productadd');
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+        $select_category = ProdCategory::where('company_id', $profile->company_id)->get();
+
+        return view('product.productadd', ['category_list' => $select_category]);
     }
 
     /**
@@ -212,6 +216,8 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        
         $orig_id = Crypt::decryptString($id);
         $productlist = MstProduct::with('stock', 'image', 'category')->where('id', $orig_id)->first();
 
@@ -219,7 +225,7 @@ class ProductController extends Controller
         $temp_category = ProdCategory::where('id', $category_id)->first();
         $category_name = $temp_category->name;
 
-        $category_list = ProdCategory::all();
+        $category_list = ProdCategory::where('company_id', $profile->company_id)->get();
 
         $productlisting = [
             "id"=> $productlist->id,
