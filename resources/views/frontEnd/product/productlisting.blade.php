@@ -122,7 +122,7 @@
                         <div class="heading1"></div>
                         <div style="display: flex;">
                             <div class="" id="test">
-                                <span style="color: #ed2114; font-size: 12px;"><b>IDR {{ $list['product_price'] }}</b></span>
+                                <span style="color: #ed2114; font-size: 12px;"><b> {{ $list['product_price'] }}</b></span>
                             </div>
                             <div class="" id="test">
                                 <span style="float: right; text-decoration: line-through black; font-size: 10px;"><b>Old {{ $list['product_price'] }}</b></span>
