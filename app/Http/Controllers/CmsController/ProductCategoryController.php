@@ -42,6 +42,8 @@ class ProductCategoryController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
 
         $category = ProdCategory::where('company_id', $profile->company_id)->get();
+
+        $categorylist=[];
         foreach ($category as $key => $value) {
             $categorylist[]=[
                 'id'=> Crypt::encryptString($value->id),

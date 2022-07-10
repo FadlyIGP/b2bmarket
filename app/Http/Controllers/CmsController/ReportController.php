@@ -109,6 +109,8 @@ class ReportController extends Controller
 
     public function loadjournallist(Request $request)
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
         $fromdate = date('Y-m-d', strtotime($request->fromdate));
         $todate = date('Y-m-d', strtotime($request->todate));
         $input_status = $request->status;
@@ -116,6 +118,7 @@ class ReportController extends Controller
         // return $fromdate;
         if ($input_status == 'ALL') {
             $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+                ->where('mst_transaction.seller_company_id', $profile->company_id)
                 // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
                 ->get([
                     'transaction_item.created_at as created_date', 
@@ -166,6 +169,7 @@ class ReportController extends Controller
             return view('report.rpt_journallist', ['journal_list' => $journal_list, 'tot_qty' => $tot_qty, 'grand_total' => $grand_total]);
         }else {
             $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+                ->where('mst_transaction.seller_company_id', $profile->company_id)
                 // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
                 ->get([
                     'transaction_item.created_at as created_date', 
@@ -225,11 +229,15 @@ class ReportController extends Controller
         return view('report.rpt_cancellationjournal', ['from_date' => $from_date, 'to_date' => $to_date]);
     }
 
-    public function loadcancellationjournal(Request $request){
+    public function loadcancellationjournal(Request $request)
+    {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
         $fromdate = date('Y-m-d', strtotime($request->fromdate));
         $todate = date('Y-m-d', strtotime($request->todate));   
 
         $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+            ->where('mst_transaction.seller_company_id', $profile->company_id)
             // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
             ->get([
                 'transaction_item.created_at as created_date', 
@@ -279,6 +287,8 @@ class ReportController extends Controller
     /* Print Transaction Journal*/
     public function transactionprint(Request $request)
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
         $fromdate = date('Y-m-d', strtotime($request->from_date));
         $todate = date('Y-m-d', strtotime($request->to_date));
         $input_status = $request->status;
@@ -288,6 +298,7 @@ class ReportController extends Controller
 
         if ($input_status == 'ALL') {
             $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+                ->where('mst_transaction.seller_company_id', $profile->company_id)
                 // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
                 ->get([
                     'transaction_item.created_at as created_date', 
@@ -338,6 +349,7 @@ class ReportController extends Controller
             return view('report.print_transactionjournal', ['journal_list' => $journal_list, 'tot_qty' => $tot_qty, 'grand_total' => $grand_total, 'from_date' => $f_date, 'to_date' => $t_date, 'status' => 'ALL']);
         }else {
             $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+                ->where('mst_transaction.seller_company_id', $profile->company_id)
                 // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
                 ->get([
                     'transaction_item.created_at as created_date', 
@@ -390,7 +402,10 @@ class ReportController extends Controller
     }
 
     /* Print Cancellation Journal */
-    public function cancellationprint(Request $request){
+    public function cancellationprint(Request $request)
+    {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        
         $fromdate = date('Y-m-d', strtotime($request->from_date));
         $todate = date('Y-m-d', strtotime($request->to_date)); 
 
@@ -398,6 +413,7 @@ class ReportController extends Controller
         $t_date = date('d/m/Y', strtotime($request->to_date));
 
         $get_journal = TransactionItem::join('mst_transaction', 'mst_transaction.id', '=', 'transaction_item.transaction_id')
+            ->where('mst_transaction.seller_company_id', $profile->company_id)
             // ->join('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
             ->get([
                 'transaction_item.created_at as created_date', 

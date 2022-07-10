@@ -32,7 +32,10 @@ class ProductImageController extends Controller
      */
     public function index()
     {
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+
         $temp_img = ImgProduct::join('mst_product', 'mst_product.id', '=', 'product_image.product_id')
+            ->where('mst_product.company_id', $profile->company_id)
             ->get(['product_image.id', 'product_image.product_id', 'mst_product.product_name',
                 'product_image.img_file', 'product_image.created_at']);
 
@@ -57,7 +60,10 @@ class ProductImageController extends Controller
      */
     public function create()
     {
-        $product_list = MstProduct::orderBy('mst_product.product_name')->get();
+        $profile = UserMitra::where('email', Auth::user()->email)->first();
+        $product_list = MstProduct::where('company_id', $profile->company_id)
+            ->orderBy('mst_product.product_name')
+            ->get();
 
         return view('product.createproductimage', ['product_list' => $product_list]);
     }

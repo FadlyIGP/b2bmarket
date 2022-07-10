@@ -16,6 +16,12 @@
 <style type="text/css">
     
 </style>
+@if (session('success'))
+    <div class="alert alert-info">
+      {{ session('success') }}
+      <a href="#" class="close" data-dismiss="alert" aria-label="close" style="color: #fff;">&times;</a>  
+    </div>        
+@endif
 <!-- Small boxes (Stat box) -->
 <div class="row">
     <div class="col-lg-4 col-xs-6" >
@@ -90,6 +96,15 @@
 <!-- ChartJS -->
 <script src="{{ asset('AdminLTE-2/bower_components/chart.js/Chart.js') }}"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+<script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+            $(".alert").fadeTo(500, 0).slideUp(500, function(){
+                $(this).remove();
+            });
+        }, 2500);
+    });    
+</script>
 
 <script>
     $(function () {
