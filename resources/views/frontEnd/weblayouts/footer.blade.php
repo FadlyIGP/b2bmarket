@@ -22,7 +22,7 @@
 
         <a href="{{url('/offeringprice')}}"  id="GFG" class="menu icon-style" title="message">
           <i class="fa-solid fa-comment-dots"></i>
-          <span class='badge badge-warning' id='lblCartCount'>5</span>
+          <span class='badge badge-warning' id='lblCartCount'></span>
         </a>
 
       </p>
