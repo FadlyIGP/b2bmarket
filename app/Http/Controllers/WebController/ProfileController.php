@@ -71,31 +71,53 @@ class ProfileController extends Controller
      */
     public function store(StoreAddressRequest $request)
     {
-       $profile = UserMitra::where('email',Auth::user()->email)->first();
-       $address= new Address;
-       $address->name = $request->name;
-       $address->user_id = $profile->id;
-       $address->company_id = $profile->id;
-       $address->contact = $request->contact;
-       $address->provinsi = $request->provinsi;
-       $address->kabupaten = $request->kabupaten;
-       $address->kecamatan = $request->kecamatan;
-       $address->kelurahan = $request->kelurahan;
-       $address->complete_address = $request->complete_address;
-       $address->patokan = $request->patokan;
-       $address->postcode = $request->postcode;
-       $address->primary_address = 1;
-       $address->save();
+      $profile = UserMitra::where('email',Auth::user()->email)->first();
 
-        if ($address) {
-            Alert::success('Success', 'Successfully Update Data.');
-            return back();
-        }
-        else {
-            Alert::error('Failed', 'Failed');
-            return back();
-        }
-       return redirect()->route('profiles.index')->with('success', 'Successfully Add Data Address.');
+      $check_primary_addr = Address::where('mst_address.user_id', $profile->id)
+        ->where('mst_address.primary_address', 1)
+        ->first();       
+
+      if ($check_primary_addr){
+        $address= new Address;
+        $address->name = $request->name;
+        $address->user_id = $profile->id;
+        $address->company_id = $profile->company_id;
+        $address->contact = $request->contact;
+        $address->provinsi = $request->provinsi;
+        $address->kabupaten = $request->kabupaten;
+        $address->kecamatan = $request->kecamatan;
+        $address->kelurahan = $request->kelurahan;
+        $address->complete_address = $request->complete_address;
+        $address->patokan = $request->patokan;
+        $address->postcode = $request->postcode;
+        $address->primary_address = 0;
+        $address->save();
+      }else {
+        $address= new Address;
+        $address->name = $request->name;
+        $address->user_id = $profile->id;
+        $address->company_id = $profile->company_id;
+        $address->contact = $request->contact;
+        $address->provinsi = $request->provinsi;
+        $address->kabupaten = $request->kabupaten;
+        $address->kecamatan = $request->kecamatan;
+        $address->kelurahan = $request->kelurahan;
+        $address->complete_address = $request->complete_address;
+        $address->patokan = $request->patokan;
+        $address->postcode = $request->postcode;
+        $address->primary_address = 1;
+        $address->save();
+      }      
+
+      if ($address) {
+        Alert::success('Success', 'Successfully Update Data.');
+        return back();
+      }
+      else {
+        Alert::error('Failed', 'Failed');
+        return back();
+      }
+      return redirect()->route('profiles.index')->with('success', 'Successfully Add Data Address.');
    }
 
     /**

@@ -100,7 +100,14 @@ Add Product
                                                 <div class="input-group">
                                                     <span class="input-group-addon"><i class="fa fa-pencil"></i></span>
                                                     <!-- <input type="text" class="form-control has-feedback" value="" id="prod_category" name="prod_category" required> -->
-                                                    {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!} 
+                                                    <!-- {!! Form::select('prod_category', App\Models\ProdCategory::pluck('name','id')->all(), null, ['class'=>'form-control js-selectize','placeholder' => '']) !!}  -->
+
+                                                    <select class="form-control select2" name="prod_category" id="idprod_category" style="width: 100%;" required> 
+                                                        <option value=""></option>
+                                                        @foreach($category_list as $category_list)                   
+                                                          <option value="{{ $category_list->id }}">{{ $category_list->name }}</option>
+                                                        @endforeach              
+                                                    </select>
                                                     </span>
                                                 </div>
                                             </div>

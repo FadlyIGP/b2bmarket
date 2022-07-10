@@ -164,24 +164,34 @@ class CartController extends Controller
         $profile = UserMitra::where('email', Auth::user()->email)->first();
         $getproductdata = MstProduct::where('id', $request->product_id)->first();
 
-        $cart = new Cart;
-        $cart->product_id = $getproductdata->id;
-        $cart->product_qty = $getproductdata->minimum_order;
-        $cart->product_price = $getproductdata->product_price;
-        $cart->total_price = $getproductdata->product_price * $getproductdata->minimum_order;
-        $cart->status = 0;
-        $cart->user_id = $profile->id;
-        $cart->company_id = $getproductdata->company_id;
-        $cart->save();
+        /*Must Be Select Product With Same Company*/
+        $check_cart = Cart::where('cart.user_id', $profile->id)
+            ->where('cart.company_id', '!=', $getproductdata->company_id)
+            ->first();
+        
+        if (empty($check_cart)){            
+            $cart = new Cart;
+            $cart->product_id = $getproductdata->id;
+            $cart->product_qty = $getproductdata->minimum_order;
+            $cart->product_price = $getproductdata->product_price;
+            $cart->total_price = $getproductdata->product_price * $getproductdata->minimum_order;
+            $cart->status = 0;
+            $cart->user_id = $profile->id;
+            $cart->company_id = $getproductdata->company_id;
+            $cart->save();    
 
-        if ($cart) {
-            Alert::success('Success', 'Success add to cart');
-            return back();
-        }
-        else {
-            Alert::error('Failed', 'Failed');
-            return back();
-        }
+            if ($cart) {
+                Alert::success('Success', 'Success add to cart');
+                return back();
+            }
+            else {
+                Alert::error('Failed', 'Failed');
+                return back();
+            }
+        }else if ($check_cart){
+            Alert::error('Failed', 'Select Product Must Be The Same Seller Company !');
+            return back();                        
+        }            
 
         // return redirect()->route('firstpage');
 

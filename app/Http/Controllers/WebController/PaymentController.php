@@ -82,7 +82,7 @@ class PaymentController extends Controller
         if (count($chekedcart)==0) {
             $getrek=[];
         } else {
-            $getrek = MstRekening::where('company_id', $chekedcart[0]->company_id)
+            $getrek = MstRekening::where('mst_rekening.company_id', $chekedcart[0]->company_id)
             ->join('bank_code', 'bank_code.bank_code', '=', 'mst_rekening.bank_code')
             ->get();
         }       
@@ -156,6 +156,9 @@ class PaymentController extends Controller
         $company = MstCompany::where('id', $profile->company_id)->first();
         $address = Address::where('user_id', $profile->id)->where('primary_address', 1)->first();
         $chekedcart = Cart::with('product','image')->where('user_id', $profile->id)->where('status', 1)->get();
+        $chekedcart_list = Cart::with('product','image')->where('user_id', $profile->id)->where('status', 1)->first();
+        
+        $get_seller_id = $chekedcart_list->company_id;
 
         $trasaction = new MstTransaction();  
         $trasaction->invoice_number = $this->invoice_number;
@@ -163,6 +166,7 @@ class PaymentController extends Controller
         $trasaction->user_id = $profile->id; 
         // $trasaction->company_id = $chekedcart[0]->company_id;  
         $trasaction->company_id = $company->id;
+        $trasaction->seller_company_id = $get_seller_id;
         $trasaction->invoice_number = $this->invoice_number;
         $trasaction->status = 0;
         $trasaction->address_id = $address->id;

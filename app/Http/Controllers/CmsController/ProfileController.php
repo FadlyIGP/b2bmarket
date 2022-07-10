@@ -42,11 +42,16 @@ class ProfileController extends Controller
         // return $address_list;
         $company_list = MstCompany::find($profile->company_id);
 
-        $transaction_finished = MstTransaction::where('status', 3);
+        $transaction_finished = MstTransaction::where('mst_transaction.status', 3)
+            ->where('mst_transaction.seller_company_id', $profile->company_id)
+            ->get();
         $count_finished = $transaction_finished->count();
 
-        $transaction_failed = MstTransaction::where('status', 99);
+        $transaction_failed = MstTransaction::where('mst_transaction.status', 99)
+            ->where('mst_transaction.seller_company_id', $profile->company_id)
+            ->get();
         $count_failed = $transaction_failed->count();
+
 
         return view('sellerprofile', ['company_list' => $company_list, 'address_list' => $address_list, 'count_finished' => $count_finished, 'count_failed' => $count_failed, 'profile' => $profile]);
     }
@@ -168,12 +173,34 @@ class ProfileController extends Controller
 
         return redirect()->route('getprofile.index')->with('success', 'Successfully Update User.');
     }
-     public function changePassword(Request $request){
+    
+    public function changePassword(Request $request){
          
         $user = User::where('email', $request->email)->first();
         $user->password = Hash::make($request->new_pass);
         $user->save();
 
         return redirect()->route('getprofile.index')->with('success', 'Successfully Change Password.');
-     }
+    }
+
+    public function createprimaryaddress(Request $request){
+        $profile = UserMitra::where('email',Auth::user()->email)->first();
+
+        $write_address = New Address;
+        $write_address->user_id            = $profile->id;
+        $write_address->company_id         = $profile->company_id;
+        $write_address->name               = $request->addr_own; 
+        $write_address->contact            = $request->contact;
+        $write_address->provinsi           = $request->prov;
+        $write_address->kabupaten          = $request->city;
+        $write_address->kecamatan          = $request->district;
+        $write_address->kelurahan          = $request->neighborhoods;
+        $write_address->complete_address   = $request->complete_addr;
+        $write_address->postcode           = $request->postcode;
+        $write_address->patokan            = $request->remark;
+        $write_address->primary_address    = 1;
+        $write_address->save();
+
+        return redirect()->route('home')->with('success', 'Successfully Add Primary Address.');
+    }
 }

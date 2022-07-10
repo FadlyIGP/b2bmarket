@@ -10,6 +10,7 @@ use App\Models\MstTransaction;
 use App\Models\MstProduct;
 use App\Models\TransactionItem;
 use App\Models\UserMitra;
+use App\Models\Address;
 
 class HomeController extends Controller
 {
@@ -34,10 +35,20 @@ class HomeController extends Controller
 
             $date = date('Y-m-d');
 
-            $transactions = MstTransaction::where('created_at', 'like', '%'.$date.'%')->get();
+            $profile = UserMitra::where('email', Auth::user()->email)->first();
+
+            $address_list = Address::where('user_id',$profile->id)->where('primary_address', 1)->first();
+
+            \Session::put('check_address', $address_list);
+
+            $transactions = MstTransaction::where('created_at', 'like', '%'.$date.'%')
+                ->where('seller_company_id', $profile->company_id)
+                ->get();
             $summ_transaction = $transactions->count();
 
-            $products = MstProduct::whereNull('deleted_at')->get();
+            $products = MstProduct::whereNull('deleted_at')
+                ->where('company_id', $profile->company_id)
+                ->get();
             $summ_product = $products->count();
 
             /*Count Notification*/
@@ -45,6 +56,7 @@ class HomeController extends Controller
             \Session::put('countnotif', $countnotif->count());
 
             $notif_list = MstTransaction::where('status', 0)
+                ->where('seller_company_id', $profile->company_id)
                 ->join('mst_company', 'mst_company.id', '=', 'mst_transaction.company_id')
                 ->get();
 
@@ -60,122 +72,146 @@ class HomeController extends Controller
             /*Get Data For Chart*/
             /************* Transaction Success *************/
             $JAN_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 1)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
             
             $FEB_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 2)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAR_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 3)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $APR_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 4)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAY_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 5)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUN_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 6)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUL_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 7)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $AUG_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 8)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $SEP_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 9)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $OCT_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 10)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $NOV_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 11)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $DES_finished = MstTransaction::where('status', 3)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 12)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             /************** Cancel Transaction **************/
             $JAN_cancelled = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 1)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
             
             $FEB_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 2)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAR_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 3)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $APR_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 4)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $MAY_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 5)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUN_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 6)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $JUL_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 7)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $AUG_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 8)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $SEP_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 9)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $OCT_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 10)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $NOV_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 11)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
 
             $DES_cancelled  = MstTransaction::where('status', 99)
+                ->where('seller_company_id', $profile->company_id)
                 ->whereMonth('created_at', 12)
                 ->whereYear('created_at', $curr_year)
                 ->get()->count();
@@ -213,7 +249,7 @@ class HomeController extends Controller
             $data1 = json_encode($data_finished);
             $data2 = json_encode($data_cancelled);
 
-            return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product, 'data_finished' => $data1, 'data_cancelled' => $data2]);
+            return view('home', ['summ_transaction' => $summ_transaction, 'summ_product' => $summ_product, 'data_finished' => $data1, 'data_cancelled' => $data2, 'address_list' => $address_list]);
         }
         return redirect()->route('firstpage');
     }
