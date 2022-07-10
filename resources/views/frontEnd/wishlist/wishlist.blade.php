@@ -80,7 +80,7 @@
                                     <tr>
                                         <td>
                                            {!! Form::open(['url'=>url('/carts'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
-                                                <input type="hidden" class="form-control  has-feedback  " value="12" id="product_id" name="product_id" required>
+                                                <input type="hidden" class="form-control  has-feedback  " value="{{$list['product_id']}}" id="product_id" name="product_id" required>
                                                 <button type="submit" style="background-color: transparent;border-color: transparent;">
                                                     <i class="fa-solid fa-cart-arrow-down menu" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
                                                 </button>
@@ -98,7 +98,7 @@
                                                 {!! Form::close() !!}
                                             @else()
                                                 {!! Form::open(['url'=>url('/wishlist'),'method'=>'POST', 'files'=>'true', 'class'=>'', 'autocomplete'=>'off','style'=>'background-color:transparent']) !!}
-                                                    <input type="hidden" class="form-control  has-feedback " value="{{$list['id']}}" id="product_id" name="product_id" required>
+                                                    <input type="hidden" class="form-control  has-feedback " value="{{$list['product_id']}}" id="product_id" name="product_id" required>
                                                     <button type="submit" style="background-color: transparent;border-color: transparent;">
                                                         <i class="fa-solid fa-heart" style="color: #808080;padding-right: 15px;font-size: 20px"></i>
                                                     </button>
@@ -108,7 +108,7 @@
                                         </td>
 
                                         <td>
-                                            <a href="{{ url('/infoproducts',$list['id']) }}">
+                                            <a href="{{ url('/infoproducts',$list['product_id']) }}">
                                                 <i class="fa-solid fa-eye" style="color: #808080;font-size: 20px"></i>
                                             </a>
                                         </td>
