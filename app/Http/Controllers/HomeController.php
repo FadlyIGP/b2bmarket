@@ -52,7 +52,8 @@ class HomeController extends Controller
             $summ_product = $products->count();
 
             /*Count Notification*/
-            $countnotif = MstTransaction::where('status', 0)->get();
+            $countnotif = MstTransaction::where('company_id',$profile->company_id)->get();
+            // return $countnotif;
             \Session::put('countnotif', $countnotif->count());
 
             $notif_list = MstTransaction::where('status', 0)

@@ -72,7 +72,7 @@
     @endif
 	@else
     @if ($payment_list['trans_status'] == 2)
-      {!! Form::submit('Payment Success', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;']) !!}
+      {!! Form::submit('Payment Successe', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#32CD32;border-radius:5px;width:120px;color: white;']) !!}
   		{!! Form::submit('Processing Order', ['class'=>'btn btn-default','id'=>'check-send', 'style'=>'background-color:#605ca8;border-radius:5px;width:120px;color: white;', 'disabled']) !!}
       <a href="#" class="btn btn-default" style="background-color:#dd4b39;border-radius:5px;width:100px;color: white;" data-target="#cancelreason" data-toggle="modal" data-id="{{ $payment_list['id'] }}">Cancel Order</a>
     @elseif ($payment_list['trans_status'] == 3 OR $payment_list['trans_status'] == 99)
