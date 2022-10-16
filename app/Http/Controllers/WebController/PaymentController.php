@@ -28,6 +28,8 @@ use Carbon\Carbon;
 use Validator;
 use Illuminate\Support\Facades\Session;
 use RealRashid\SweetAlert\Facades\Alert;
+date_default_timezone_set('Asia/Jakarta');
+
 
 class PaymentController extends Controller
 {
@@ -135,6 +137,10 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         $date=Carbon::now()->format('Y-m-d H:i:s');
+        $expired = Carbon::now()->addHours(2);
+        $expired_date=Carbon::parse($expired)->format('Y-m-d H:i:s');
+
+
         $validator = Validator::make($request->all(), [
             'payment_method' => 'required',
         ]);
@@ -186,7 +192,7 @@ class PaymentController extends Controller
         $payment->expected_ammount = $request->ammount;
         $payment->payment_method = $request->payment_method;  
         $payment->account_number = "";  
-        $payment->expiration_date = $date; 
+        $payment->expiration_date = $expired_date; 
         $payment->save();
 
         foreach ($chekedcart as $key => $value) {
@@ -272,5 +278,33 @@ class PaymentController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function checkpaymentexpired()
+    {
+       $date=Carbon::now()->format('Y-m-d H:i:s');
+       $expired = Carbon::now()->addHours(2)->format('Y-m-d H:i:s');
+
+       $get = Payment::where('expiration_date','<=',$date)->where('status', 0)->first();
+       if ($get) {
+            $gettrbyid=MstTransaction::find($get->transaction_id);
+            if ($gettrbyid) {
+                $trasactionitem = new TransactionHistory();  
+                $trasactionitem->transaction_id = $gettrbyid->id;
+                $trasactionitem->status = 99;
+                $trasactionitem->transaction_date = $date;
+                $trasactionitem->save();
+
+                $gettrbyid->status=99;
+                $gettrbyid->save();
+
+                $get->status=99;
+                $get->save();
+
+            } 
+       } 
+       
+       return $get;
+
     }
 }
