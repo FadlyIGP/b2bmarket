@@ -81,6 +81,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('/transactions', TransactionController::class);
     // message
     Route::resource('/offeringprice', OfferingMessageController::class);
+    Route::get('/checkpaymentexpired', [PaymentController::class, 'checkpaymentexpired']);
+
 
     
 

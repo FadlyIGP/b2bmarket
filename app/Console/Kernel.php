@@ -28,41 +28,48 @@ class Kernel extends ConsoleKernel
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+    protected $commands = [
+        Commands\UpdatePaymentCron::class,
+        // Commands\SendNotifCron::class,
+
+    ];
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
         // $schedule->command('command:AutoCancelOrder')->everyMinute();
+        $schedule->command('updatepayment:cron')->everyTwoHours();
 
-        $schedule->call(function () {
+
+        // $schedule->call(function () {
             
-            date_default_timezone_set('Asia/Jakarta');
+        //     date_default_timezone_set('Asia/Jakarta');
             
-            /* Automatic Cancel If H+1 From Order Date, Buyer No Payment */
-            $neworder_list = MstTransaction::where('mst_transaction.status', 0)
-                ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
-                ->get(['mst_transaction.id', 'payment.transaction_id as id_pay', 
-                    'mst_transaction.created_at', 'payment.status as pay_status']);
+        //     /* Automatic Cancel If H+1 From Order Date, Buyer No Payment */
+        //     $neworder_list = MstTransaction::where('mst_transaction.status', 0)
+        //         ->leftjoin('payment', 'payment.transaction_id', '=', 'mst_transaction.id')
+        //         ->get(['mst_transaction.id', 'payment.transaction_id as id_pay', 
+        //             'mst_transaction.created_at', 'payment.status as pay_status']);
 
-            $curr_date = Carbon::now();            
+        //     $curr_date = Carbon::now();            
 
-            foreach ($neworder_list as $key => $value) {
-                $day_cancel = Carbon::create($value->created_at)->addDays(1);
-                $auto_cancel_date = substr($day_cancel, 0, 10).' '.substr($day_cancel, 11, 8);                
+        //     foreach ($neworder_list as $key => $value) {
+        //         $day_cancel = Carbon::create($value->created_at)->addDays(1);
+        //         $auto_cancel_date = substr($day_cancel, 0, 10).' '.substr($day_cancel, 11, 8);                
 
-                if ($auto_cancel_date < $curr_date AND /*$value->id_pay == null*/ $value->pay_status == 0) {
-                    $mstTransaction = MstTransaction::find($value->id);
-                    $mstTransaction->status = 99;
-                    $mstTransaction->cancel_reason = '**No Payment After Day +1 Confirm Order**';
-                    $mstTransaction->save();
+        //         if ($auto_cancel_date < $curr_date AND /*$value->id_pay == null*/ $value->pay_status == 0) {
+        //             $mstTransaction = MstTransaction::find($value->id);
+        //             $mstTransaction->status = 99;
+        //             $mstTransaction->cancel_reason = '**No Payment After Day +1 Confirm Order**';
+        //             $mstTransaction->save();
 
-                    $payment = Payment::where('transaction_id', $value->id)->first();
-                    $payment->status = 99;
-                    $payment->save();
-                }
-            }
-            /*End*/           
+        //             $payment = Payment::where('transaction_id', $value->id)->first();
+        //             $payment->status = 99;
+        //             $payment->save();
+        //         }
+        //     }
+        //     /*End*/           
 
-        })->everyMinute();
+        // })->everyMinute();
     }
 
     /**
